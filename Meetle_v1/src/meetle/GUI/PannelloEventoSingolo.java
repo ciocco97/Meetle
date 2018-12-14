@@ -1,7 +1,7 @@
-package meetle_v1.GUI;
+package meetle.GUI;
 
 import javax.swing.JPanel;
-import meetle_v1.Evento;
+import meetle.Evento;
 
 public class PannelloEventoSingolo extends JPanel {
     private Evento evento;

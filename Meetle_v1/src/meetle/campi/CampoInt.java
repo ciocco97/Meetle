@@ -1,4 +1,4 @@
-package meetle_v1.campi;
+package meetle.campi;
 
 public class CampoInt extends Campo {
     private int valore;

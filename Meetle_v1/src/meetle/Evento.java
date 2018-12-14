@@ -1,7 +1,12 @@
-package meetle_v1;
+package meetle;
 
+import meetle.campi.CampoDurata;
+import meetle.campi.CampoOra;
+import meetle.campi.CampoInt;
+import meetle.campi.Campo;
+import meetle.campi.CampoString;
+import meetle.campi.CampoData;
 import java.util.ArrayList;
-import meetle_v1.campi.*;
 
 public abstract class Evento {
     protected String nome, descrizione; /*

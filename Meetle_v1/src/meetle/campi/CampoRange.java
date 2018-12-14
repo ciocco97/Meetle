@@ -1,4 +1,4 @@
-package meetle_v1.campi;
+package meetle.campi;
 
 public class CampoRange extends Campo {
     private int min, max;

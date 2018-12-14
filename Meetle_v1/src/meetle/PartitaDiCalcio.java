@@ -1,6 +1,12 @@
-package meetle_v1;
+package meetle;
 
-import meetle_v1.campi.*;
+import meetle.campi.CampoDurata;
+import meetle.campi.CampoOra;
+import meetle.campi.CampoInt;
+import meetle.campi.CampoString;
+import meetle.campi.CampoRange;
+import meetle.campi.CampoData;
+import meetle.campi.CampoGenere;
 
 public class PartitaDiCalcio extends Evento {
     private CampoGenere genere;

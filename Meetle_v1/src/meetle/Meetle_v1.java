@@ -1,4 +1,4 @@
-package meetle_v1;
+package meetle;
 
 public class Meetle_v1 {
 

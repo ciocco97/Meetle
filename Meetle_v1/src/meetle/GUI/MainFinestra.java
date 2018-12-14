@@ -1,4 +1,4 @@
-package meetle_v1.GUI;
+package meetle.GUI;
 
 public class MainFinestra extends javax.swing.JFrame {
 
@@ -29,7 +29,6 @@ public class MainFinestra extends javax.swing.JFrame {
         jPanelEventi = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 400));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

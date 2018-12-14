@@ -1,4 +1,4 @@
-package meetle_v1.campi;
+package meetle.campi;
 
 public abstract class Campo {
     protected String nome, descrizione;

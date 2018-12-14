@@ -1,4 +1,4 @@
-package meetle_v1.campi;
+package meetle.campi;
 
 public class CampoGenere extends Campo {
     private enum genere { maschile, femminile, misto, altro };
