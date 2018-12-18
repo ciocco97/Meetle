@@ -25,6 +25,11 @@ public class PartitaDiCalcio extends Evento {
         
     }
     
+    public PartitaDiCalcio(String titolo){
+        super();
+        campiFissi[I_TITOLO] = new CampoString(titolo);
+    }
+    
     
     
 }

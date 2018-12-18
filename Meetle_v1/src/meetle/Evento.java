@@ -24,6 +24,12 @@ public abstract class Evento {
     
     protected ArrayList<Campo> campiAggiuntivi;
 
+    public Evento() {
+        campiFissi = new Campo[NUM_CAMPI_FISSI];        
+    }
+    
+    
+
     public Evento(String nome, String descrizione, CampoString titolo, 
             CampoString luogo, CampoString note, CampoInt numPartecipanti, 
             CampoInt quotaIndividuale, CampoInt compresoQuota, 
@@ -79,5 +85,9 @@ public abstract class Evento {
         campiFissi[I_DATA_CONCLUSIVA].setFacoltativo();
         campiFissi[I_ORA_CONCLUSIVA].setFacoltativo();
     } 
+    
+    public String getTitolo() {
+        return campiFissi[I_TITOLO].toString();
+    }
     
 }

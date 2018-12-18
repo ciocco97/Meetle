@@ -1,5 +1,7 @@
 package meetle.GUI;
 
+import meetle.PartitaDiCalcio;
+
 public class MainFinestra extends javax.swing.JFrame {
 
     /**
@@ -7,11 +9,16 @@ public class MainFinestra extends javax.swing.JFrame {
      */
     public MainFinestra() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     private void aggiornaBacheca(int tab)
     {
-        
+        System.out.println("mamma");
+        PannelloEventoSingolo p = new PannelloEventoSingolo(new PartitaDiCalcio("ciao"));
+        // p.setVisible(true);
+        jPanelEventi.add(p);
+       
     }
     /**
      * This method is called from within the constructor to initialize the form.
