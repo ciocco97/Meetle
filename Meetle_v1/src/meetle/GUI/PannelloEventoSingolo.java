@@ -1,5 +1,7 @@
 package meetle.GUI;
 
+import java.awt.Color;
+import java.util.Random;
 import meetle.Evento;
 
 public class PannelloEventoSingolo extends javax.swing.JPanel {
@@ -31,6 +33,8 @@ public class PannelloEventoSingolo extends javax.swing.JPanel {
         jLbLuogo.setText(LG + evento.getLuogo());
         jLbData.setText(DT + evento.getData());
         jLbOra.setText(OA + evento.getOra());
+        Random rand = new Random();
+        this.setBackground(new Color(rand.nextInt(70)+180, rand.nextInt(70)+180, rand.nextInt(70)+180));
         
     }
 
@@ -50,7 +54,9 @@ public class PannelloEventoSingolo extends javax.swing.JPanel {
         jLbData = new javax.swing.JLabel();
         jLbOra = new javax.swing.JLabel();
 
-        jLbTitolo.setFont(new java.awt.Font("Segoe Print", 1, 24)); // NOI18N
+        setBackground(new java.awt.Color(102, 255, 102));
+
+        jLbTitolo.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLbTitolo.setText("Partita di calcio");
 
         jLbNumPartecipanti.setText("Numero partecipanti");
@@ -80,7 +86,7 @@ public class PannelloEventoSingolo extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLbLuogo, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLbOra, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +103,7 @@ public class PannelloEventoSingolo extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLbData)
                     .addComponent(jLbOra))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
