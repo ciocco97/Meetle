@@ -1,6 +1,7 @@
 package meetle.GUI;
 
 import meetle.PartitaDiCalcio;
+import meetle.campi.*;
 
 public class MainFinestra extends javax.swing.JFrame {
 
@@ -14,11 +15,10 @@ public class MainFinestra extends javax.swing.JFrame {
 
     private void aggiornaBacheca(int tab)
     {
-        System.out.println("mamma");
-        PannelloEventoSingolo p = new PannelloEventoSingolo(new PartitaDiCalcio("ciao"));
-        // p.setVisible(true);
+        PartitaDiCalcio Eil = new PartitaDiCalcio(new CampoGenere(1), new CampoRange(10,15), "partita bimbe nude", "astenersi perditempo", new CampoString("PBN"), new CampoString("Brescia"), new CampoString("tutti hanno un debole per le bimbe"),new CampoInt(50000),new CampoInt(1),new CampoInt(20),new CampoData(2018, 02, 15), new CampoData (2018, 02, 18), new CampoData(2019,02,04),new CampoOra(12,45), new CampoOra(22,30), new CampoDurata(100,100,100));
+        PannelloEventoSingolo p = new PannelloEventoSingolo(Eil);
         jPanelEventi.add(p);
-       
+        jPanelEventi.updateUI();
     }
     /**
      * This method is called from within the constructor to initialize the form.

@@ -16,10 +16,23 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLbTitolo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="364" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="jLbTermineUltimoDIscrizione" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jLbTitolo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLbNumPartecipanti" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jLbData" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLbLuogo" min="-2" pref="298" max="-2" attributes="0"/>
+                  <Component id="jLbOra" min="-2" pref="298" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="73" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -27,8 +40,21 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLbTitolo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="275" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLbTitolo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLbNumPartecipanti" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLbTermineUltimoDIscrizione" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLbLuogo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLbData" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLbOra" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="68" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -36,7 +62,35 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLbTitolo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Titolo"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe Print" size="24" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Partita di calcio"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbNumPartecipanti">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Numero partecipanti"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbTermineUltimoDIscrizione">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Termine ultimo d&apos;iscrizione"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbLuogo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Luogo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbData">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Data"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbOra">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ora"/>
       </Properties>
     </Component>
   </SubComponents>

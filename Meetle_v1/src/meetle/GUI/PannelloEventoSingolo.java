@@ -3,15 +3,34 @@ package meetle.GUI;
 import meetle.Evento;
 
 public class PannelloEventoSingolo extends javax.swing.JPanel {
+    private final String NP = "Numero partecipanti: ";
+    private final String TD = "Termine ultimo d'iscrizione";
+    private final String LG = "Luogo: ";
+    private final String DT = "Data: ";
+    private final String OA = "Ora: ";
+    private final String DR = "Durata: ";
+    private final String QI = "Quota individuale: ";
+    private final String CQ = "Compreso nella quota: ";
+    private final String DC = "Data conclusiva: ";
+    private final String OC = "Ora conclusiva: ";
+    private final String NT = "Note: ";
 
     private Evento evento;
     
     public PannelloEventoSingolo(Evento evento) {
         initComponents();
-        
         this.evento = evento;
+        if (evento.getTitolo() != null)
+            jLbTitolo.setText(evento.getTitolo());
+        else
+            jLbTitolo.setText(evento.getNome());
         
-        jLbTitolo.setText(evento.getTitolo());
+        
+        jLbNumPartecipanti.setText(NP + evento.getNumeroPartecipanti());
+        jLbTermineUltimoDIscrizione.setText(TD + evento.getTermineUltimoDIscrizione());
+        jLbLuogo.setText(LG + evento.getLuogo());
+        jLbData.setText(DT + evento.getData());
+        jLbOra.setText(OA + evento.getOra());
         
     }
 
@@ -25,8 +44,24 @@ public class PannelloEventoSingolo extends javax.swing.JPanel {
     private void initComponents() {
 
         jLbTitolo = new javax.swing.JLabel();
+        jLbNumPartecipanti = new javax.swing.JLabel();
+        jLbTermineUltimoDIscrizione = new javax.swing.JLabel();
+        jLbLuogo = new javax.swing.JLabel();
+        jLbData = new javax.swing.JLabel();
+        jLbOra = new javax.swing.JLabel();
 
-        jLbTitolo.setText("Titolo");
+        jLbTitolo.setFont(new java.awt.Font("Segoe Print", 1, 24)); // NOI18N
+        jLbTitolo.setText("Partita di calcio");
+
+        jLbNumPartecipanti.setText("Numero partecipanti");
+
+        jLbTermineUltimoDIscrizione.setText("Termine ultimo d'iscrizione");
+
+        jLbLuogo.setText("Luogo");
+
+        jLbData.setText("Data");
+
+        jLbOra.setText("Ora");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -34,20 +69,45 @@ public class PannelloEventoSingolo extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLbTitolo)
-                .addContainerGap(364, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLbTermineUltimoDIscrizione, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLbTitolo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLbNumPartecipanti))
+                    .addComponent(jLbData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLbLuogo, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLbOra, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLbTitolo)
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLbTitolo)
+                    .addComponent(jLbNumPartecipanti))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLbTermineUltimoDIscrizione)
+                    .addComponent(jLbLuogo))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLbData)
+                    .addComponent(jLbOra))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLbData;
+    private javax.swing.JLabel jLbLuogo;
+    private javax.swing.JLabel jLbNumPartecipanti;
+    private javax.swing.JLabel jLbOra;
+    private javax.swing.JLabel jLbTermineUltimoDIscrizione;
     private javax.swing.JLabel jLbTitolo;
     // End of variables declaration//GEN-END:variables
 }

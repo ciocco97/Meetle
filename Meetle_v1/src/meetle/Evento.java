@@ -28,8 +28,6 @@ public abstract class Evento {
         campiFissi = new Campo[NUM_CAMPI_FISSI];        
     }
     
-    
-
     public Evento(String nome, String descrizione, CampoString titolo, 
             CampoString luogo, CampoString note, CampoInt numPartecipanti, 
             CampoInt quotaIndividuale, CampoInt compresoQuota, 
@@ -86,8 +84,18 @@ public abstract class Evento {
         campiFissi[I_ORA_CONCLUSIVA].setFacoltativo();
     } 
     
-    public String getTitolo() {
-        return campiFissi[I_TITOLO].toString();
-    }
+    public String getTitolo() { return campiFissi[I_TITOLO].toString(); }
+    
+    public String getNome() { return nome; }
+    
+    public String getLuogo() { return campiFissi[I_LUOGO].toString(); }
+    
+    public String getData() { return campiFissi[I_DATA].toString(); }
+    
+    public String getOra() { return campiFissi[I_ORA].toString(); }
+    
+    public String getNumeroPartecipanti() { return campiFissi[I_NUM_PARTECIPANTI].toString(); }
+    
+    public String getTermineUltimoDIscrizione() { return campiFissi[I_TERMINE_ISCRIZIONE].toString(); }
     
 }
