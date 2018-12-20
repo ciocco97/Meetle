@@ -2,41 +2,41 @@ package meetle.GUI;
 
 import javax.swing.UIManager;
 
-public class MainFinestra extends javax.swing.JFrame {
+public class FinestraPrincipale extends javax.swing.JFrame {
 
-    public MainFinestra() {
+    public FinestraPrincipale() {
         initComponents();
         setLocationRelativeTo(null);
     }
 
     private void aggiornaBacheca(int tab) {
-        jPanelEventi.updateUI();
+        jPanelBacheca.updateUI();
     }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
+        jPanelNotifiche = new javax.swing.JPanel();
         jPanelCategorie = new javax.swing.JPanel();
         jButtonPartitaCalcio = new javax.swing.JButton();
-        jScrollPaneEventi = new javax.swing.JScrollPane();
-        jPanelEventi = new javax.swing.JPanel();
+        jScrollPaneBacheca = new javax.swing.JScrollPane();
+        jPanelBacheca = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanelNotificheLayout = new javax.swing.GroupLayout(jPanelNotifiche);
+        jPanelNotifiche.setLayout(jPanelNotificheLayout);
+        jPanelNotificheLayout.setHorizontalGroup(
+            jPanelNotificheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelNotificheLayout.setVerticalGroup(
+            jPanelNotificheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(jPanelNotifiche, java.awt.BorderLayout.LINE_END);
 
         jButtonPartitaCalcio.setText("Partita di Calcio");
         jButtonPartitaCalcio.addActionListener(new java.awt.event.ActionListener() {
@@ -64,12 +64,12 @@ public class MainFinestra extends javax.swing.JFrame {
 
         getContentPane().add(jPanelCategorie, java.awt.BorderLayout.PAGE_START);
 
-        jScrollPaneEventi.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPaneBacheca.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jPanelEventi.setLayout(new javax.swing.BoxLayout(jPanelEventi, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPaneEventi.setViewportView(jPanelEventi);
+        jPanelBacheca.setLayout(new javax.swing.BoxLayout(jPanelBacheca, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPaneBacheca.setViewportView(jPanelBacheca);
 
-        getContentPane().add(jScrollPaneEventi, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jScrollPaneBacheca, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -79,7 +79,7 @@ public class MainFinestra extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPartitaCalcioActionPerformed
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Set the Windows look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -87,21 +87,22 @@ public class MainFinestra extends javax.swing.JFrame {
         try {
             javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFinestra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FinestraPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new MainFinestra().setVisible(true);
+            new FinestraPrincipale().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonPartitaCalcio;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelBacheca;
     private javax.swing.JPanel jPanelCategorie;
-    private javax.swing.JPanel jPanelEventi;
-    private javax.swing.JScrollPane jScrollPaneEventi;
+    private javax.swing.JPanel jPanelNotifiche;
+    private javax.swing.JScrollPane jScrollPaneBacheca;
     // End of variables declaration//GEN-END:variables
 }

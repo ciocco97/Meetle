@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Random;
 import meetle.Evento;
 
-public class PannelloEventoSingolo extends javax.swing.JPanel {
+public class PannelloEvento extends javax.swing.JPanel {
     private final String NP = "Numero partecipanti: ";
     private final String TD = "Termine ultimo d'iscrizione";
     private final String LG = "Luogo: ";
@@ -19,7 +19,7 @@ public class PannelloEventoSingolo extends javax.swing.JPanel {
 
     private Evento evento;
     
-    public PannelloEventoSingolo(Evento evento) {
+    public PannelloEvento(Evento evento) {
         initComponents();
         this.evento = evento;
         if (evento.getTitolo() != null)
@@ -53,8 +53,6 @@ public class PannelloEventoSingolo extends javax.swing.JPanel {
         jLbLuogo = new javax.swing.JLabel();
         jLbData = new javax.swing.JLabel();
         jLbOra = new javax.swing.JLabel();
-
-        setBackground(new java.awt.Color(102, 255, 102));
 
         jLbTitolo.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLbTitolo.setText("Partita di calcio");
