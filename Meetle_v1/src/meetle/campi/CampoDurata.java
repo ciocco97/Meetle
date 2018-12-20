@@ -9,8 +9,17 @@ public class CampoDurata extends Campo {
         this.valore =  new Durata(giorni, ore, minuti);
     }
     
+    public CampoDurata (String nome, String descrizione, Durata durata) {
+        super(nome, descrizione);
+        this.valore =  durata;
+    }
+    
     public CampoDurata(int giorni, int ore, int minuti) {
         this("Campo Durata", NO_DESCRIPTION, giorni, ore, minuti);
+    }
+    
+    public CampoDurata(Durata durata) {
+        this("Campo Durata", NO_DESCRIPTION, durata);
     }
     
     

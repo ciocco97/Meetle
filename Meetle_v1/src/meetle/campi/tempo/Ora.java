@@ -7,7 +7,7 @@ public class Ora {
         this.ora = ora;
         this.minuti = minuti;
     }
-
+    
     @Override
     public String toString() {
         return ora + ":" + minuti;
