@@ -1,14 +1,12 @@
 package meetle;
 
-import meetle.campi.CampoDurata;
-import meetle.campi.CampoOra;
-import meetle.campi.CampoInt;
-import meetle.campi.Campo;
-import meetle.campi.CampoString;
-import meetle.campi.CampoData;
+import meetle.campi.*;
+import meetle.campi.tempo.*;
 import java.util.ArrayList;
 
 public abstract class Evento {
+    protected final static String NO_DESCRIPTION = "Nessuna descrizione presente";     
+    
     protected String nome, descrizione; /*
     protected CampoString titolo, luogo, note;
     protected CampoInt numPartecipanti, quotaIndividuale, compresoQuota;
@@ -24,57 +22,35 @@ public abstract class Evento {
     
     protected ArrayList<Campo> campiAggiuntivi;
 
-    public Evento() {
-        campiFissi = new Campo[NUM_CAMPI_FISSI];        
-    }
-    
-    public Evento(String nome, String descrizione, CampoString titolo, 
-            CampoString luogo, CampoString note, CampoInt numPartecipanti, 
-            CampoInt quotaIndividuale, CampoInt compresoQuota, 
-            CampoData termineIscrizione, CampoData data, CampoData dataConclusiva, 
-            CampoOra ora, CampoOra oraConclusiva, CampoDurata durata) {
-        
-        /*
-        this.nome = nome;
-        this.descrizione = descrizione;
-        this.titolo = titolo;
-        this.luogo = luogo;mpoInt compresoQuota, 
-            CampoData termineIscrizione, CampoData data, CampoData dataConclusiva, 
-            CampoOra ora, CampoOra oraConclusiva, CampoDurata durata) {
-        
-        /*
-        this.nome = nome;
-        this.note = note;
-        this.numPartecipanti = numPartecipanti;
-        this.quotaIndividuale = quotaIndividuale;
-        this.compresoQuota = compresoQuota;
-        this.termineIscrizione = termineIscrizione;
-        this.data = data;
-        this.dataConclusiva = dataConclusiva;
-        this.ora = ora;
-        this.oraConclusiva = oraConclusiva;
-        this.durata = durata;
-        */
-        
+    public Evento(String nome, String descrizione, String titolo, 
+            int numPartecipanti, Data termineIscrizione, String luogo, Data data, 
+            Ora ora, Durata durata, int quotaIndividuale, int compresoQuota, 
+            Data dataConclusiva, Ora oraConclusiva, String note) {
+                
         campiFissi = new Campo[NUM_CAMPI_FISSI];
-        campiFissi[I_TITOLO] = titolo;
-        campiFissi[I_NUM_PARTECIPANTI] = numPartecipanti;
-        campiFissi[I_TERMINE_ISCRIZIONE] = termineIscrizione;
-        campiFissi[I_LUOGO] = luogo;
-        campiFissi[I_DATA] = data;
-        campiFissi[I_ORA] = ora;
-        campiFissi[I_DURATA] = durata;
-        campiFissi[I_QUOTA_INDIVIDUALE] = quotaIndividuale;
-        campiFissi[I_COMPRESO_QUOTA] = compresoQuota;
-        campiFissi[I_DATA_CONCLUSIVA] = dataConclusiva;
-        campiFissi[I_ORA_CONCLUSIVA] = oraConclusiva;
-        campiFissi[I_NOTE] = note;
+        campiFissi[I_TITOLO] = new CampoString(titolo);
+        campiFissi[I_NUM_PARTECIPANTI] = new CampoInt(numPartecipanti);
+        campiFissi[I_TERMINE_ISCRIZIONE] = new CampoData(termineIscrizione);
+        campiFissi[I_LUOGO] = new CampoString(luogo);
+        campiFissi[I_DATA] = new CampoData(data);
+        campiFissi[I_ORA] = new CampoOra(ora);
+        campiFissi[I_DURATA] = new CampoDurata(durata);
+        campiFissi[I_QUOTA_INDIVIDUALE] = new CampoInt(quotaIndividuale);
+        campiFissi[I_COMPRESO_QUOTA] = new CampoInt(compresoQuota);
+        campiFissi[I_DATA_CONCLUSIVA] = new CampoData(dataConclusiva);
+        campiFissi[I_ORA_CONCLUSIVA] = new CampoOra(oraConclusiva);
+        campiFissi[I_NOTE] = new CampoString(note);
         
         
         this.campiAggiuntivi = new ArrayList<>();
         
         setFacoltativi();
     }
+    
+    public Evento() {
+        this("", NO_DESCRIPTION, "Senza Titolo", 0, null, "", null, null, null, 0, 0, null, null, "");      
+    }
+    
 
     private void setFacoltativi() {
         campiFissi[I_TITOLO].setFacoltativo();
