@@ -9,11 +9,16 @@ public class Data {
         this.giorno = giorno;
     }
 
+    public Data(String data) {
+        String[] numeri = data.split("-");
+        anno = Integer.parseInt(numeri[0]);
+        mese = Integer.parseInt(numeri[1]);
+        giorno = Integer.parseInt(numeri[2]);
+    }
+
     @Override
     public String toString() {
         return anno + "-" + mese + "-" + giorno;
     }
-    
-    
     
 }

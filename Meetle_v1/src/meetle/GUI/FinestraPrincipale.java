@@ -1,15 +1,23 @@
 package meetle.GUI;
 
 import javax.swing.UIManager;
+import meetle.Bacheca;
+import meetle.Evento;
 
 public class FinestraPrincipale extends javax.swing.JFrame {
 
+    Bacheca b;
+    
     public FinestraPrincipale() {
         initComponents();
         setLocationRelativeTo(null);
+        b = new Bacheca();
     }
 
     private void aggiornaBacheca(int tab) {
+        for(Evento e: b.getEventi())
+            jPanelBacheca.add(new PannelloEvento(e));   
+        
         jPanelBacheca.updateUI();
     }
     
@@ -50,16 +58,14 @@ public class FinestraPrincipale extends javax.swing.JFrame {
         jPanelCategorieLayout.setHorizontalGroup(
             jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCategorieLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jButtonPartitaCalcio)
-                .addContainerGap(639, Short.MAX_VALUE))
+                .addGap(0, 649, Short.MAX_VALUE))
         );
         jPanelCategorieLayout.setVerticalGroup(
             jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCategorieLayout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
-                .addComponent(jButtonPartitaCalcio)
-                .addContainerGap())
+                .addGap(0, 77, Short.MAX_VALUE)
+                .addComponent(jButtonPartitaCalcio))
         );
 
         getContentPane().add(jPanelCategorie, java.awt.BorderLayout.PAGE_START);

@@ -4,12 +4,13 @@ public abstract class Campo <V> {
     protected final static String NO_DESCRIPTION = "Nessuna descrizione presente"; 
     
     protected String nome, descrizione;
-    protected boolean facoltativo = false;
-    protected V valore;
+    protected V valore;    
+    private boolean facoltativo = false;
 
     public Campo(String nome, String descrizione) {
         this.nome = nome;
         this.descrizione = descrizione;
+        // valore = null;
     }
     
     public Campo(String nome, String descrizione, V valore) {
@@ -20,24 +21,21 @@ public abstract class Campo <V> {
     public Campo(V valore) {
         this("Campo Generico", NO_DESCRIPTION, valore);
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
     
-    public void setFacoltativo(){
-        facoltativo = true;
-    }   
+    public Campo() {
+        this(null);
+    }
+
+    public abstract void setValoreDaString(String stringa);
 
     @Override
-    public String toString() {
-        return valore.toString();
-    }
-    
-    
+    public String toString() { return valore.toString(); }  
+
+    // Getters e Setters
+    public String getNome() { return nome; }
+    public String getDescrizione() { return descrizione; }
+    public V getValore() { return valore; }   
+    public boolean isFacoltativo() { return facoltativo; }     
+    public void setFacoltativo(){ facoltativo = true; }    
     
 }

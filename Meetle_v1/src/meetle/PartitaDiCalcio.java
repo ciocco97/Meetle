@@ -1,32 +1,31 @@
 package meetle;
 
-import meetle.campi.CampoString;
-import meetle.campi.CampoRange;
-import meetle.campi.CampoGenere;
-import meetle.campi.tempo.Data;
-import meetle.campi.tempo.Durata;
-import meetle.campi.tempo.Ora;
+import meetle.campi.*;
 
 public class PartitaDiCalcio extends Evento {
-
-    public PartitaDiCalcio(String nome, String descrizione, String titolo, 
-            int numPartecipanti, Data termineIscrizione, String luogo,
-            Data data, Ora ora, Durata durata, int quotaIndividuale, 
-            int compresoQuota, Data dataConclusiva, Ora oraConclusiva,
-            String note, int indiceGenere, int minEta, int maxEta) {
-        super(nome, descrizione, titolo, numPartecipanti, termineIscrizione, 
-                luogo, data, ora, durata, quotaIndividuale, compresoQuota, 
-                dataConclusiva, oraConclusiva, note);
-        
-        campiAggiuntivi.add(new CampoGenere(indiceGenere));
-        campiAggiuntivi.add(new CampoRange(minEta, maxEta));
-    }
+    public static final String ID = "Partita di Calcio";
     
-    public PartitaDiCalcio(String titolo){
+    public static final int NUM_CAMPI_AGGIUNTIVI = 2;
+    public static final int I_GENERE = 0, I_FASCIA_ETA = 1;
+    
+    protected Campo[] campiExtra;
+
+    public PartitaDiCalcio() {
         super();
-        campiFissi[I_TITOLO] = new CampoString(titolo);
         
-        this.nome = "Partita di calcio";
-    }   
+        this.nome = ID;
+        this.descrizione = "Sport noioso perchè non c'è la figa a meno che ... ecco";
+        
+        campiExtra = new Campo[NUM_CAMPI_AGGIUNTIVI];
+        campiExtra[I_GENERE] = new CampoGenere();
+        campiExtra[I_FASCIA_ETA] = new CampoRange();
+    }
+
+    @Override
+    public void setValoreDaString(int indice, String valore) {
+        super.setValoreDaString(indice, valore);
+        if(indice >= NUM_CAMPI_FISSI)
+            campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);        
+    }
     
 }

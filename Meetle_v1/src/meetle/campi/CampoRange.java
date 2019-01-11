@@ -1,24 +1,52 @@
 package meetle.campi;
 
-public class CampoRange extends Campo {
+public class CampoRange extends Campo<CampoRange.Range> {
        
-    private int min, max;
+    static class Range {
+        private int min, max;
+
+        public Range(int min, int max) {
+            this.min = min;
+            this.max = max;
+        }
+        
+        public Range(String range){
+            String[] numeri = range.split("-");
+            min = Integer.parseInt(numeri[0]);
+            max = Integer.parseInt(numeri[1]);
+        }
+
+        @Override
+        public String toString() { return min + "-" + max; }
+    }
+       
+    public CampoRange(String nome, String descrizione) {
+        super(nome, descrizione);
+    }
+    
+    public CampoRange(String nome, String descrizione, Range range) {
+        super(nome, descrizione, range);
+    }
     
     public CampoRange(String nome, String descrizione, int min, int max) {
-        super(nome, descrizione);
-        this.min = min;
-        this.max = max;
+        this(nome, descrizione, new Range(min, max));
+    }
+    
+    public CampoRange(Range range){
+        this("Campo Range", NO_DESCRIPTION, range);
     }
     
     public CampoRange(int min, int max) {
-        this("Campo Range", NO_DESCRIPTION, min, max);
+        this(new Range(min, max));
+    }
+       
+    public CampoRange() {
+        this(null);
     }
 
     @Override
-    public String toString() {
-        return min + "-" + max;
+    public void setValoreDaString(String stringa) {
+        this.valore = new Range(stringa);
     }
-    
-    
     
 }

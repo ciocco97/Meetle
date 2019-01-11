@@ -22,17 +22,17 @@ public class PannelloEvento extends javax.swing.JPanel {
     public PannelloEvento(Evento evento) {
         initComponents();
         this.evento = evento;
+        
         if (evento.getTitolo() != null)
             jLbTitolo.setText(evento.getTitolo());
         else
             jLbTitolo.setText(evento.getNome());
         
-        
         jLbNumPartecipanti.setText(NP + evento.getNumeroPartecipanti());
-        jLbTermineUltimoDIscrizione.setText(TD + evento.getTermineUltimoDIscrizione());
+//        jLbTermineUltimoDIscrizione.setText(TD + evento.getTermineUltimoDIscrizione());
         jLbLuogo.setText(LG + evento.getLuogo());
-        jLbData.setText(DT + evento.getData());
-        jLbOra.setText(OA + evento.getOra());
+//        jLbData.setText(DT + evento.getData());
+//        jLbOra.setText(OA + evento.getOra());
         Random rand = new Random();
         this.setBackground(new Color(rand.nextInt(70)+180, rand.nextInt(70)+180, rand.nextInt(70)+180));
         

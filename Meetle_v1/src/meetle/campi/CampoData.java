@@ -2,24 +2,36 @@ package meetle.campi;
 
 import meetle.campi.tempo.Data;
 
-public class CampoData extends Campo {
+public class CampoData extends Campo<Data> {
+    
+    public CampoData(String nome, String descrizione) {
+        super(nome, descrizione);
+    }
+    
+    public CampoData(String nome, String descrizione, Data valore) {
+        super(nome, descrizione, valore);
+    }
     
     public CampoData(String nome, String descrizione, int anno, int mese, int giorno) {
-        super(nome, descrizione);
-        this.valore = new Data(anno, mese, giorno);
-    }
-    
-    public CampoData(String nome, String descrizione, Data data) {
-        super(nome, descrizione);
-        this.valore = data;
-    }
-    
-    public CampoData(int anno, int mese, int giorno) {
-        this("Campo Data", NO_DESCRIPTION, anno, mese, giorno);
-    }
+        this(nome, descrizione, new Data(anno, mese, giorno));
+    }   
     
     public CampoData(Data data) {
         this("Campo Data", NO_DESCRIPTION, data);
     }
+    
+    public CampoData(int anno, int mese, int giorno) {
+        this(new Data(anno, mese, giorno));
+    }  
+        
+    public CampoData() {
+        this(null);
+    }
+
+    @Override
+    public void setValoreDaString(String stringa) {
+        this.valore = new Data(stringa);
+    }
+    
     
 }
