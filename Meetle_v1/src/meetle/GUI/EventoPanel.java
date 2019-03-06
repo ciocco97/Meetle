@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Random;
 import meetle.Evento;
 
-public class PannelloEvento extends javax.swing.JPanel {
+public class EventoPanel extends javax.swing.JPanel {
     private final String NP = "Numero partecipanti: ";
     private final String TD = "Termine ultimo d'iscrizione";
     private final String LG = "Luogo: ";
@@ -19,7 +19,7 @@ public class PannelloEvento extends javax.swing.JPanel {
 
     private Evento evento;
     
-    public PannelloEvento(Evento evento) {
+    public EventoPanel(Evento evento) {
         initComponents();
         this.evento = evento;
         

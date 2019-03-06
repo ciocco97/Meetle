@@ -20,11 +20,11 @@ public class CampoRange extends Campo<CampoRange.Range> {
         public String toString() { return min + "-" + max; }
     }
        
-    public CampoRange(String nome, String descrizione) {
-        super(nome, descrizione);
-    }
+//    public CampoRange(String nome, String descrizione) {
+//        super(nome, descrizione);
+//    }
     
-    public CampoRange(String nome, String descrizione, Range range) {
+    private CampoRange(String nome, String descrizione, Range range) {
         super(nome, descrizione, range);
     }
     
@@ -32,7 +32,7 @@ public class CampoRange extends Campo<CampoRange.Range> {
         this(nome, descrizione, new Range(min, max));
     }
     
-    public CampoRange(Range range){
+    private CampoRange(Range range){
         this("Campo Range", NO_DESCRIPTION, range);
     }
     

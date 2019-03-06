@@ -4,9 +4,9 @@ import meetle.campi.tempo.Durata;
 
 public class CampoDurata extends Campo<Durata> {
     
-    public CampoDurata (String nome, String descrizione) {
-        super(nome, descrizione);
-    }
+//    public CampoDurata (String nome, String descrizione) {
+//        super(nome, descrizione);
+//    }
     
     public CampoDurata (String nome, String descrizione, Durata valore) {
         super(nome, descrizione, valore);

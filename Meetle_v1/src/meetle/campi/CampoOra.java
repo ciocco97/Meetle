@@ -4,9 +4,9 @@ import meetle.campi.tempo.Ora;
 
 public class CampoOra extends Campo<Ora> {
     
-    public CampoOra(String nome, String descrizione) {
-        super(nome, descrizione);
-    }
+//    public CampoOra(String nome, String descrizione) {
+//        super(nome, descrizione);
+//    }
     
     public CampoOra(String nome, String descrizione, Ora ora) {
         super(nome, descrizione, ora);

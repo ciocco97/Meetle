@@ -7,7 +7,7 @@ public abstract class Campo <V> {
     protected V valore;    
     private boolean facoltativo = false;
 
-    public Campo(String nome, String descrizione) {
+    private Campo(String nome, String descrizione) {
         this.nome = nome;
         this.descrizione = descrizione;
         // valore = null;
@@ -22,9 +22,9 @@ public abstract class Campo <V> {
         this("Campo Generico", NO_DESCRIPTION, valore);
     }
     
-    public Campo() {
-        this(null);
-    }
+//    public Campo() {
+//        this(null);
+//    }
 
     public abstract void setValoreDaString(String stringa);
 

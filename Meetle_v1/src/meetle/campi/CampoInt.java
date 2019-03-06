@@ -2,9 +2,9 @@ package meetle.campi;
 
 public class CampoInt extends Campo<Integer> {
     
-    public CampoInt(String nome, String descrizione) {
-        super(nome, descrizione);
-    }
+//    public CampoInt(String nome, String descrizione) {
+//        super(nome, descrizione);
+//    }
     
     public CampoInt(String nome, String descrizione, Integer valore) {
         super(nome, descrizione, valore);

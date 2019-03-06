@@ -19,28 +19,29 @@ public abstract class Evento {
     
     protected Campo[] campi;    
 
+    /**
     // Costruttore con tutti i parametri
-//    public Evento(String nome, String descrizione, String titolo, 
-//            int numPartecipanti, Data termineIscrizione, String luogo, Data data, 
-//            Ora ora, Durata durata, int quotaIndividuale, int compresoQuota, 
-//            Data dataConclusiva, Ora oraConclusiva, String note) {
-//                
-//        campiFissi = new Campo[NUM_CAMPI_FISSI];
-//        campiFissi[I_TITOLO] = new CampoString(titolo);
-//        campiFissi[I_NUM_PARTECIPANTI] = new CampoInt(numPartecipanti);
-//        campiFissi[I_TERMINE_ISCRIZIONE] = new CampoData(termineIscrizione);
-//        campiFissi[I_LUOGO] = new CampoString(luogo);
-//        campiFissi[I_DATA] = new CampoData(data);
-//        campiFissi[I_ORA] = new CampoOra(ora);
-//        campiFissi[I_DURATA] = new CampoDurata(durata);
-//        campiFissi[I_QUOTA_INDIVIDUALE] = new CampoInt(quotaIndividuale);
-//        campiFissi[I_COMPRESO_QUOTA] = new CampoInt(compresoQuota);
-//        campiFissi[I_DATA_CONCLUSIVA] = new CampoData(dataConclusiva);
-//        campiFissi[I_ORA_CONCLUSIVA] = new CampoOra(oraConclusiva);
-//        campiFissi[I_NOTE] = new CampoString(note);
-//        
-//        setFacoltativi();
-//    } 
+    public Evento(String nome, String descrizione, String titolo, 
+            int numPartecipanti, Data termineIscrizione, String luogo, Data data, 
+            Ora ora, Durata durata, int quotaIndividuale, int compresoQuota, 
+            Data dataConclusiva, Ora oraConclusiva, String note) {
+                
+        campiFissi = new Campo[NUM_CAMPI_FISSI];
+        campiFissi[I_TITOLO] = new CampoString(titolo);
+        campiFissi[I_NUM_PARTECIPANTI] = new CampoInt(numPartecipanti);
+        campiFissi[I_TERMINE_ISCRIZIONE] = new CampoData(termineIscrizione);
+        campiFissi[I_LUOGO] = new CampoString(luogo);
+        campiFissi[I_DATA] = new CampoData(data);
+        campiFissi[I_ORA] = new CampoOra(ora);
+        campiFissi[I_DURATA] = new CampoDurata(durata);
+        campiFissi[I_QUOTA_INDIVIDUALE] = new CampoInt(quotaIndividuale);
+        campiFissi[I_COMPRESO_QUOTA] = new CampoInt(compresoQuota);
+        campiFissi[I_DATA_CONCLUSIVA] = new CampoData(dataConclusiva);
+        campiFissi[I_ORA_CONCLUSIVA] = new CampoOra(oraConclusiva);
+        campiFissi[I_NOTE] = new CampoString(note);
+        
+        setFacoltativi();
+    } */
     
     public Evento() {
                 
