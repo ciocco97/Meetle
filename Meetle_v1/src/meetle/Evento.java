@@ -103,7 +103,7 @@ public abstract class Evento {
     ritorna la lista dei campi to string separati dal separatore
     campo separatore campo separatore ... separatore
     */
-    public String toEncriptSupp(String separatore) {
+    private String toEncriptSupp(String separatore) {
         String s = "";
         for(int i = 0; i < NUM_CAMPI_FISSI; i++) {
             s += campi[i].toString();
@@ -117,7 +117,7 @@ public abstract class Evento {
     prefisso separatore campo separatore campo separatore ... separatore
     dove il prefisso identifica il tipo di evento
     */
-    public String toEncript(String prefisso, String separatore) {
+    String toEncript(String prefisso, String separatore) {
         return prefisso + separatore + this.toEncriptSupp(separatore);
     }
     

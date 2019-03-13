@@ -6,7 +6,7 @@ import meetle.Evento;
 
 public class EventoPanel extends javax.swing.JPanel {
     private final String NP = "Numero partecipanti: ";
-    private final String TD = "Termine ultimo d'iscrizione";
+    private final String TD = "Termine ultimo d'iscrizione: ";
     private final String LG = "Luogo: ";
     private final String DT = "Data: ";
     private final String OA = "Ora: ";
@@ -29,10 +29,10 @@ public class EventoPanel extends javax.swing.JPanel {
             jLbTitolo.setText(evento.getNome());
         
         jLbNumPartecipanti.setText(NP + evento.getNumeroPartecipanti());
-//        jLbTermineUltimoDIscrizione.setText(TD + evento.getTermineUltimoDIscrizione());
+        jLbTermineUltimoDIscrizione.setText(TD + evento.getTermineUltimoDIscrizione());
         jLbLuogo.setText(LG + evento.getLuogo());
-//        jLbData.setText(DT + evento.getData());
-//        jLbOra.setText(OA + evento.getOra());
+        jLbData.setText(DT + evento.getData());
+        jLbOra.setText(OA + evento.getOra());
         Random rand = new Random();
         this.setBackground(new Color(rand.nextInt(70)+180, rand.nextInt(70)+180, rand.nextInt(70)+180));
         

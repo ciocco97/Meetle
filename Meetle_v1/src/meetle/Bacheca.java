@@ -7,8 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Bacheca {
     private ArrayList<Evento> eventi;
@@ -17,7 +15,7 @@ public class Bacheca {
 
     public Bacheca() {
         eventi = new ArrayList<>();
-        metodoTemporaneo();
+        //metodoTemporaneo();
     }
     
     public void metodoTemporaneo() {
@@ -30,15 +28,20 @@ public class Bacheca {
     }
     
     public void caricaEventi() {
+        eventi = new ArrayList<>();
+        
         String path = "Data/eventi.txt";
         
         File file = new File(path);
         FileReader fr;
         
-        if (file.exists()) { System.out.println("Il file esiste"); }
+        if (file.exists()) { System.out.println("File salvataggi trovato"); }
         else {
-            System.err.println("Il file non esiste");
+            System.err.println("File salvataggi non esistente");
+            return;
         }
+        
+        System.out.println("Estrazione dati");
         
         try {
             fr = new FileReader(file);
@@ -59,10 +62,8 @@ public class Bacheca {
                         }
                     break;
                 }
-                if(e != null){
-                    System.out.println(e.toEncript(SEPARATORE));
-                    eventi.add(e);
-                }
+                
+                if(e != null){ eventi.add(e); }
                 
             }
         } catch (FileNotFoundException ex) {
@@ -71,7 +72,7 @@ public class Bacheca {
             System.err.println("Errore nell'uso di br");
         }
         
-        
+        System.out.println("Caricamento completato.");
     }
     
     public void salvaEventi() {

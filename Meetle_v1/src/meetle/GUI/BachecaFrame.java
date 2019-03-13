@@ -16,8 +16,9 @@ public class BachecaFrame extends javax.swing.JFrame {
 
     private void aggiornaBacheca(int tab) {
         jPanelBacheca.removeAll();
-        for(Evento e: b.getEventi())
-            jPanelBacheca.add(new EventoPanel(e));   
+        for(Evento e: b.getEventi()) {
+            jPanelBacheca.add(new EventoPanel(e));
+        }
         
         jPanelBacheca.updateUI();
     }

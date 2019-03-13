@@ -32,6 +32,11 @@ public class PartitaDiCalcio extends Evento {
     ritorna una stringa del tipo
     prefisso separatore campo separatore campo ... campo
     */
+    /**
+     * toEncript in partita di calcio
+     * @param separatore
+     * @return 
+     */
     @Override
     public String toEncript(String separatore) {
         

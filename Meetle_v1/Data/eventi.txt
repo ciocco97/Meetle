@@ -1,2 +1,2 @@
-Partita di Calcio§partita bella§45§null§a casa§null§null§null§null§null§null§null§null§null§null
-Partita di Calcio§partita brutta§67§1-1-1§a casa§null§null§null§null§null§null§null§null§null§null
+Partita di Calcio§partita bella§45§20-01-2019§a casa§12-03-2019§22:15§null§null§null§null§null§null§null§null
+Partita di Calcio§partita brutta§67§26-04-2018§a casa§25-04-2018§09:45§null§null§null§null§null§null§null§null
