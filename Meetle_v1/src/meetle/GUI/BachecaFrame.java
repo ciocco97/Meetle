@@ -11,9 +11,11 @@ public class BachecaFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         b = new Bacheca();
+        b.caricaEventi();
     }
 
     private void aggiornaBacheca(int tab) {
+        jPanelBacheca.removeAll();
         for(Evento e: b.getEventi())
             jPanelBacheca.add(new EventoPanel(e));   
         
@@ -46,6 +48,11 @@ public class BachecaFrame extends javax.swing.JFrame {
         getContentPane().add(jPanelNotifiche, java.awt.BorderLayout.LINE_END);
 
         jButtonPartitaCalcio.setText("Partita di Calcio");
+        jButtonPartitaCalcio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPartitaCalcioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelCategorieLayout = new javax.swing.GroupLayout(jPanelCategorie);
         jPanelCategorie.setLayout(jPanelCategorieLayout);
@@ -74,6 +81,10 @@ public class BachecaFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonPartitaCalcioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPartitaCalcioActionPerformed
+        aggiornaBacheca(0);
+    }//GEN-LAST:event_jButtonPartitaCalcioActionPerformed
+
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Setting the Windows look and feel (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -85,7 +96,7 @@ public class BachecaFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(BachecaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new BachecaFrame().setVisible(true);

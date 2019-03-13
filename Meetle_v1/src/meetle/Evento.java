@@ -86,4 +86,39 @@ public abstract class Evento {
     public String getNumeroPartecipanti() { return campi[I_NUM_PARTECIPANTI].toString(); }    
     public String getTermineUltimoDIscrizione() { return campi[I_TERMINE_ISCRIZIONE].toString(); }
     
+    /* Metodo inserito solo perchè altrimenti su evento generico non mi lascia chiamare toEncript
+    ritorna la lista dei campi to string separati dal separatore
+    campo separatore campo separatore ... separatore
+    */
+    public String toEncript(String separatore) {
+        String s = "";
+        for(int i = 0; i < NUM_CAMPI_FISSI; i++) {
+            s += campi[i].toString();
+            s += separatore;
+        }
+        return s;
+    }
+    
+    /*
+    ritorna la lista dei campi to string separati dal separatore
+    campo separatore campo separatore ... separatore
+    */
+    public String toEncriptSupp(String separatore) {
+        String s = "";
+        for(int i = 0; i < NUM_CAMPI_FISSI; i++) {
+            s += campi[i].toString();
+            s += separatore;
+        }
+        return s;
+    }
+    
+    /*
+    ritorna una stringa di questo tipo
+    prefisso separatore campo separatore campo separatore ... separatore
+    dove il prefisso identifica il tipo di evento
+    */
+    public String toEncript(String prefisso, String separatore) {
+        return prefisso + separatore + this.toEncriptSupp(separatore);
+    }
+    
 }

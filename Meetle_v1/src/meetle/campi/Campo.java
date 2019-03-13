@@ -29,7 +29,7 @@ public abstract class Campo <V> {
     public abstract void setValoreDaString(String stringa);
 
     @Override
-    public String toString() { return valore.toString(); }  
+    public String toString() { if (valore != null) return valore.toString(); else return null;}  
 
     // Getters e Setters
     public String getNome() { return nome; }

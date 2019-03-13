@@ -25,7 +25,23 @@ public class PartitaDiCalcio extends Evento {
     public void setValoreDaString(int indice, String valore) {
         super.setValoreDaString(indice, valore);
         if(indice >= NUM_CAMPI_FISSI)
-            campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);        
+            campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);
+    }
+   
+    /*
+    ritorna una stringa del tipo
+    prefisso separatore campo separatore campo ... campo
+    */
+    @Override
+    public String toEncript(String separatore) {
+        
+        String s = super.toEncript(ID, separatore);
+        for(int i = 0; i < NUM_CAMPI_AGGIUNTIVI; i++) {
+            if (campiExtra[i] != null) s += campiExtra[i].toString();
+            else s += null;
+            if ((i + 1) < NUM_CAMPI_AGGIUNTIVI) s += separatore; // alla fine non deve esserci il separatore
+        }
+        return s;
     }
     
 }
