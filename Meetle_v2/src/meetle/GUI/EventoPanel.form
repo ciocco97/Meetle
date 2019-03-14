@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="jLbTermineUltimoDIscrizione" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jLbTitolo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLbNumPartecipanti" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jLbData" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLbLuogo" min="-2" pref="298" max="-2" attributes="0"/>
+                  <Component id="jLbOra" min="-2" pref="298" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="86" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLbTitolo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLbNumPartecipanti" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLbTermineUltimoDIscrizione" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLbLuogo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLbData" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLbOra" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLbTitolo">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Century Gothic" size="24" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Partita di calcio"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbNumPartecipanti">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Numero partecipanti"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbTermineUltimoDIscrizione">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Termine ultimo d&apos;iscrizione"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbLuogo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Luogo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbData">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Data"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLbOra">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ora"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
