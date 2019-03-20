@@ -1,7 +1,7 @@
 package meetle.GUI;
 
-import meetle.Bacheca;
-import meetle.Evento;
+import meetle.eventi.Bacheca;
+import meetle.eventi.Evento;
 
 public class BachecaFrame extends javax.swing.JFrame {
 

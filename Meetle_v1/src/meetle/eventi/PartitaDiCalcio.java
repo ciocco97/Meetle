@@ -1,4 +1,4 @@
-package meetle;
+package meetle.eventi;
 
 import meetle.campi.*;
 

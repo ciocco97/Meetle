@@ -2,7 +2,7 @@ package meetle.GUI;
 
 import java.awt.Color;
 import java.util.Random;
-import meetle.Evento;
+import meetle.eventi.Evento;
 
 public class EventoPanel extends javax.swing.JPanel {
     private final String NP = "Numero partecipanti: ";
