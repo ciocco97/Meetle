@@ -1,12 +1,8 @@
-package meetle.campi;
+package meetle.eventi.campi;
 
-import meetle.campi.tempo.Durata;
+import meetle.eventi.campi.tempo.Durata;
 
 public class CampoDurata extends Campo<Durata> {
-    
-//    public CampoDurata (String nome, String descrizione) {
-//        super(nome, descrizione);
-//    }
     
     public CampoDurata (String nome, String descrizione, Durata valore) {
         super(nome, descrizione, valore);
@@ -16,24 +12,13 @@ public class CampoDurata extends Campo<Durata> {
         this(nome, descrizione, new Durata(giorni, ore, minuti));
     }
     
-    public CampoDurata(Durata durata) {
-        this("Campo Durata", NO_DESCRIPTION, durata);
-    }
-    
-    public CampoDurata(int giorni, int ore, int minuti) {
-        this(new Durata(giorni, ore, minuti));
-    }
-    
-    public CampoDurata() {
-        this(null);
+    public CampoDurata (String nome, String descrizione) {
+        this(nome, descrizione, null);
     }
 
     @Override
     public void setValoreDaString(String stringa) {
         this.valore = new Durata(stringa);
-    }
-    
-    
-    
+    }    
     
 }

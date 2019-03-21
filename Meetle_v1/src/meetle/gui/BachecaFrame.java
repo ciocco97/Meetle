@@ -1,28 +1,28 @@
-package meetle.GUI;
+package meetle.gui;
 
 import meetle.eventi.Bacheca;
 import meetle.eventi.Evento;
 
 public class BachecaFrame extends javax.swing.JFrame {
 
-    Bacheca b;
-    
-    public BachecaFrame() {
-        initComponents();
-        setLocationRelativeTo(null);
-        b = new Bacheca();
-        b.caricaEventi();
-        aggiornaBacheca(0);
-    }
-
-    private void aggiornaBacheca(int tab) {
-        jPanelBacheca.removeAll();
-        for(Evento e: b.getEventi()) {
-            jPanelBacheca.add(new EventoPanel(e));
-        }
-        
-        jPanelBacheca.updateUI();
-    }
+//    Bacheca b;
+//    
+//    public BachecaFrame() {
+//        initComponents();
+//        setLocationRelativeTo(null);
+//        b = new Bacheca();
+//        b.caricaEventi();
+//        aggiornaBacheca(0);
+//    }
+//
+//    private void aggiornaBacheca(int tab) {
+//        jPanelBacheca.removeAll();
+//        for(Evento e: b.getEventi()) {
+//            jPanelBacheca.add(new EventoPanel(e));
+//        }
+//        
+//        jPanelBacheca.updateUI();
+//    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -84,26 +84,26 @@ public class BachecaFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPartitaCalcioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPartitaCalcioActionPerformed
-        aggiornaBacheca(0);
+
     }//GEN-LAST:event_jButtonPartitaCalcioActionPerformed
 
-    public static void main(String args[]) {
-        //<editor-fold defaultstate="collapsed" desc=" Setting the Windows look and feel (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BachecaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new BachecaFrame().setVisible(true);
-        });        
-    }
+//    public static void main(String args[]) {
+//        //<editor-fold defaultstate="collapsed" desc=" Setting the Windows look and feel (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(BachecaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(() -> {
+//            new BachecaFrame().setVisible(true);
+//        });        
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonPartitaCalcio;

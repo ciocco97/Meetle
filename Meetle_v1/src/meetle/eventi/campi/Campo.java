@@ -1,40 +1,31 @@
-package meetle.campi;
+package meetle.eventi.campi;
 
-public abstract class Campo <V> {
+public abstract class Campo <TipoCampo> {
     protected final static String NO_DESCRIPTION = "Nessuna descrizione presente"; 
     
+    public final static String SEPARATORE_NOME_VALORE = ":";
+    
     protected String nome, descrizione;
-    protected V valore;    
+    protected TipoCampo valore;    
     private boolean facoltativo = false;
 
-    private Campo(String nome, String descrizione) {
+    Campo(String nome, String descrizione, TipoCampo valore) {
         this.nome = nome;
         this.descrizione = descrizione;
-        // valore = null;
-    }
-    
-    public Campo(String nome, String descrizione, V valore) {
-        this(nome, descrizione);
         this.valore = valore;
     }
-    
-    public Campo(V valore) {
-        this("Campo Generico", NO_DESCRIPTION, valore);
-    }
-    
-//    public Campo() {
-//        this(null);
-//    }
 
     public abstract void setValoreDaString(String stringa);
 
     @Override
-    public String toString() { if (valore != null) return valore.toString(); else return null;}  
+    public String toString() {
+        return valore == null? "" : nome +SEPARATORE_NOME_VALORE+ valore; 
+    }  
 
     // Getters e Setters
     public String getNome() { return nome; }
     public String getDescrizione() { return descrizione; }
-    public V getValore() { return valore; }   
+    public TipoCampo getValore() { return valore; }   
     public boolean isFacoltativo() { return facoltativo; }     
     public void setFacoltativo(){ facoltativo = true; }    
     

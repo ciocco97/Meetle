@@ -1,4 +1,4 @@
-package meetle.campi.tempo;
+package meetle.eventi.campi.tempo;
 
 public class Ora {
     private int ora, minuti;

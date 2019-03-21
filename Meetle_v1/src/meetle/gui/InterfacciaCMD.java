@@ -1,28 +1,29 @@
-package meetle.GUI;
+package meetle.gui;
 
-import meetle.eventi.*;
+import java.util.List;
+import meetle.Meetle;
 
 public class InterfacciaCMD extends javax.swing.JFrame {
 
-    private Bacheca bacheca;
+    private Meetle meetle;
     
-    public InterfacciaCMD(Bacheca bacheca) {
+    public InterfacciaCMD(Meetle meetle) {
         initComponents();
         
-        this.bacheca = bacheca;
-        mostraEventi();       
+        this.meetle = meetle;
     }
     
-    
-    public void mostra(){ 
-        java.awt.EventQueue.invokeLater(() -> { setVisible(true); }); 
-    }
-    
-    public void mostraEventi(){
-        String tuttiEventi = "Lista di tutti gli eventi:\n\n";
-        for(int i=0; i < bacheca.getEventi().size(); i++)
-            tuttiEventi += (i+1) +") "+ bacheca.getEventi().get(i).toString() +"\n\n";
-        jTextArea.setText(tuttiEventi);
+    public void mostraEventi() {        
+        List<List<NomeValore>> datiEventi = meetle.getDatiEventi();
+        
+        String eventiToString = "Lista di tutti gli eventi:\n\n";
+        for(List<NomeValore> datiEvento: datiEventi) {
+            for(NomeValore nv: datiEvento)
+                eventiToString += nv +"\t";
+            eventiToString += "\n";
+        }
+        jTextArea.setText(eventiToString);  
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -35,7 +36,6 @@ public class InterfacciaCMD extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusCycleRoot(false);
-        setResizable(false);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -62,7 +62,14 @@ public class InterfacciaCMD extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldInputKeyPressed
-        if(evt.getKeyChar() == '\n'){
+        if(evt.getKeyChar() == '\n') {
+            String comando = jTextFieldInput.getText();
+            switch(comando){
+                case "ls":
+                    mostraEventi();
+                    break;
+                    
+            }
             jTextFieldInput.setText("");
         }
     }//GEN-LAST:event_jTextFieldInputKeyPressed

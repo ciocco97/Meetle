@@ -1,12 +1,8 @@
-package meetle.campi;
+package meetle.eventi.campi;
 
-import meetle.campi.tempo.Data;
+import meetle.eventi.campi.tempo.Data;
 
 public class CampoData extends Campo<Data> {
-    
-//    public CampoData(String nome, String descrizione) {
-//        super(nome, descrizione);
-//    }
     
     public CampoData(String nome, String descrizione, Data valore) {
         super(nome, descrizione, valore);
@@ -16,16 +12,8 @@ public class CampoData extends Campo<Data> {
         this(nome, descrizione, new Data(anno, mese, giorno));
     }   
     
-    public CampoData(Data data) {
-        this("Campo Data", NO_DESCRIPTION, data);
-    }
-    
-    public CampoData(int anno, int mese, int giorno) {
-        this(new Data(anno, mese, giorno));
-    }  
-        
-    public CampoData() {
-        this(null);
+    public CampoData(String nome, String descrizione) {
+        this(nome, descrizione, null);
     }
 
     @Override

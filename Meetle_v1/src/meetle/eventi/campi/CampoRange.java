@@ -1,4 +1,4 @@
-package meetle.campi;
+package meetle.eventi.campi;
 
 public class CampoRange extends Campo<CampoRange.Range> {
        
@@ -20,28 +20,16 @@ public class CampoRange extends Campo<CampoRange.Range> {
         public String toString() { return min + "-" + max; }
     }
        
-//    public CampoRange(String nome, String descrizione) {
-//        super(nome, descrizione);
-//    }
-    
-    private CampoRange(String nome, String descrizione, Range range) {
+    public CampoRange(String nome, String descrizione, Range range) {
         super(nome, descrizione, range);
     }
     
     public CampoRange(String nome, String descrizione, int min, int max) {
         this(nome, descrizione, new Range(min, max));
     }
-    
-    private CampoRange(Range range){
-        this("Campo Range", NO_DESCRIPTION, range);
-    }
-    
-    public CampoRange(int min, int max) {
-        this(new Range(min, max));
-    }
        
-    public CampoRange() {
-        this(null);
+    public CampoRange(String nome, String descrizione) {
+        this(nome, descrizione, null);
     }
 
     @Override

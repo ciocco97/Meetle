@@ -1,63 +1,40 @@
 package meetle.eventi;
 
-import meetle.campi.*;
+import meetle.eventi.campi.CampoString;
+import meetle.eventi.campi.CampoOra;
+import meetle.eventi.campi.CampoDurata;
+import meetle.eventi.campi.Campo;
+import meetle.eventi.campi.CampoData;
+import meetle.eventi.campi.CampoInt;
+import java.util.Arrays;
 
 public abstract class Evento {
-    protected final static String NO_DESCRIPTION = "Nessuna descrizione presente";     
-    
-    protected String nome, descrizione;
-//    protected CampoString titolo, luogo, note;
-//    protected CampoInt numPartecipanti, quotaIndividuale, compresoQuota;
-//    protected CampoData termineIscrizione, data, dataConclusiva;
-//    protected CampoOra ora, oraConclusiva;
-//    protected CampoDurata durata;
+    protected final static String NO_DESCRIPTION = "Nessuna descrizione presente";    
     
     public static final int NUM_CAMPI_FISSI = 12;
     public static final int I_TITOLO = 0, I_NUM_PARTECIPANTI = 1, I_TERMINE_ISCRIZIONE = 2, 
             I_LUOGO = 3, I_DATA = 4, I_ORA = 5, I_DURATA = 6, I_QUOTA_INDIVIDUALE = 7, 
             I_COMPRESO_QUOTA = 8, I_DATA_CONCLUSIVA = 9, I_ORA_CONCLUSIVA = 10, I_NOTE = 11;
+    public final static String SEPARATORE_CAMPI = ",,";
     
+    protected String nome, descrizione;    
     protected Campo[] campi;    
-
-    /**
-    // Costruttore con tutti i parametri
-    public Evento(String nome, String descrizione, String titolo, 
-            int numPartecipanti, Data termineIscrizione, String luogo, Data data, 
-            Ora ora, Durata durata, int quotaIndividuale, int compresoQuota, 
-            Data dataConclusiva, Ora oraConclusiva, String note) {
-                
-        campiFissi = new Campo[NUM_CAMPI_FISSI];
-        campiFissi[I_TITOLO] = new CampoString(titolo);
-        campiFissi[I_NUM_PARTECIPANTI] = new CampoInt(numPartecipanti);
-        campiFissi[I_TERMINE_ISCRIZIONE] = new CampoData(termineIscrizione);
-        campiFissi[I_LUOGO] = new CampoString(luogo);
-        campiFissi[I_DATA] = new CampoData(data);
-        campiFissi[I_ORA] = new CampoOra(ora);
-        campiFissi[I_DURATA] = new CampoDurata(durata);
-        campiFissi[I_QUOTA_INDIVIDUALE] = new CampoInt(quotaIndividuale);
-        campiFissi[I_COMPRESO_QUOTA] = new CampoInt(compresoQuota);
-        campiFissi[I_DATA_CONCLUSIVA] = new CampoData(dataConclusiva);
-        campiFissi[I_ORA_CONCLUSIVA] = new CampoOra(oraConclusiva);
-        campiFissi[I_NOTE] = new CampoString(note);
-        
-        setFacoltativi();
-    } */
     
     public Evento() {
                 
         campi = new Campo[NUM_CAMPI_FISSI];
-        campi[I_TITOLO] = new CampoString();
-        campi[I_NUM_PARTECIPANTI] = new CampoInt();
-        campi[I_TERMINE_ISCRIZIONE] = new CampoData();
-        campi[I_LUOGO] = new CampoString();
-        campi[I_DATA] = new CampoData();
-        campi[I_ORA] = new CampoOra();
-        campi[I_DURATA] = new CampoDurata();
-        campi[I_QUOTA_INDIVIDUALE] = new CampoInt();
-        campi[I_COMPRESO_QUOTA] = new CampoInt();
-        campi[I_DATA_CONCLUSIVA] = new CampoData();
-        campi[I_ORA_CONCLUSIVA] = new CampoOra();
-        campi[I_NOTE] = new CampoString();      
+        campi[I_TITOLO] = new CampoString("Titolo", "Titolo dell'evento");
+        campi[I_NUM_PARTECIPANTI] = new CampoInt("Numero partecipanti", "Numero massimo di partecipanti all'evento");
+        campi[I_TERMINE_ISCRIZIONE] = new CampoData("Termine iscrizione", "Data di scadenza per l'iscrizione");
+        campi[I_LUOGO] = new CampoString("Luogo", "Luogo dove si terrà l'evento");
+        campi[I_DATA] = new CampoData("Data", "Data di inizio dell'evento");
+        campi[I_ORA] = new CampoOra("Ora", "Ora di inizio dell'evento");
+        campi[I_DURATA] = new CampoDurata("Durata", "Durata stimata dell'evento");
+        campi[I_QUOTA_INDIVIDUALE] = new CampoInt("Quota individuale",  "Quota di denaro richiesta a ognuno per partecipare");
+        campi[I_COMPRESO_QUOTA] = new CampoInt("Compreso quota",  "Quota di denaro già compresa (?)");
+        campi[I_DATA_CONCLUSIVA] = new CampoData("Data conclusiva",  "Data di fine dell'evento");
+        campi[I_ORA_CONCLUSIVA] = new CampoOra("Ora conclusiva", "Ora di fine dell'evento");
+        campi[I_NOTE] = new CampoString("Note", "Note aggiuntive");      
                         
         setFacoltativi();
     }   
@@ -75,6 +52,14 @@ public abstract class Evento {
         campi[I_ORA_CONCLUSIVA].setFacoltativo();
         campi[I_NOTE].setFacoltativo();
     } 
+
+    @Override
+    public String toString() {
+        return Arrays.stream(campi)
+                .filter(c -> !c.toString().equals(""))
+                .map(c -> c.toString() + SEPARATORE_CAMPI)
+                .reduce("", String::concat);     
+    }   
     
     
     // Getters e Setters
@@ -85,40 +70,5 @@ public abstract class Evento {
     public String getOra() { return campi[I_ORA].toString(); }    
     public String getNumeroPartecipanti() { return campi[I_NUM_PARTECIPANTI].toString(); }    
     public String getTermineUltimoDIscrizione() { return campi[I_TERMINE_ISCRIZIONE].toString(); }
-    
-    /* Metodo inserito solo perchè altrimenti su evento generico non mi lascia chiamare toEncript
-    ritorna la lista dei campi to string separati dal separatore
-    campo separatore campo separatore ... separatore
-    */
-    public String toEncript(String separatore) {
-        String s = "";
-        for(int i = 0; i < NUM_CAMPI_FISSI; i++) {
-            s += campi[i].toString();
-            s += separatore;
-        }
-        return s;
-    }
-    
-    /*
-    ritorna la lista dei campi to string separati dal separatore
-    campo separatore campo separatore ... separatore
-    */
-    private String toEncriptSupp(String separatore) {
-        String s = "";
-        for(int i = 0; i < NUM_CAMPI_FISSI; i++) {
-            s += campi[i].toString();
-            s += separatore;
-        }
-        return s;
-    }
-    
-    /*
-    ritorna una stringa di questo tipo
-    prefisso separatore campo separatore campo separatore ... separatore
-    dove il prefisso identifica il tipo di evento
-    */
-    String toEncript(String prefisso, String separatore) {
-        return prefisso + separatore + this.toEncriptSupp(separatore);
-    }
     
 }

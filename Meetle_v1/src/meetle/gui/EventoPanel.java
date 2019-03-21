@@ -1,4 +1,4 @@
-package meetle.GUI;
+package meetle.gui;
 
 import java.awt.Color;
 import java.util.Random;
