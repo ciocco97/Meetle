@@ -15,12 +15,13 @@ public class Bacheca {
         eventi = new ArrayList<>();
         metodoTemporaneo();
         metodoTemporaneo();
+        metodoTemporaneo();
     }
     
     public void metodoTemporaneo() {
         Evento e = new PartitaDiCalcio();
         int[] indici = new int[]{Evento.I_TITOLO, Evento.I_NUM_PARTECIPANTI, Evento.I_LUOGO, PartitaDiCalcio.I_GENERE};
-        String[] valori = new String[]{"partita bella", "45", "a casa", "mamma"};
+        String[] valori = new String[]{"partita bella", "45", "a casa", "mamaaaaama"};
         for(int i=0; i < indici.length; i++)
             e.setValoreDaString(indici[i], valori[i]);        
         eventi.add(e);

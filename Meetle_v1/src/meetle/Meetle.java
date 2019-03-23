@@ -1,5 +1,6 @@
 package meetle;
 
+import com.google.gson.Gson;
 import java.util.LinkedList;
 import java.util.List;
 import meetle.gui.InterfacciaCMD;
@@ -42,6 +43,7 @@ public class Meetle {
     public static void main(String[] args) {
         Meetle meetle = new Meetle();        
         meetle.start();
+        
     }
         
 }

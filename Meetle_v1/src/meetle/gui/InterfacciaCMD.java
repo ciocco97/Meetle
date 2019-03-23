@@ -4,26 +4,48 @@ import java.util.List;
 import meetle.Meetle;
 
 public class InterfacciaCMD extends javax.swing.JFrame {
-
+    private int stato;
+    
+    private final String TITOLO_MENU_PRINCIPALE = "---MENU PRINCIPALE---";
+    private final String SCELTE_MENU_PRINCIPALE = "1)Visualizza eventi presenti\n2)Esci da Meetle";
+    
+    private final String TITOLO_MENU_EVENTI = "---EVENTI---";
+    private final String SCELTE_MENU_EVENTI = "1)Torna al menù principale\n2)Esci da Meetle";
+    
+    private final String ETICHETTA_SCELTE = "Scelte disponibili per questo menù:";
+    
+    private final String ERRORE_COMANDO = "SCELTA IMMESSA NON VALIDA";
+    
     private Meetle meetle;
     
     public InterfacciaCMD(Meetle meetle) {
         initComponents();
-        
         this.meetle = meetle;
+        menuPrincipale();
     }
     
-    public void mostraEventi() {        
+    public void mostraEventi() {   
+        stato = 1;
+        jTextArea.setText(TITOLO_MENU_EVENTI);
         List<List<NomeValore>> datiEventi = meetle.getDatiEventi();
-        
-        String eventiToString = "Lista di tutti gli eventi:\n\n";
+        String eventiToString = "\nEventi disponibili:\n";
         for(List<NomeValore> datiEvento: datiEventi) {
             for(NomeValore nv: datiEvento)
                 eventiToString += nv +"\t";
             eventiToString += "\n";
         }
-        jTextArea.setText(eventiToString);  
+        jTextArea.append(eventiToString); 
+        jTextArea.append("\n"+ETICHETTA_SCELTE+"\n"); 
+        jTextArea.append(SCELTE_MENU_EVENTI);
         
+    }
+    
+    private void menuPrincipale()
+    {
+        stato = 0;
+        jTextArea.setText(TITOLO_MENU_PRINCIPALE);
+        jTextArea.append("\n"+ETICHETTA_SCELTE+"\n");
+        jTextArea.append(SCELTE_MENU_PRINCIPALE);
     }
     
     @SuppressWarnings("unchecked")
@@ -36,6 +58,7 @@ public class InterfacciaCMD extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusCycleRoot(false);
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -64,14 +87,25 @@ public class InterfacciaCMD extends javax.swing.JFrame {
     private void jTextFieldInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldInputKeyPressed
         if(evt.getKeyChar() == '\n') {
             String comando = jTextFieldInput.getText();
-            switch(comando){
-                case "ls":
-                    mostraEventi();
-                    break;
-                    
+            switch (stato)
+            {
+                case 0: //MENU PRINCIPALE
+                    switch (comando)
+                    {
+                        case "1": mostraEventi(); break;
+                        case "2": System.exit(0); 
+                        default: jTextArea.append("\n"+ERRORE_COMANDO); 
+                    }break;
+                case 1: //MENU EVENTI
+                    switch (comando)
+                    {
+                        case "1": menuPrincipale(); break;
+                        case "2": System.exit(0);
+                        default: jTextArea.append("\n"+ERRORE_COMANDO); 
+                    }
             }
-            jTextFieldInput.setText("");
         }
+        jTextFieldInput.setText("");
     }//GEN-LAST:event_jTextFieldInputKeyPressed
 
     
