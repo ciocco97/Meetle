@@ -1,51 +1,35 @@
 package meetle.gui;
 
-import java.util.List;
 import meetle.Meetle;
+import meetle.eventi.PartitaDiCalcio;
 
 public class InterfacciaCMD extends javax.swing.JFrame {
-    private int stato;
+    private int stato = 0;
     
-    private final String TITOLO_MENU_PRINCIPALE = "---MENU PRINCIPALE---";
-    private final String SCELTE_MENU_PRINCIPALE = "1)Visualizza eventi presenti\n2)Esci da Meetle";
-    
-    private final String TITOLO_MENU_EVENTI = "---EVENTI---";
-    private final String SCELTE_MENU_EVENTI = "1)Torna al menù principale\n2)Esci da Meetle";
-    
-    private final String ETICHETTA_SCELTE = "Scelte disponibili per questo menù:";
-    
-    private final String ERRORE_COMANDO = "SCELTA IMMESSA NON VALIDA";
+    private final String ERRORE_COMANDO = "SCELTA IMMESSA NON VALIDA\n";
     
     private Meetle meetle;
+    String[] titoliMenu = {"MENU PRINCIPALE", "MENU CATEGORIE", "MENU EVENTI"};
+    String[][] vociMenu = {
+        {"Visualizza categorie", "Visualizza eventi", "Visualizza evento per categoria"},
+        {"Partita di Calcio"},
+        {"Torna a MENU PRINCIPALE"}};
     
     public InterfacciaCMD(Meetle meetle) {
         initComponents();
         this.meetle = meetle;
-        menuPrincipale();
+        stampaMenu();
     }
     
-    public void mostraEventi() {   
-        stato = 1;
-        jTextArea.setText(TITOLO_MENU_EVENTI);
-        List<List<NomeValore>> datiEventi = meetle.getDatiEventi();
-        String eventiToString = "\nEventi disponibili:\n";
-        for(List<NomeValore> datiEvento: datiEventi) {
-            for(NomeValore nv: datiEvento)
-                eventiToString += "\t"+ nv +"\n";
-            eventiToString += "\n";
-        }
-        jTextArea.append(eventiToString); 
-        jTextArea.append("\n"+ETICHETTA_SCELTE+"\n"); 
-        jTextArea.append(SCELTE_MENU_EVENTI);
-        
+    public void println(String s) {
+        jTextArea.append(s+'\n');
     }
     
-    private void menuPrincipale()
-    {
-        stato = 0;
-        jTextArea.setText(TITOLO_MENU_PRINCIPALE);
-        jTextArea.append("\n"+ETICHETTA_SCELTE+"\n");
-        jTextArea.append(SCELTE_MENU_PRINCIPALE);
+    public void stampaMenu() {
+        println("----"+titoliMenu[stato]+"----");
+        for(int i=1; i<=vociMenu[stato].length; i++ )
+            println(i+") "+vociMenu[stato][i-1]);
+        println(vociMenu[stato].length+1 +") Esci");
     }
     
     @SuppressWarnings("unchecked")
@@ -57,6 +41,7 @@ public class InterfacciaCMD extends javax.swing.JFrame {
         jTextFieldInput = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Meetle");
         setFocusCycleRoot(false);
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -91,24 +76,38 @@ public class InterfacciaCMD extends javax.swing.JFrame {
 
     private void jTextFieldInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldInputKeyPressed
         if(evt.getKeyChar() == '\n') {
-            String comando = jTextFieldInput.getText();
-            switch (stato)
-            {
+            int comando = Integer.parseInt(jTextFieldInput.getText());
+            jTextArea.setText("");
+            switch (stato) {
                 case 0: //MENU PRINCIPALE
-                    switch (comando)
-                    {
-                        case "1": mostraEventi(); break;
-                        case "2": System.exit(0); 
-                        default: jTextArea.append("\n"+ERRORE_COMANDO); 
-                    }break;
-                case 1: //MENU EVENTI
-                    switch (comando)
-                    {
-                        case "1": menuPrincipale(); break;
-                        case "2": System.exit(0);
-                        default: jTextArea.append("\n"+ERRORE_COMANDO); 
+                    switch(comando) {
+                        case 1:
+                            println("----LISTA DESCRIZIONE CATEGORIE----");
+                            println(new PartitaDiCalcio().toDescrizione());
+                            break;
+                        case 2:
+                            println("----LISTA EVENTI----");
+                            println(meetle.stampaBacheca()); 
+                            break;
+                        case 3:
+                            stato = 1;
+                            break;
+                        case 4:
+                            System.exit(0);
+                        default:
+                            println(ERRORE_COMANDO);   
+                            
                     }
+                    break;
+                    
+                case 1: 
+                    if(comando == vociMenu[stato].length+1) System.exit(0);
+                    println("----LISTA EVENTI----");
+                    println(meetle.stampaBacheca(vociMenu[stato][comando-1]));
+                    stato = 0;
+                    break;                 
             }
+            stampaMenu();
         }
         jTextFieldInput.setText("");
     }//GEN-LAST:event_jTextFieldInputKeyPressed
@@ -120,4 +119,6 @@ public class InterfacciaCMD extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextField jTextFieldInput;
     // End of variables declaration//GEN-END:variables
+
+    
 }

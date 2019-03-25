@@ -1,12 +1,8 @@
 package meetle.eventi;
 
-import meetle.eventi.campi.CampoString;
-import meetle.eventi.campi.CampoOra;
-import meetle.eventi.campi.CampoDurata;
-import meetle.eventi.campi.Campo;
-import meetle.eventi.campi.CampoData;
-import meetle.eventi.campi.CampoInt;
+import meetle.eventi.campi.*;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public abstract class Evento {
     protected final static String NO_DESCRIPTION = "Nessuna descrizione presente";    
@@ -15,10 +11,10 @@ public abstract class Evento {
     public static final int I_TITOLO = 0, I_NUM_PARTECIPANTI = 1, I_TERMINE_ISCRIZIONE = 2, 
             I_LUOGO = 3, I_DATA = 4, I_ORA = 5, I_DURATA = 6, I_QUOTA_INDIVIDUALE = 7, 
             I_COMPRESO_QUOTA = 8, I_DATA_CONCLUSIVA = 9, I_ORA_CONCLUSIVA = 10, I_NOTE = 11;
-    public final static String SEPARATORE_CAMPI = ",,";
+    public final static String SEPARATORE_CAMPI = "\n";
     
     protected String nome, descrizione;    
-    protected Campo[] campi;    
+    protected Campo[] campi, campiExtra;    
     
     public Evento() {
                 
@@ -42,6 +38,8 @@ public abstract class Evento {
     public void setValoreDaString(int indice, String valore){
         if(indice < NUM_CAMPI_FISSI)
             campi[indice].setValoreDaString(valore);
+        else
+            campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);
     }
 
     private void setFacoltativi() {
@@ -52,12 +50,18 @@ public abstract class Evento {
         campi[I_ORA_CONCLUSIVA].setFacoltativo();
         campi[I_NOTE].setFacoltativo();
     } 
+    
+    public String toDescrizione() {
+        return "\t"+nome.toUpperCase() + "\n" +Stream.concat(Arrays.stream(campi), Arrays.stream(campiExtra))
+                .map(c -> "\t" + c.getNome() +": "+ c.getDescrizione() + SEPARATORE_CAMPI)
+                .reduce("", String::concat);   
+    }
 
     @Override
     public String toString() {
-        return Arrays.stream(campi)
+        return Stream.concat(Arrays.stream(campi), Arrays.stream(campiExtra))
                 .filter(c -> !c.toString().equals(""))
-                .map(c -> c.toString() + SEPARATORE_CAMPI)
+                .map(c -> "\t" + c + SEPARATORE_CAMPI)
                 .reduce("", String::concat);     
     }   
     

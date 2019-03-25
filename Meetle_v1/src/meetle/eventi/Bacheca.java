@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import meetle.Meetle;
 
 public class Bacheca {
-    public final static String SEPARATORE_EVENTI = ";;";
+    public final static String SEPARATORE_EVENTI = "\n";
     
     private Meetle meetle;    
     private ArrayList<Evento> eventi;
