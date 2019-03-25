@@ -74,5 +74,7 @@ public abstract class Evento {
     public String getOra() { return campi[I_ORA].toString(); }    
     public String getNumeroPartecipanti() { return campi[I_NUM_PARTECIPANTI].toString(); }    
     public String getTermineUltimoDIscrizione() { return campi[I_TERMINE_ISCRIZIONE].toString(); }
+    public Campo[] getCampi() { return campi; }
+    public Campo[] getCampiExtra() { return campiExtra; }
     
 }

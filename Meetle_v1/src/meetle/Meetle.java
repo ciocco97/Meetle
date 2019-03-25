@@ -1,8 +1,13 @@
 package meetle;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import meetle.gui.InterfacciaCMD;
 import meetle.eventi.Bacheca;
 import meetle.eventi.Evento;
+import meetle.io.SalvaCarica;
 
 public class Meetle {
     private InterfacciaCMD interfaccia;
@@ -11,6 +16,14 @@ public class Meetle {
     public Meetle() {
         interfaccia = new InterfacciaCMD(this);
         bacheca = new Bacheca(this);
+        SalvaCarica sc = new SalvaCarica();
+        try {
+            sc.toXML(bacheca);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(Meetle.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(Meetle.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }  
     
     public void start() {
