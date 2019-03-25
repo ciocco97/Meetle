@@ -31,7 +31,7 @@ public class InterfacciaCMD extends javax.swing.JFrame {
         String eventiToString = "\nEventi disponibili:\n";
         for(List<NomeValore> datiEvento: datiEventi) {
             for(NomeValore nv: datiEvento)
-                eventiToString += nv +"\t";
+                eventiToString += "\t"+ nv +"\n";
             eventiToString += "\n";
         }
         jTextArea.append(eventiToString); 
@@ -60,19 +60,24 @@ public class InterfacciaCMD extends javax.swing.JFrame {
         setFocusCycleRoot(false);
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setBorder(null);
 
         jTextArea.setEditable(false);
-        jTextArea.setColumns(20);
+        jTextArea.setBackground(new java.awt.Color(0, 32, 64));
         jTextArea.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jTextArea.setForeground(new java.awt.Color(240, 240, 240));
         jTextArea.setLineWrap(true);
-        jTextArea.setRows(5);
+        jTextArea.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         jTextArea.setFocusable(false);
         jScrollPane1.setViewportView(jTextArea);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jTextFieldInput.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jTextFieldInput.setBackground(jTextArea.getBackground());
+        jTextFieldInput.setFont(jTextArea.getFont());
+        jTextFieldInput.setForeground(jTextArea.getForeground());
+        jTextFieldInput.setBorder(jTextArea.getBorder());
+        jTextFieldInput.setCaretColor(jTextArea.getForeground());
         jTextFieldInput.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldInputKeyPressed(evt);
