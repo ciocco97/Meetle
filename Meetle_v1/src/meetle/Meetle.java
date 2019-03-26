@@ -24,6 +24,8 @@ public class Meetle {
         } catch (TransformerException ex) {
             Logger.getLogger(Meetle.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Bacheca eventiFromXML = sc.eventiFromXML();
+        
     }  
     
     public void start() {
