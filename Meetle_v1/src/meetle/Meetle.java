@@ -18,7 +18,7 @@ public class Meetle {
         bacheca = new Bacheca(this);
         SalvaCarica sc = new SalvaCarica();
         try {
-            sc.toXML(bacheca);
+            sc.eventiToXML(bacheca);
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(Meetle.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
