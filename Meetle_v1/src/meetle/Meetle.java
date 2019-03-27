@@ -15,17 +15,9 @@ public class Meetle {
 
     public Meetle() {
         interfaccia = new InterfacciaCMD(this);
-        bacheca = new Bacheca(this);
+        // bacheca = new Bacheca(this);
         SalvaCarica sc = new SalvaCarica();
-        try {
-            sc.eventiToXML(bacheca);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(Meetle.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TransformerException ex) {
-            Logger.getLogger(Meetle.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Bacheca eventiFromXML = sc.eventiFromXML();
-        
+        bacheca = new Bacheca(this, sc.eventiFromXML());
     }  
     
     public void start() {

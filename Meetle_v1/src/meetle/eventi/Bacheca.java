@@ -17,6 +17,11 @@ public class Bacheca {
         metodoTemporaneo();
         metodoTemporaneo();
     }
+
+    public Bacheca(Meetle meetle, ArrayList<Evento> eventi) {
+        this.meetle = meetle;
+        this.eventi = eventi;
+    }
     
     public void metodoTemporaneo() {
         Evento e = new PartitaDiCalcio();
