@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 
 public class SalvaCarica {
     private Document document;
+    private static SalvaCarica istanza;
     
     private final File fileXML;
     private final TransformerFactory transformerFactory;
@@ -35,7 +36,9 @@ public class SalvaCarica {
     private final String TIPO = "tipo";
     private final String ERRORE = "Errore per versione 1: trovato evento istanza di !PartitaDiCalcio";
     
-    public SalvaCarica() {
+    public static SalvaCarica getIstanza() { return istanza == null ? new SalvaCarica() : istanza; }
+    
+    private SalvaCarica() {
         fileXML = new File(FILE_PATH);
         transformerFactory = TransformerFactory.newInstance();
     }
@@ -150,14 +153,15 @@ public class SalvaCarica {
     /**
      * Aggiornato a v1: prende in ingresso bacheca e ne salva gli eventi
      * @param bacheca
-     * @throws ParserConfigurationException
-     * @throws TransformerConfigurationException
-     * @throws TransformerException 
      */
-    public void eventiToXML(Bacheca bacheca) throws ParserConfigurationException, 
-        TransformerConfigurationException, TransformerException {
+    public void eventiToXML(Bacheca bacheca) {
         DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+        DocumentBuilder documentBuilder = null;
+        try {
+            documentBuilder = documentFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(SalvaCarica.class.getName()).log(Level.SEVERE, null, ex);
+        }
         document = documentBuilder.newDocument();
         
         // <Eventi>

@@ -15,9 +15,7 @@ public class Meetle {
 
     public Meetle() {
         interfaccia = new InterfacciaCMD(this);
-        // bacheca = new Bacheca(this);
-        SalvaCarica sc = new SalvaCarica();
-        bacheca = new Bacheca(this, sc.eventiFromXML());
+        bacheca = new Bacheca(this, SalvaCarica.getIstanza().eventiFromXML());
     }  
     
     public void start() {
