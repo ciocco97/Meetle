@@ -4,8 +4,8 @@ import meetle.eventi.campi.tempo.Durata;
 
 public class CampoDurata extends Campo<Durata> {
     
-    public CampoDurata (String nome, String descrizione, Durata valore) {
-        super(nome, descrizione, valore);
+    public CampoDurata (String nome, String descrizione, Durata durata) {
+        super(nome, descrizione, durata);
     }
     
     public CampoDurata (String nome, String descrizione, int giorni, int ore, int minuti) {
@@ -17,8 +17,8 @@ public class CampoDurata extends Campo<Durata> {
     }
 
     @Override
-    public void setValoreDaString(String stringa) {
-        this.valore = new Durata(stringa);
+    public void setValoreDaString(String stringaDurata) {
+        this.valore = new Durata(stringaDurata);
     }    
     
 }

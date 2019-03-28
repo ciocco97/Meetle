@@ -17,8 +17,8 @@ public class CampoOra extends Campo<Ora> {
     }
 
     @Override
-    public void setValoreDaString(String stringa) {
-        this.valore = new Ora(stringa);
+    public void setValoreDaString(String stringaOra) {
+        this.valore = new Ora(stringaOra);
     }
     
 }

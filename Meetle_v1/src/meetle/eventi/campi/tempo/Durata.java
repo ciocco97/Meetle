@@ -1,6 +1,8 @@
 package meetle.eventi.campi.tempo;
 
-public class Durata {
+import java.io.Serializable;
+
+public class Durata implements Serializable {
     private int giorni, ore, minuti;
 
     public Durata(int giorni, int ore, int minuti) {
@@ -9,8 +11,8 @@ public class Durata {
         this.minuti = minuti;
     }
     
-    public Durata(String durata){
-        String[] numeri = durata.split(":");
+    public Durata(String stringaDurata){
+        String[] numeri = stringaDurata.split(":");
         giorni = Integer.parseInt(numeri[0]);
         ore = Integer.parseInt(numeri[1]);
         minuti = Integer.parseInt(numeri[2]);

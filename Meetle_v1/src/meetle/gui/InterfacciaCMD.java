@@ -4,16 +4,16 @@ import meetle.Meetle;
 import meetle.eventi.PartitaDiCalcio;
 
 public class InterfacciaCMD extends javax.swing.JFrame {
-    private int stato = 0;
     
-    private final String ERRORE_COMANDO = "SCELTA IMMESSA NON VALIDA\n";
+    private static final String ERRORE_COMANDO = "SCELTA IMMESSA NON VALIDA\n";
     
     private Meetle meetle;
-    String[] titoliMenu = {"MENU PRINCIPALE", "MENU CATEGORIE", "MENU EVENTI"};
-    String[][] vociMenu = {
-        {"Visualizza categorie", "Visualizza eventi", "Visualizza evento per categoria"},
-        {"Partita di Calcio"},
-        {"Torna a MENU PRINCIPALE"}};
+    private int stato = 0; // stato del menu, leggere dalle stringhe qui sotto per sapere i vari menu
+    private final String[] titoliMenu = {"MENU PRINCIPALE", "SCEGLI CATEGORIA"};
+    private final String[][] vociMenu = {
+        {"Mostra categorie", "Mostra eventi", "Mostra eventi per categoria"},
+        {PartitaDiCalcio.NOME}
+    };
     
     public InterfacciaCMD(Meetle meetle) {
         initComponents();
@@ -21,14 +21,14 @@ public class InterfacciaCMD extends javax.swing.JFrame {
         stampaMenu();
     }
     
-    public void println(String s) {
+    private void println(String s) {
         jTextArea.append(s+'\n');
     }
     
-    public void stampaMenu() {
+    private void stampaMenu() {
         println("----"+titoliMenu[stato]+"----");
-        for(int i=1; i<=vociMenu[stato].length; i++ )
-            println(i+") "+vociMenu[stato][i-1]);
+        for(int i=0; i<vociMenu[stato].length; i++ )
+            println((i+1)+") "+vociMenu[stato][i]);
         println(vociMenu[stato].length+1 +") Esci");
     }
     
@@ -49,7 +49,7 @@ public class InterfacciaCMD extends javax.swing.JFrame {
 
         jTextArea.setEditable(false);
         jTextArea.setBackground(new java.awt.Color(0, 32, 64));
-        jTextArea.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jTextArea.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jTextArea.setForeground(new java.awt.Color(240, 240, 240));
         jTextArea.setLineWrap(true);
         jTextArea.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -76,32 +76,28 @@ public class InterfacciaCMD extends javax.swing.JFrame {
 
     private void jTextFieldInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldInputKeyPressed
         if(evt.getKeyChar() == '\n') {
-            int comando = Integer.parseInt(jTextFieldInput.getText());
             jTextArea.setText("");
+            int comando = Integer.parseInt(jTextFieldInput.getText());
+            if(comando == vociMenu[stato].length+1) System.exit(0);
+            else if (comando > vociMenu[stato].length+1) println(ERRORE_COMANDO);
             switch (stato) {
                 case 0: //MENU PRINCIPALE
                     switch(comando) {
                         case 1:
                             println("----LISTA DESCRIZIONE CATEGORIE----");
-                            println(new PartitaDiCalcio().toDescrizione());
+                            println(meetle.getDescrizioneCategorie());
                             break;
                         case 2:
                             println("----LISTA EVENTI----");
-                            println(meetle.stampaBacheca()); 
+                            println(meetle.stampaBacheca());  
                             break;
                         case 3:
                             stato = 1;
-                            break;
-                        case 4:
-                            System.exit(0);
-                        default:
-                            println(ERRORE_COMANDO);   
-                            
+                            break;                            
                     }
                     break;
                     
-                case 1: 
-                    if(comando == vociMenu[stato].length+1) System.exit(0);
+                case 1: // Mostra eventi per categoria
                     println("----LISTA EVENTI----");
                     println(meetle.stampaBacheca(vociMenu[stato][comando-1]));
                     stato = 0;

@@ -10,8 +10,8 @@ public class CampoRange extends Campo<CampoRange.Range> {
             this.max = max;
         }
         
-        public Range(String range){
-            String[] numeri = range.split("-");
+        public Range(String stringaRange){
+            String[] numeri = stringaRange.split("-");
             min = Integer.parseInt(numeri[0]);
             max = Integer.parseInt(numeri[1]);
         }
@@ -33,8 +33,8 @@ public class CampoRange extends Campo<CampoRange.Range> {
     }
 
     @Override
-    public void setValoreDaString(String stringa) {
-        this.valore = new Range(stringa);
+    public void setValoreDaString(String stringaRange) {
+        this.valore = new Range(stringaRange);
     }
     
 }

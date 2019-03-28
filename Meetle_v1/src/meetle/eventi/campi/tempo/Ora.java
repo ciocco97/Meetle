@@ -1,6 +1,8 @@
 package meetle.eventi.campi.tempo;
 
-public class Ora {
+import java.io.Serializable;
+
+public class Ora implements Serializable {
     private int ora, minuti;
 
     public Ora(int ora, int minuti) {
@@ -8,8 +10,8 @@ public class Ora {
         this.minuti = minuti;
     }
     
-    public Ora(String ora) {
-        String[] numeri = ora.split(":");
+    public Ora(String stringaOra) {
+        String[] numeri = stringaOra.split(":");
         this.ora = Integer.parseInt(numeri[0]);
         this.minuti = Integer.parseInt(numeri[1]);
     }

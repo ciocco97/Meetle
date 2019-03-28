@@ -2,8 +2,8 @@ package meetle.eventi.campi;
 
 public class CampoString extends Campo<String> {
 
-    public CampoString(String nome, String descrizione, String valore) {
-        super(nome, descrizione, valore);
+    public CampoString(String nome, String descrizione, String stringa) {
+        super(nome, descrizione, stringa);
     }
     
     public CampoString(String nome, String descrizione) {

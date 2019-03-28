@@ -4,8 +4,8 @@ import meetle.eventi.campi.tempo.Data;
 
 public class CampoData extends Campo<Data> {
     
-    public CampoData(String nome, String descrizione, Data valore) {
-        super(nome, descrizione, valore);
+    public CampoData(String nome, String descrizione, Data data) {
+        super(nome, descrizione, data);
     }
     
     public CampoData(String nome, String descrizione, int anno, int mese, int giorno) {
@@ -17,8 +17,8 @@ public class CampoData extends Campo<Data> {
     }
 
     @Override
-    public void setValoreDaString(String stringa) {
-        this.valore = new Data(stringa);
+    public void setValoreDaString(String stringaData) {
+        this.valore = new Data(stringaData);
     }
     
     

@@ -2,8 +2,8 @@ package meetle.eventi.campi;
 
 public class CampoInt extends Campo<Integer> {
     
-    public CampoInt(String nome, String descrizione, Integer valore) {
-        super(nome, descrizione, valore);
+    public CampoInt(String nome, String descrizione, Integer intero) {
+        super(nome, descrizione, intero);
     }
     
     public CampoInt(String nome, String descrizione) {
@@ -11,8 +11,8 @@ public class CampoInt extends Campo<Integer> {
     }
 
     @Override
-    public void setValoreDaString(String stringa) {
-        valore = Integer.parseInt(stringa);
+    public void setValoreDaString(String stringaIntero) {
+        valore = Integer.parseInt(stringaIntero);
     }
     
 }

@@ -1,7 +1,9 @@
 package meetle.eventi.campi;
 
-public abstract class Campo <TipoCampo> {
-    protected final static String NO_DESCRIPTION = "Nessuna descrizione presente"; 
+import java.io.Serializable;
+
+public abstract class Campo <TipoCampo> implements Serializable {
+    public final static String NO_DESCRIPTION = "Nessuna descrizione presente"; 
     
     public final static String SEPARATORE_NOME_VALORE = ": ";
     

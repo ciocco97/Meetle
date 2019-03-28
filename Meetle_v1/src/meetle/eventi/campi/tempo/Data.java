@@ -1,6 +1,8 @@
 package meetle.eventi.campi.tempo;
 
-public class Data {
+import java.io.Serializable;
+
+public class Data implements Serializable {
     private int anno, mese, giorno;
 
     public Data(int anno, int mese, int giorno) {
@@ -9,8 +11,8 @@ public class Data {
         this.giorno = giorno;
     }
 
-    public Data(String data) {
-        String[] numeri = data.split("-");
+    public Data(String stringaData) {
+        String[] numeri = stringaData.split("-");
         anno = Integer.parseInt(numeri[0]);
         mese = Integer.parseInt(numeri[1]);
         giorno = Integer.parseInt(numeri[2]);

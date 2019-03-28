@@ -43,10 +43,6 @@ public class SalvaCarica {
         transformerFactory = TransformerFactory.newInstance();
     }
     
-    /**
-     * 
-     * @return bacheca
-     */
     public ArrayList<Evento> eventiFromXML() {
         ArrayList<Evento> eventi = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -154,7 +150,7 @@ public class SalvaCarica {
      * Aggiornato a v1: prende in ingresso bacheca e ne salva gli eventi
      * @param bacheca
      */
-    public void eventiToXML(Bacheca bacheca) {
+    public void eventiToXML(ArrayList<Evento> eventi) {
         DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = null;
         try {
@@ -176,8 +172,7 @@ public class SalvaCarica {
 //        Element categoriaAltraCategoria = document.createElement(ALTRA_CATEGORIA);
 //        root.appendChild(categoriaAltraCategoria);        
         
-        ArrayList<Evento> eventi = bacheca.getEventi();
-        
+                
         for(int i = 0; i < eventi.size(); i++) {
             Evento e = eventi.get(i);
             if(e instanceof PartitaDiCalcio) {

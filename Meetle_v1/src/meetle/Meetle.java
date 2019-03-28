@@ -1,59 +1,50 @@
 package meetle;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import java.io.*;
 import meetle.gui.InterfacciaCMD;
 import meetle.eventi.Bacheca;
-import meetle.eventi.Evento;
-import meetle.io.SalvaCarica;
+import meetle.eventi.PartitaDiCalcio;
+import meetle.io.MeetleIO;
 
 public class Meetle {
     private InterfacciaCMD interfaccia;
     private Bacheca bacheca;
+    private MeetleIO io;
 
     public Meetle() {
         interfaccia = new InterfacciaCMD(this);
-        bacheca = new Bacheca(this, SalvaCarica.getIstanza().eventiFromXML());
+//        bacheca = new Bacheca(this);
+        io = new MeetleIO(this);
+        try {
+            // prova a caricare eventi da file
+            bacheca = new Bacheca(this, io.caricaEventi());
+        } catch (IOException | ClassNotFoundException ex) { 
+            System.err.println("ERRORE lettura eventi da file! Creo bacheca di default...\n\t"+ex.getMessage());
+            bacheca = new Bacheca(this);
+        }
+        try {
+            io.salvaEventi();
+        } catch (IOException ex) { }
     }  
     
     public void start() {
         java.awt.EventQueue.invokeLater(() -> { interfaccia.setVisible(true); });
     }
     
-    public String stampaBacheca() {
-        return bacheca.toString();
+    public String getDescrizioneCategorie() {
+        return (new PartitaDiCalcio()).toDescrizioneCategoria() + "\n";
     }
-    
-    public String stampaBacheca(String nome){
-        String stampa = "";
-        for (Evento e:bacheca.getEventi())
-        {
-            if (e.getNome().equals(nome))
-                stampa += e + "\n";
-        }
-        return stampa;
-    }
-    
-//    public List<List<NomeValore>> getDatiEventi(){
-//        
-//        List<List<NomeValore>> listaEventi = new LinkedList<>();
-//        for(String evento: bacheca.toString().split(Bacheca.SEPARATORE_EVENTI)) {
-//            List<NomeValore> listaCampi = new LinkedList<>();
-//            for (String campo: evento.split(Evento.SEPARATORE_CAMPI))                
-//                listaCampi.add(new NomeValore(campo.split(Campo.SEPARATORE_NOME_VALORE)));
-//            listaEventi.add(listaCampi);
-//        }
-//        return listaEventi;
-//    }
+        
+    public String stampaBacheca(String filtroNome) { return bacheca.toString(filtroNome); }    
+    public String stampaBacheca() { return stampaBacheca(null); }
 
-//    public String getUtente() {  return utente.toString(); }
-//    public void setUtente(String username) { utente = new Utente(username); }
+    // Getters & Setters
+    public Bacheca getBacheca() { return bacheca; }    
     
     
-    public static void main(String[] args) {
-        Meetle meetle = new Meetle();        
+    public static void main(String[] args) throws IOException {
+    
+        Meetle meetle = new Meetle();
         meetle.start();
         
     }
