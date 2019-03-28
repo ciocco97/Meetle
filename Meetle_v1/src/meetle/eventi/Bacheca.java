@@ -14,13 +14,16 @@ public class Bacheca implements Serializable {
     public Bacheca(Meetle meetle) {
         this.meetle = meetle;
         eventi = new ArrayList<>();
-        metodoTemporaneo();
-        metodoTemporaneo();
     }
 
     public Bacheca(Meetle meetle, ArrayList<Evento> eventi) {
         this.meetle = meetle;
         this.eventi = eventi;
+        
+        for(int i = 0; i < 3; i++) {
+            metodoTemporaneo();
+        }
+        
     }
     
     public void metodoTemporaneo() {
