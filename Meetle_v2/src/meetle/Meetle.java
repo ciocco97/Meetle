@@ -3,7 +3,9 @@ package meetle;
 import java.io.*;
 import meetle.gui.InterfacciaCMD;
 import meetle.eventi.Bacheca;
+import meetle.eventi.Evento;
 import meetle.eventi.PartitaDiCalcio;
+import meetle.eventi.campi.Campo;
 import meetle.io.MeetleIO;
 
 public class Meetle {
@@ -48,5 +50,40 @@ public class Meetle {
         meetle.start();
         
     }
+    
+    //funzioni e attributi per aggiungere campi
+    
+    private Evento e = null;
+    private Campo [] campi = null;
+    
+    public String[] istanziaEvento(String categoria) {
+        if(categoria.equals(PartitaDiCalcio.NOME))
+            e = new PartitaDiCalcio();
+        campi = e.getTuttiCampi();
+        String[] nomiCampiToString = new String[campi.length];
+        for(int i = 0; i < campi.length; i++)
+            nomiCampiToString[i] = campi[i].getNome();
+        return nomiCampiToString;
+    }
+    
+    public boolean aggiungiCampi(int indice, String valore) {
+        try {
+            campi[indice].setValoreDaString(valore);
+            e.setValoreDaString(indice, valore);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+        
+    public boolean salvaEvento() {
+        if(e == null) return false;
+        bacheca.getEventi().add(e);
+        e = null;
+        campi = null;
+        return true;
+    }
+    
+    //fine funzioni per aggiungere campi
         
 }

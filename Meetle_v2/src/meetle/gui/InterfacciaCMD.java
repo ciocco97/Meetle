@@ -9,11 +9,15 @@ public class InterfacciaCMD extends javax.swing.JFrame {
     
     private Meetle meetle;
     private int stato = 0; // stato del menu, leggere dalle stringhe qui sotto per sapere i vari menu
-    private final String[] titoliMenu = {"MENU PRINCIPALE", "SCEGLI CATEGORIA"};
+    private final String[] titoliMenu = {"MENU PRINCIPALE", "SCEGLI CATEGORIA", "SCEGLI CATEGORIA"};
     private final String[][] vociMenu = {
-        {"Mostra categorie", "Mostra eventi", "Mostra eventi per categoria"},
+        {"Mostra categorie", "Mostra eventi", "Mostra eventi per categoria", "Aggiungi Evento"},
+        {PartitaDiCalcio.NOME},
         {PartitaDiCalcio.NOME}
     };
+    
+    // Attributi per aggiungi evento
+    String[] campi; int indice;
     
     public InterfacciaCMD(Meetle meetle) {
         initComponents();
@@ -30,6 +34,12 @@ public class InterfacciaCMD extends javax.swing.JFrame {
         for(int i=0; i<vociMenu[stato].length; i++ )
             println((i+1)+") "+vociMenu[stato][i]);
         println(vociMenu[stato].length+1 +") Esci");
+    }
+    
+    private int indexOf(Object a, Object[] list) {
+        for(int i = 0; i < list.length; i++)
+            if(list[i].equals(a)) return i;
+        return -1;
     }
     
     @SuppressWarnings("unchecked")
@@ -93,7 +103,10 @@ public class InterfacciaCMD extends javax.swing.JFrame {
                             break;
                         case 3:
                             stato = 1;
-                            break;                            
+                            break; 
+                        case 4:
+                            stato = 2;
+                            break;
                     }
                     break;
                     
@@ -101,11 +114,28 @@ public class InterfacciaCMD extends javax.swing.JFrame {
                     println("----LISTA EVENTI----");
                     println(meetle.stampaBacheca(vociMenu[stato][comando-1]));
                     stato = 0;
-                    break;                 
+                    break;
+                case 2: // Aggiungi evento
+                    if((comando - 1) == indexOf(PartitaDiCalcio.NOME, vociMenu[stato])) {
+                        println("----NUOVA PARTITA DI CALCIO----");
+                        campi = meetle.istanziaEvento(PartitaDiCalcio.NOME);
+                    }
+                    indice = 0;
+                    println("Invio per iniziare");
+                    stato = 3;
+                    break;
+                case 3: //Aggiungi campo
+                    if(indice >= campi.length) {
+                        meetle.salvaEvento();
+                        campi = null; indice = 0;
+                        println("Evento creato");
+                        stato = 0;
+                    } else {;
+                    }
             }
             stampaMenu();
+            jTextFieldInput.setText("");
         }
-        jTextFieldInput.setText("");
     }//GEN-LAST:event_jTextFieldInputKeyPressed
 
     
