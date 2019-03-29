@@ -11,10 +11,18 @@ public class Utente implements Serializable {
 
     public Utente(String ID) {
         this.ID = ID;
+        notifiche = new ArrayList<>();
     }
     
     public void notifica(String messaggio){
         notifiche.add(new Notifica(messaggio, LocalDateTime.now()));
     }
+
+    @Override
+    public String toString() { return ID; }   
+    
+    public boolean equals(Utente obj) { return ID.equals((obj).ID); } 
+
+    public String getID() { return ID; } 
     
 }

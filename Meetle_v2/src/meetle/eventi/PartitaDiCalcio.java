@@ -1,8 +1,7 @@
 package meetle.eventi;
 
-import meetle.eventi.campi.Campo;
-import meetle.eventi.campi.CampoRange;
-import meetle.eventi.campi.CampoString;
+import meetle.eventi.campi.*;
+import meetle.utenti.Utente;
 
 public class PartitaDiCalcio extends Evento {
     public static final String NOME = "Partita di Calcio", DESCRIZIONE = "Sport perloppiù maschile o comunque sappiamo guidare ecco...";
@@ -11,8 +10,8 @@ public class PartitaDiCalcio extends Evento {
     public static final int NUM_CAMPI_EXTRA = 2;
     public static final int I_GENERE = 12, I_FASCIA_ETA = 13;
 
-    public PartitaDiCalcio() {
-        super();
+    public PartitaDiCalcio(String creatoreID) {
+        super(creatoreID);
         
         this.nome = NOME;
         this.descrizione = DESCRIZIONE;

@@ -1,18 +1,27 @@
 package meetle.eventi;
 
 import java.io.Serializable;
-import java.time.*;
+import java.time.LocalDateTime;
 
 public class Stato implements Serializable {
-    public static final int NONVALIDA = 0, VALIDA = 1, APERTA = 2, CHIUSA = 3, FALLITA = 4;
+    public static final int NONVALIDO = 0, VALIDO = 1, APERTO = 2, CHIUSO = 3, FALLITO = 4;
     
     private int stato;
-    private LocalDateTime data; // data in cui lo stato è cambiato
+    private LocalDateTime dataora; // data in cui lo stato è cambiato
 
-    public Stato() {
-        stato = NONVALIDA;
-        data = LocalDate.now().atTime(LocalTime.now());        
+    public Stato(int stato, LocalDateTime dataora) {
+        this.stato = stato;
+        this.dataora = dataora;
     }
+    
+    public Stato(int stato) {
+        this(stato, LocalDateTime.now());
+    }
+    
+    public Stato() {
+        this(NONVALIDO);  
+    }
+    
     
     
 }

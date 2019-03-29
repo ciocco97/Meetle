@@ -1,8 +1,28 @@
 package meetle.eventi.campi;
 
-import meetle.eventi.campi.tempo.Durata;
+public class CampoDurata extends Campo<CampoDurata.Durata> {
+    
+    static class Durata {
+        private int giorni, ore, minuti;
 
-public class CampoDurata extends Campo<Durata> {
+        public Durata(int giorni, int ore, int minuti) {
+            this.giorni = giorni;
+            this.ore = ore;
+            this.minuti = minuti;
+        }
+
+        public Durata(String stringaDurata){
+            String[] numeri = stringaDurata.split(":");
+            giorni = Integer.parseInt(numeri[0]);
+            ore = Integer.parseInt(numeri[1]);
+            minuti = Integer.parseInt(numeri[2]);
+        }
+
+        @Override
+        public String toString() {
+            return giorni + "g "+ ore + "o " + minuti + "m";
+        }
+    }
     
     public CampoDurata (String nome, String descrizione, Durata durata) {
         super(nome, descrizione, durata);

@@ -1,11 +1,11 @@
 package meetle.eventi;
 
 import java.io.Serializable;
-import meetle.eventi.campi.*;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import java.util.stream.Stream;
+import meetle.eventi.campi.*;
 
 public abstract class Evento implements Serializable {
     public static final String NO_DESCRIPTION = "Nessuna descrizione presente";
@@ -24,9 +24,14 @@ public abstract class Evento implements Serializable {
             I_COMPRESO_QUOTA = 8, I_DATA_CONCLUSIVA = 9, I_ORA_CONCLUSIVA = 10, I_NOTE = 11;
     
     protected String nome, descrizione;    
-    protected Campo[] campi, campiExtra;    
+//    protected final String ID; // identificatore univoco 
+    protected Campo[] campi, campiExtra;  
+    protected Stato statoCorrente;
+    protected ArrayList<Stato> statiPassati;  
+    protected final String creatoreID;
+    protected ArrayList<String> iscrittiIDs;
     
-    public Evento() {                
+    public Evento(String creatoreID) {                
         campi = new Campo[NUM_CAMPI_FISSI];
         campi[I_TITOLO] = new CampoString(N_TITOLO, "Titolo dell'evento");
         campi[I_NUM_PARTECIPANTI] = new CampoInt(N_NUMERO_PARTECIPANTI, "Numero massimo di partecipanti all'evento");
@@ -42,6 +47,11 @@ public abstract class Evento implements Serializable {
         campi[I_NOTE] = new CampoString(N_NOTE, "Note aggiuntive");      
                         
         setFacoltativi();
+        
+        statoCorrente = new Stato();
+        statiPassati = new ArrayList<>();
+        this.creatoreID = creatoreID;
+        iscrittiIDs = new ArrayList<>();
     }   
     
     public void setValoreDaString(int indice, String valore){
@@ -59,6 +69,39 @@ public abstract class Evento implements Serializable {
         campi[I_ORA_CONCLUSIVA].setFacoltativo();
         campi[I_NOTE].setFacoltativo();
     } 
+    
+    /**
+     * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
+     * @param nuovoStato 
+     */
+    public void cambiaStato(int nuovoStato){
+        statiPassati.add(statoCorrente);
+        statoCorrente = new Stato(nuovoStato);
+    }
+    
+    /**
+     * controlla la validità dell'evento (se i campi obbligatori sono compilati)
+     * se true imposta lo stato su Stato.VALIDO
+     * @return true se è valido, false altrimenti
+     */
+    public boolean checkValido() {
+        for(Campo c: getTuttiCampi())
+            if(!c.isFacoltativo() && c.getValore()==null)
+                return false;
+        cambiaStato(Stato.VALIDO);
+        return true;
+    }
+    
+    /**
+     * @param uID id utente da iscrivere
+     * @return true se l'utente viene iscritto normalmente, false se l'utente è il creatore o è già iscritto
+     */
+    public boolean iscriviUtente(String uID) {
+        if(creatoreID.equals(uID) || iscrittiIDs.contains(uID)) 
+            return false;
+        iscrittiIDs.add(uID);
+        return true;
+    }
     
     // ritorna la lista dei campi con la loro descrizione (usato per mostrare le info di categoria)
     public String toDescrizioneCategoria() {
@@ -78,13 +121,12 @@ public abstract class Evento implements Serializable {
     
     // Getters e Setters
     public String getNome() { return nome; }
-    public String getTitolo() { return campi[I_TITOLO].toString(); }   
-    public String getLuogo() { return campi[I_LUOGO].toString(); }    
-    public String getData() { return campi[I_DATA].toString(); }    
-    public String getOra() { return campi[I_ORA].toString(); }    
-    public String getNumeroPartecipanti() { return campi[I_NUM_PARTECIPANTI].toString(); }    
-    public String getTermineUltimoDIscrizione() { return campi[I_TERMINE_ISCRIZIONE].toString(); }
     public Campo[] getCampi() { return campi; }
     public Campo[] getCampiExtra() { return campiExtra; }
+    public Campo[] getTuttiCampi() {
+        List l = Arrays.asList(campi);
+        l.addAll(Arrays.asList(campiExtra));
+        return (Campo[]) l.toArray();
+    }
     
 }

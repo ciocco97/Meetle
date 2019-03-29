@@ -5,13 +5,16 @@ import java.time.LocalDateTime;
 
 public class Notifica implements Serializable {
     private String messaggio;
-    private LocalDateTime data;
+    private LocalDateTime dataora;
 
-    public Notifica(String messaggio, LocalDateTime data) {
+    public Notifica(String messaggio, LocalDateTime dataora) {
         this.messaggio = messaggio;
-        this.data = data;
+        this.dataora = dataora;
     }
     
+    public Notifica(String messaggio) {
+        this(messaggio, LocalDateTime.now());
+    }
     
     
 }
