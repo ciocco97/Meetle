@@ -3,8 +3,6 @@ package meetle.eventi;
 import java.io.Serializable;
 import meetle.eventi.campi.*;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public abstract class Evento implements Serializable {
@@ -86,5 +84,10 @@ public abstract class Evento implements Serializable {
     public String getTermineUltimoDIscrizione() { return campi[I_TERMINE_ISCRIZIONE].toString(); }
     public Campo[] getCampi() { return campi; }
     public Campo[] getCampiExtra() { return campiExtra; }
+    public Campo[] getTuttiCampi() {
+        java.util.List l = Arrays.asList(campi);
+        l.addAll(Arrays.asList(campiExtra));
+        return (Campo[]) l.toArray();
+    }
     
 }
