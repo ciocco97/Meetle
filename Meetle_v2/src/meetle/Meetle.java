@@ -4,7 +4,9 @@ import java.io.*;
 import java.time.LocalDateTime;
 import meetle.gui.InterfacciaCMD;
 import meetle.eventi.Bacheca;
+import meetle.eventi.Evento;
 import meetle.eventi.PartitaDiCalcio;
+import meetle.eventi.campi.Campo;
 import meetle.io.MeetleIO;
 import meetle.utenti.Utente;
 import meetle.utenti.Utenti;
@@ -66,6 +68,42 @@ public class Meetle {
     public Utenti getUtenti() { return utenti; }
     
     
+    //funzioni e attributi per aggiungere campi
+    
+    private Evento e = null;
+    private Campo [] campi = null;
+    
+    public String[] istanziaEvento(String categoria) {
+        if(categoria.equals(PartitaDiCalcio.NOME))
+            e = new PartitaDiCalcio(null);
+        campi = e.getTuttiCampi();
+        String[] nomiCampiToString = new String[campi.length];
+        for(int i = 0; i < campi.length; i++)
+            nomiCampiToString[i] = campi[i].getNome();
+        return nomiCampiToString;
+    }
+    
+    public boolean aggiungiCampi(int indice, String valore) {
+        try {
+            campi[indice].setValoreDaString(valore);
+            e.setValoreDaString(indice, valore);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+        
+    public boolean salvaEvento() {
+        if(e == null) return false;
+        bacheca.add(e);
+        e = null;
+        campi = null;
+        return true;
+    }
+    
+    //fine funzioni per aggiungere campi
+        
+    
     public static void main(String[] args) throws IOException {
     
         Meetle meetle = new Meetle();
@@ -75,5 +113,4 @@ public class Meetle {
             System.out.println(u);
         
     }
-        
 }

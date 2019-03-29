@@ -3,7 +3,6 @@ package meetle.eventi;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Stream;
 import meetle.eventi.campi.*;
 
@@ -124,7 +123,7 @@ public abstract class Evento implements Serializable {
     public Campo[] getCampi() { return campi; }
     public Campo[] getCampiExtra() { return campiExtra; }
     public Campo[] getTuttiCampi() {
-        List l = Arrays.asList(campi);
+        java.util.List l = Arrays.asList(campi);
         l.addAll(Arrays.asList(campiExtra));
         return (Campo[]) l.toArray();
     }
