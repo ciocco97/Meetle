@@ -1,5 +1,5 @@
 .gitignore
-nbproject/private
-build
-dist
-saves
+*/nbproject/private
+*/build
+*/dist
+*/saves
