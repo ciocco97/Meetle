@@ -1,15 +1,16 @@
 package meetle.eventi.campi;
 
-import meetle.eventi.campi.tempo.Data;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class CampoData extends Campo<Data> {
+public class CampoData extends Campo<LocalDate> {
     
-    public CampoData(String nome, String descrizione, Data data) {
+    public CampoData(String nome, String descrizione, LocalDate data) {
         super(nome, descrizione, data);
     }
     
     public CampoData(String nome, String descrizione, int anno, int mese, int giorno) {
-        this(nome, descrizione, new Data(anno, mese, giorno));
+        this(nome, descrizione, LocalDate.of(anno, mese, giorno));
     }   
     
     public CampoData(String nome, String descrizione) {
@@ -18,7 +19,7 @@ public class CampoData extends Campo<Data> {
 
     @Override
     public void setValoreDaString(String stringaData) {
-        this.valore = new Data(stringaData);
+        this.valore = LocalDate.parse(stringaData, DateTimeFormatter.ISO_DATE);
     }
     
     
