@@ -1,16 +1,14 @@
 package meetle;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import meetle.gui.InterfacciaCMD;
 import meetle.eventi.Bacheca;
 import meetle.eventi.Evento;
 import meetle.eventi.PartitaDiCalcio;
-import meetle.eventi.Stato;
 import meetle.eventi.campi.Campo;
+import meetle.gui.BachecaFrame;
 import meetle.io.MeetleIO;
 import meetle.utenti.Utente;
 import meetle.utenti.Utenti;
@@ -21,7 +19,7 @@ public class Meetle {
     private Bacheca bacheca;
     private Utenti utenti;
     private MeetleIO io;
-    private InterfacciaCMD interfaccia;
+    private BachecaFrame interfaccia;
     
     private Utente utenteSessione;
 
@@ -53,7 +51,7 @@ public class Meetle {
             io.salvaUtenti();
         } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti...\n\t"+ex.getMessage()); }        
         
-        interfaccia = new InterfacciaCMD(this);
+        interfaccia = new BachecaFrame(this);
     }  
     
     public void start() {
