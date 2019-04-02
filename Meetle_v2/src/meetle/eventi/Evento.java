@@ -105,10 +105,14 @@ public abstract class Evento implements Serializable {
      * @return true se l'utente viene iscritto normalmente, false se l'utente è il creatore o è già iscritto
      */
     public boolean iscriviUtente(String uID) {
-        if(creatoreID.equals(uID) || iscrittiIDs.contains(uID)) 
+        if(isIscritto(uID)) 
             return false;
         iscrittiIDs.add(uID);
         return true;
+    }
+    
+    public boolean isIscritto(String uID) {
+        return uID.equals(creatoreID) || iscrittiIDs.contains(uID);
     }
     
     public int getNumIscritti() {
@@ -132,6 +136,8 @@ public abstract class Evento implements Serializable {
     
     
     // Getters e Setters
+    
+    public int getID() { return ID; }
     public String getNome() { return nome; }
     public Campo[] getCampi() { return campi; }
     public Campo[] getCampiExtra() { return campiExtra; }
