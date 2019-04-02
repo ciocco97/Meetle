@@ -90,7 +90,6 @@ public class Meetle {
     // Getters & Setters
     public Bacheca getBacheca() { return bacheca; }    
     public Utenti getUtenti() { return utenti; }
-    
     public ArrayList getEventiByCreatoreID(String ID){return bacheca.getEventiByCreatoreID(ID);}
     public ArrayList getEventiIscritti(String ID){return bacheca.getEventiIscritti(ID);}
     public ArrayList getNotifiche() {return utenteSessione.getNotifiche();}

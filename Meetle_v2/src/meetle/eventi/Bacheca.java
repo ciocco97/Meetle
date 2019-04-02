@@ -30,8 +30,8 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
             e.setValoreDaString(indici[i], valori[i]);        
         add(e);
     }
-    @Override
-    public boolean add(Evento ev)
+    
+    public boolean aggiungiEvento(Evento ev)
     {
         int ID = ev.ID;
         for (Evento e:this)
@@ -39,6 +39,12 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
                 return false;
         this.add(ev);
         return true;
+    }
+    public void rimuoviEvento(int ID)
+    {
+        this.stream().filter((ev) -> (ev.ID == ID)).forEachOrdered((ev) -> {
+            this.remove(ev);
+        });   
     }
     public ArrayList<Evento> getEventiByCreatoreID(String ID)
     {

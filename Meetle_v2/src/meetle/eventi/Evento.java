@@ -60,7 +60,6 @@ public abstract class Evento implements Serializable {
         else
             campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);
     }
-
     private void setFacoltativi() {
         campi[I_TITOLO].setFacoltativo();
         campi[I_DURATA].setFacoltativo();
@@ -70,6 +69,19 @@ public abstract class Evento implements Serializable {
         campi[I_NOTE].setFacoltativo();
     } 
     
+    public void setTitolo(String titolo)
+    {
+        campi[I_TITOLO].setValoreDaString(titolo);
+    }
+    public void setDurata(String valore){campi[I_DURATA].setValoreDaString(valore);}
+    public void setCompresoQuota(String valore){campi[I_COMPRESO_QUOTA].setValoreDaString(valore);}
+    public void setDataConclusiva(String valore){campi[I_DATA_CONCLUSIVA].setValoreDaString(valore);}
+    
+    public void setValori(String[] valori)
+    {
+        for (int i = 0; i<campi.length; i++)
+            campi[i].setValoreDaString(valori[i]);
+    }
     /**
      * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
      * @param nuovoStato 
