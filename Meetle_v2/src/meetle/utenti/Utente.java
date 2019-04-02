@@ -25,4 +25,9 @@ public class Utente implements Serializable {
 
     public String getID() { return ID; } 
     
+    public ArrayList getNotifiche()
+    {
+        return notifiche;
+    }
+    
 }
