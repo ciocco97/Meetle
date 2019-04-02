@@ -16,7 +16,6 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
     public Bacheca(ArrayList<Evento> eventi) {
 //        this.eventi = eventi;
         super(eventi);
-
         for(int i = 0; i < 3; i++)
             metodoTemporaneo();
         
@@ -31,7 +30,34 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
             e.setValoreDaString(indici[i], valori[i]);        
         add(e);
     }
-    
+    @Override
+    public boolean add(Evento ev)
+    {
+        int ID = ev.ID;
+        for (Evento e:this)
+            if (e.ID == ID)
+                return false;
+        this.add(ev);
+        return true;
+    }
+    public ArrayList<Evento> getEventiByCreatoreID(String ID)
+    {
+        ArrayList<Evento> list = new ArrayList();
+        stream().filter((ev) -> (ev.creatoreID.equals(ID))).forEachOrdered((ev) -> {
+            list.add(ev);
+        });
+        return list;
+    }
+    public ArrayList<Evento> getEventiIscritti(String ID)
+    {
+        ArrayList <Evento> list = new ArrayList();
+        this.forEach((ev) -> {
+            ev.iscrittiIDs.stream().filter((st) -> (st.equals(ID))).forEachOrdered((_item) -> {
+                list.add(ev);
+            });
+        });
+        return list;
+    }
     /**
      * crea una stringa decentemente stampabile contentente gli eventi in bacheca
      * @param filtroNome filtra gli eventi per nome, se "null" ritorna tutti
