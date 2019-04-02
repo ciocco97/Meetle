@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public class Notifica implements Serializable {
     private String messaggio;
     private LocalDateTime dataora;
+    private int eventoID;
 
     public Notifica(String messaggio, LocalDateTime dataora) {
         this.messaggio = messaggio;

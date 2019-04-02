@@ -1,11 +1,14 @@
 package meetle;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import meetle.gui.InterfacciaCMD;
 import meetle.eventi.Bacheca;
 import meetle.eventi.Evento;
 import meetle.eventi.PartitaDiCalcio;
+import meetle.eventi.Stato;
 import meetle.eventi.campi.Campo;
 import meetle.io.MeetleIO;
 import meetle.utenti.Utente;
@@ -63,6 +66,26 @@ public class Meetle {
     public String stampaBacheca(String filtroNome) { return bacheca.toString(filtroNome); }    
     public String stampaBacheca() { return stampaBacheca(null); }
 
+    public void checkEventi() { 
+//        for(Evento e: bacheca) {
+//            LocalDateTime dataOraEvento = ((LocalDate)e.getCampi()[Evento.I_DATA].getValore()).atTime((LocalTime)e.getCampi()[Evento.I_ORA].getValore());
+//            switch(e.getStatoCorrente()){
+//                case Stato.APERTO:
+//                    if(dataoraSistema.isAfter(dataOraEvento))
+//                        if(e.getNumIscritti() == (Integer)e.getCampi()[Evento.I_NUM_PARTECIPANTI].getValore())
+//                            e.cambiaStato(Stato.CHIUSO);
+//                        else
+//                            e.cambiaStato(Stato.FALLITO);
+//                    break;
+//                case Stato.CHIUSO:
+//                    LocalDateTime dataOraFineEvento = ((LocalDate)e.getCampi()[Evento.I_DATA_CONCLUSIVA].getValore()).atTime((LocalTime)e.getCampi()[Evento.I_ORA_CONCLUSIVA].getValore());
+//                    if(dataOraEvento.isAfter(dataOraFineEvento))
+//                        e.cambiaStato(Stato.CONCLUSO);
+//                            
+//            }
+//        }
+    }
+    
     // Getters & Setters
     public Bacheca getBacheca() { return bacheca; }    
     public Utenti getUtenti() { return utenti; }
@@ -105,10 +128,10 @@ public class Meetle {
         
     
     public static void main(String[] args) throws IOException {
-    
+            
         Meetle meetle = new Meetle();
         meetle.start();
-        
+                
         for(Utente u: meetle.getUtenti())
             System.out.println(u);
         

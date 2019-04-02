@@ -39,6 +39,7 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
      */
     public String toString(String filtroNome) {        
         return stream()
+                .filter(e -> e.isAperto())
                 .filter((e) -> filtroNome==null ? true : (e.getNome().equals(filtroNome)))
                 .map((e) -> e + "\n")
                 .reduce("", String::concat);

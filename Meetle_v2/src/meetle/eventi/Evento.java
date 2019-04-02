@@ -23,7 +23,7 @@ public abstract class Evento implements Serializable {
             I_COMPRESO_QUOTA = 8, I_DATA_CONCLUSIVA = 9, I_ORA_CONCLUSIVA = 10, I_NOTE = 11;
     
     protected String nome, descrizione;    
-//    protected final String ID; // identificatore univoco 
+    protected final int ID; // identificatore univoco 
     protected Campo[] campi, campiExtra;  
     protected Stato statoCorrente;
     protected ArrayList<Stato> statiPassati;  
@@ -51,6 +51,7 @@ public abstract class Evento implements Serializable {
         statiPassati = new ArrayList<>();
         this.creatoreID = creatoreID;
         iscrittiIDs = new ArrayList<>();
+        ID = hashCode();
     }   
     
     public void setValoreDaString(int indice, String valore){
@@ -90,6 +91,14 @@ public abstract class Evento implements Serializable {
         cambiaStato(Stato.VALIDO);
         return true;
     }
+
+    public int getStatoCorrente() {
+        return statoCorrente.getIndiceStato();
+    }    
+    
+    public boolean isAperto() {
+        return statoCorrente.getIndiceStato()==Stato.APERTO;
+    }
     
     /**
      * @param uID id utente da iscrivere
@@ -100,6 +109,10 @@ public abstract class Evento implements Serializable {
             return false;
         iscrittiIDs.add(uID);
         return true;
+    }
+    
+    public int getNumIscritti() {
+        return iscrittiIDs.size();
     }
     
     // ritorna la lista dei campi con la loro descrizione (usato per mostrare le info di categoria)
