@@ -20,11 +20,27 @@ public class EventoPanel extends javax.swing.JPanel {
         info += " alle " + evento.getCampi()[Evento.I_ORA].getValore();
         jLbInformazioni.setText(info);
         
-        if(godMode) { // modalita modifica dal creatore
+        if(godMode) { // Modalità GOD (modifica dal creatore)
+            
             jButton1.setText("Elimina");
             jButton2.setText("Modifica");
-            jButton3.setText("make open");
-        } else { // modalita base
+            jButton3.setText("Apri in Bacheca");
+            
+            jButton1.addActionListener((ActionEvent e) -> {
+                // meetle.getBacheca().rimuoviEventiByID(evento.getID());
+            });
+            
+            jButton2.addActionListener((ActionEvent e) -> {
+                // java.awt.EventQueue.invokeLater(() -> { new EventoFrame(evento, true).setVisible(true); });
+            });
+            
+            jButton3.addActionListener((ActionEvent e) -> {
+                // meetle.getBacheca().apriEvento(int eID);
+            });            
+            
+            
+        } else { // Modalità BASE (finestra bacheca)
+            
             jButton1.setText("Visualizza");
             if(!evento.isIscritto("ciao")) {
                 jButton2.setText("Iscriviti");                     
@@ -32,13 +48,19 @@ public class EventoPanel extends javax.swing.JPanel {
                 jButton2.setText("Disiscriviti");  
             }
             jButton3.setVisible(false);
+            
+            
+            jButton1.addActionListener((ActionEvent e) -> {
+                // java.awt.EventQueue.invokeLater(() -> { new EventoFrame(evento, false).setVisible(true); });
+            });
+            
+            jButton2.addActionListener((ActionEvent e) -> {
+                // evento.switchIscrizione(meetle.getUtenteLoggatoID());
+            });
         }
 //        Random rand = new Random();
 //        this.setBackground(new Color(rand.nextInt(70)+180, rand.nextInt(70)+180, rand.nextInt(70)+180));
 
-        jButton1.addActionListener((ActionEvent e) -> {
-            // mostraInfoEvento(e);
-        });
     }
     
     @SuppressWarnings("unchecked")
