@@ -1,21 +1,14 @@
 package meetle;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import meetle.gui.InterfacciaCMD;
 import meetle.eventi.Bacheca;
-import meetle.eventi.Evento;
-import meetle.eventi.PartitaDiCalcio;
-import meetle.eventi.campi.Campo;
 import meetle.gui.BachecaFrame;
 import meetle.io.MeetleIO;
-import meetle.utenti.Utente;
-import meetle.utenti.Utenti;
+import meetle.utenti.*;
 
 public class Meetle {
-    private LocalDateTime dataoraSistema;
     
     private Bacheca bacheca;
     private Utenti utenti;
@@ -25,9 +18,7 @@ public class Meetle {
     private Utente utenteLoggato;
 
     public Meetle() {
-        dataoraSistema = LocalDateTime.now();
         
-//        bacheca = new Bacheca();
         io = new MeetleIO(this);
         
         try {
@@ -47,26 +38,28 @@ public class Meetle {
         } catch (IOException | ClassNotFoundException ex) { 
             System.err.println("ERRORE lettura utenti da file!!\n\t"+ex.getMessage());
             utenti = new Utenti();
-        } try {
-            // salva subito gli utenti
-            io.salvaUtenti();
-        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti...\n\t"+ex.getMessage()); }        
+        } 
+//        try {
+//            // salva subito gli utenti
+//            io.salvaUtenti();
+//        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti...\n\t"+ex.getMessage()); }        
         
-        interfaccia = new BachecaFrame(this);
     }  
     
     public void start() {
-        String ID = JOptionPane.showInputDialog("LOGIN UTENTE");
-        loginUtente(ID);
+        loginUtente();
+        interfaccia = new BachecaFrame(this);
         java.awt.EventQueue.invokeLater(() -> { interfaccia.setVisible(true); });
     }
     
-    public String getDescrizioneCategorie() {
-        return (new PartitaDiCalcio(null)).toDescrizioneCategoria() + "\n";
+    public void loginUtente (){ 
+        String ID = JOptionPane.showInputDialog("LOGIN UTENTE");
+        utenteLoggato = utenti.getUtenteDaID(ID);
+        try {
+            // salva subito gli utenti
+            io.salvaUtenti();
+        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti...\n\t"+ex.getMessage()); }  
     }
-        
-    public String stampaBacheca(String filtroNome) { return bacheca.toString(filtroNome); }    
-    public String stampaBacheca() { return stampaBacheca(null); }
 
     public void checkEventi() { 
 //        for(Evento e: bacheca) {
@@ -91,47 +84,12 @@ public class Meetle {
     // Getters & Setters
     public Bacheca getBacheca() { return bacheca; }    
     public Utenti getUtenti() { return utenti; }
-    public ArrayList getEventiByCreatoreID(String ID){return bacheca.getEventiByCreatoreID(ID);}
-    public ArrayList getEventiIscritti(String ID){return bacheca.getEventiIscritti(ID);}
-    public ArrayList getNotifiche() {return utenteLoggato.getNotifiche();}
+    public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
+    public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
+    public ArrayList getNotifiche() { return utenteLoggato.getNotifiche(); }
+    public String getUtenteLoggatoID() { return utenteLoggato.getID(); }
     
-    public void loginUtente (String ID){utenteLoggato = utenti.getUtenteDaID(ID);}
-    //funzioni e attributi per aggiungere campi
-    
-    private Evento e = null;
-    private Campo [] campi = null;
-    
-    public String[] istanziaEvento(String categoria) {
-        if(categoria.equals(PartitaDiCalcio.NOME))
-            e = new PartitaDiCalcio(null);
-        campi = e.getTuttiCampi();
-        String[] nomiCampiToString = new String[campi.length];
-        for(int i = 0; i < campi.length; i++)
-            nomiCampiToString[i] = campi[i].getNome();
-        return nomiCampiToString;
-    }
-    
-    public boolean aggiungiCampi(int indice, String valore) {
-        try {
-            campi[indice].setValoreDaString(valore);
-            e.setValoreDaString(indice, valore);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
         
-    public boolean salvaEvento() {
-        if(e == null) return false;
-        bacheca.add(e);
-        e = null;
-        campi = null;
-        return true;
-    }
-    
-    //fine funzioni per aggiungere campi
-        
-    
     public static void main(String[] args) throws IOException {
             
         Meetle meetle = new Meetle();
@@ -141,4 +99,49 @@ public class Meetle {
             System.out.println(u);
         
     }
+    
+    
+    
+//    public String getDescrizioneCategorie() {
+//        return (new PartitaDiCalcio(null)).toDescrizioneCategoria() + "\n";
+//    }
+        
+//    public String stampaBacheca(String filtroNome) { return bacheca.toString(filtroNome); }    
+//    public String stampaBacheca() { return stampaBacheca(null); }
+    
+    //funzioni e attributi per aggiungere campi
+//    
+//    private Evento e = null;
+//    private Campo [] campi = null;
+//    
+//    public String[] istanziaEvento(String categoria) {
+//        if(categoria.equals(PartitaDiCalcio.NOME))
+//            e = new PartitaDiCalcio(null);
+//        campi = e.getTuttiCampi();
+//        String[] nomiCampiToString = new String[campi.length];
+//        for(int i = 0; i < campi.length; i++)
+//            nomiCampiToString[i] = campi[i].getNome();
+//        return nomiCampiToString;
+//    }
+//    
+//    public boolean aggiungiCampi(int indice, String valore) {
+//        try {
+//            campi[indice].setValoreDaString(valore);
+//            e.setValoreDaString(indice, valore);
+//        } catch (Exception e) {
+//            return false;
+//        }
+//        return true;
+//    }
+//        
+//    public boolean salvaEvento() {
+//        if(e == null) return false;
+//        bacheca.add(e);
+//        e = null;
+//        campi = null;
+//        return true;
+//    }
+//    
+    //fine funzioni per aggiungere campi
+        
 }

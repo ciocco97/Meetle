@@ -11,32 +11,14 @@ public class BachecaFrame extends javax.swing.JFrame {
         initComponents();
         this.meetle = meetle;
         
+        jBtnAreaPrivata.setText(meetle.getUtenteLoggatoID());
+        
         jPanelBacheca.removeAll();
         for(Evento e: meetle.getBacheca()) {
             jPanelBacheca.add(new EventoPanel(e, false));
         }
     }
     
-    
-    
-//    Bacheca b;
-//    
-//    public BachecaFrame() {
-//        initComponents();
-//        setLocationRelativeTo(null);
-//        b = new Bacheca();
-//        b.caricaEventi();
-//        aggiornaBacheca(0);
-//    }
-//
-//    private void aggiornaBacheca(int tab) {
-//        jPanelBacheca.removeAll();
-//        for(Evento e: b.getEventi()) {
-//            jPanelBacheca.add(new EventoPanel(e));
-//        }
-//        
-//        jPanelBacheca.updateUI();
-//    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -55,6 +37,11 @@ public class BachecaFrame extends javax.swing.JFrame {
         jPanelCategorie.setPreferredSize(new java.awt.Dimension(600, 60));
 
         jComboBoxCategorie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tutte le Categorie", "Partite di Calcio" }));
+        jComboBoxCategorie.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxCategorieItemStateChanged(evt);
+            }
+        });
 
         jBtnAggiungiEvento.setText("Aggiungi Evento");
         jBtnAggiungiEvento.setMaximumSize(null);
@@ -109,20 +96,23 @@ public class BachecaFrame extends javax.swing.JFrame {
         getContentPane().add(jScrollPaneBacheca, java.awt.BorderLayout.CENTER);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnAggiungiEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAggiungiEventoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtnAggiungiEventoActionPerformed
 
-    public static void main(String args[]) {
-        Meetle meetle = new Meetle();
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new BachecaFrame(meetle).setVisible(true);
-        }); 
-    }
+    private void jComboBoxCategorieItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxCategorieItemStateChanged
+        switch(jComboBoxCategorie.getSelectedIndex()) {
+            case 0:
+                System.out.println("b");
+                break;
+            case 1:
+                System.out.println("a");
+                break;
+        }
+    }//GEN-LAST:event_jComboBoxCategorieItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAggiungiEvento;

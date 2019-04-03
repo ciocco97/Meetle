@@ -1,7 +1,6 @@
 package meetle.gui;
 
-import java.awt.Color;
-import java.util.Random;
+import java.awt.event.ActionEvent;
 import meetle.eventi.Evento;
 
 public class EventoPanel extends javax.swing.JPanel {
@@ -27,7 +26,7 @@ public class EventoPanel extends javax.swing.JPanel {
             jButton3.setText("make open");
         } else { // modalita base
             jButton1.setText("Visualizza");
-            if(evento.isIscritto("ciao")) {
+            if(!evento.isIscritto("ciao")) {
                 jButton2.setText("Iscriviti");                     
             } else {           
                 jButton2.setText("Disiscriviti");  
@@ -36,7 +35,10 @@ public class EventoPanel extends javax.swing.JPanel {
         }
 //        Random rand = new Random();
 //        this.setBackground(new Color(rand.nextInt(70)+180, rand.nextInt(70)+180, rand.nextInt(70)+180));
-        
+
+        jButton1.addActionListener((ActionEvent e) -> {
+            // mostraInfoEvento(e);
+        });
     }
     
     @SuppressWarnings("unchecked")

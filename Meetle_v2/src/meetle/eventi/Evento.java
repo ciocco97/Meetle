@@ -119,6 +119,11 @@ public abstract class Evento implements Serializable {
         return true;
     }
     
+    /**
+     * dice se l'utente con questo ID è iscritto
+     * @param uID
+     * @return 
+     */
     public boolean isIscritto(String uID) {
         return uID.equals(creatoreID) || iscrittiIDs.contains(uID);
     }
