@@ -128,6 +128,13 @@ public abstract class Evento implements Serializable {
         return uID.equals(creatoreID) || iscrittiIDs.contains(uID);
     }
     
+    public void switchIscrizione(String uID){
+        if (isIscritto(uID))
+            iscrittiIDs.remove(uID);
+        else
+            iscrittiIDs.add(uID);
+    }
+    
     public int getNumIscritti() {
         return iscrittiIDs.size();
     }
@@ -159,5 +166,7 @@ public abstract class Evento implements Serializable {
         l.addAll(Arrays.asList(campiExtra));
         return (Campo[]) l.toArray();
     }
+    
+    
     
 }
