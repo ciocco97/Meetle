@@ -3,6 +3,7 @@ package meetle;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import meetle.gui.InterfacciaCMD;
 import meetle.eventi.Bacheca;
 import meetle.eventi.Evento;
@@ -21,7 +22,7 @@ public class Meetle {
     private MeetleIO io;
     private BachecaFrame interfaccia;
     
-    private Utente utenteSessione;
+    private Utente utenteLoggato;
 
     public Meetle() {
         dataoraSistema = LocalDateTime.now();
@@ -55,6 +56,8 @@ public class Meetle {
     }  
     
     public void start() {
+        String ID = JOptionPane.showInputDialog("LOGIN UTENTE");
+        loginUtente(ID);
         java.awt.EventQueue.invokeLater(() -> { interfaccia.setVisible(true); });
     }
     
@@ -90,19 +93,9 @@ public class Meetle {
     public Utenti getUtenti() { return utenti; }
     public ArrayList getEventiByCreatoreID(String ID){return bacheca.getEventiByCreatoreID(ID);}
     public ArrayList getEventiIscritti(String ID){return bacheca.getEventiIscritti(ID);}
-    public ArrayList getNotifiche() {return utenteSessione.getNotifiche();}
+    public ArrayList getNotifiche() {return utenteLoggato.getNotifiche();}
     
-    public void setUtente (String ID)
-    {
-        for (Utente u:utenti)
-            if (u.getID().equals(ID)){
-                this.utenteSessione = u;
-                return;
-            }
-        Utente utente = new Utente(ID);
-        utenti.add(utente);
-        utenteSessione = utente;
-    }
+    public void loginUtente (String ID){utenteLoggato = utenti.getUtenteDaID(ID);}
     //funzioni e attributi per aggiungere campi
     
     private Evento e = null;

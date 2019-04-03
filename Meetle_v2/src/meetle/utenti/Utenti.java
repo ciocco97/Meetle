@@ -7,10 +7,10 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
     
     public Utenti() { super(); }
     
-    public Utenti(ArrayList<Utente> utenti) {
-        super(utenti);
-        getUtenteDaID("user#"+(System.nanoTime()/100%10));
-    }
+//    public Utenti(ArrayList<Utente> utenti) {
+//        super(utenti);
+//        getUtenteDaID("user#"+(System.nanoTime()/100%10));
+//    }
     
     /**
      * (per adesso se non lo trova ne aggiunge subito uno)
@@ -23,7 +23,9 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
                 return u;
         Utente u = new Utente(ID);
         add(u);
+        System.out.println("nuovooooo");
         return u;
+        
     }    
     
 }
