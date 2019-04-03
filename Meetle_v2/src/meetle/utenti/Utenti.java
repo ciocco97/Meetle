@@ -22,9 +22,9 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
         for(Utente u: this)
             if(u.getID().equals(ID))
                 return u;
+        System.out.println("Utente non presente, creazione nuovo...");
         Utente u = new Utente(ID);
         add(u);
-        System.out.println("Utente non presente, creato uno nuovo");
         return u;
         
     }    

@@ -22,17 +22,6 @@ public class Meetle {
         io = new MeetleIO(this);
         
         try {
-            // prova a caricare eventi da file
-            bacheca = new Bacheca(io.caricaEventi());
-        } catch (IOException | ClassNotFoundException ex) { 
-            System.err.println("ERRORE lettura eventi da file!! Creo bacheca di default...\n\t"+ex.getMessage());
-            bacheca = new Bacheca();
-        } try {
-            // salva subito gli eventi
-            io.salvaEventi();
-        } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi...\n\t"+ex.getMessage()); }
-        
-        try {
             // prova a caricare utenti da file
             utenti = new Utenti(io.caricaUtenti());
         } catch (IOException | ClassNotFoundException ex) { 
@@ -42,7 +31,17 @@ public class Meetle {
 //        try {
 //            // salva subito gli utenti
 //            io.salvaUtenti();
-//        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti...\n\t"+ex.getMessage()); }        
+//        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti...\n\t"+ex.getMessage()); }   
+
+
+        try {
+            // prova a caricare eventi da file
+            bacheca = new Bacheca(io.caricaEventi());
+        } catch (IOException | ClassNotFoundException ex) { 
+            System.err.println("ERRORE lettura eventi da file!! Creo bacheca di default...\n\t"+ex.getMessage());
+            bacheca = new Bacheca();
+        } 
+//        salvaEventi();    
         
     }  
     
@@ -52,13 +51,21 @@ public class Meetle {
         java.awt.EventQueue.invokeLater(() -> { interfaccia.setVisible(true); });
     }
     
+    public void salvaEventi() {
+        try {
+            System.out.print("Salvataggio eventi su file... ");
+            io.salvaEventi();
+            System.out.println("OK!");
+        } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getMessage()); }
+    }
+    
     public void loginUtente (){ 
         String ID = JOptionPane.showInputDialog("LOGIN UTENTE");
         utenteLoggato = utenti.getUtenteDaID(ID);
         try {
             // salva subito gli utenti
             io.salvaUtenti();
-        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti...\n\t"+ex.getMessage()); }  
+        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti!!\n\t"+ex.getMessage()); }  
     }
 
     public void checkEventi() { 
@@ -81,13 +88,17 @@ public class Meetle {
 //        }
     }
     
+    public void mandaNotifica(int eID, String uID, String messaggio) {
+        utenti.getUtenteDaID(uID).notifica(eID, messaggio);
+    }
+    
     // Getters & Setters
     public Bacheca getBacheca() { return bacheca; }    
     public Utenti getUtenti() { return utenti; }
-    public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
-    public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
-    public ArrayList getNotifiche() { return utenteLoggato.getNotifiche(); }
     public String getUtenteLoggatoID() { return utenteLoggato.getID(); }
+//    public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
+//    public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
+//    public ArrayList getNotifiche() { return utenteLoggato.getNotifiche(); }
     
         
     public static void main(String[] args) throws IOException {
@@ -95,9 +106,6 @@ public class Meetle {
         Meetle meetle = new Meetle();
         meetle.start();
                 
-        for(Utente u: meetle.getUtenti())
-            System.out.println(u);
-        
     }
     
     

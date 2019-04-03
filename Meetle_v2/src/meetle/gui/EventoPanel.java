@@ -1,66 +1,110 @@
 package meetle.gui;
 
 import java.awt.event.ActionEvent;
+import meetle.Meetle;
 import meetle.eventi.Evento;
+import meetle.eventi.Stato;
 
 public class EventoPanel extends javax.swing.JPanel {
+    
+    private final Meetle meetle;
 
-    private boolean godMode;
+    private final int eventoID; // ID dell'evento di riferimento
+    private final boolean godMode; // true se siamo in modalità modifica
     
-    private final int eventoID;
     
-    public EventoPanel(Evento evento, boolean godMode) {
+    public EventoPanel(int eID, boolean godMode, Meetle meetle) {
+        
         initComponents();
-        eventoID = evento.getID();
+        this.eventoID = eID;
         this.godMode = godMode;
-        jLbTitolo.setText((String)evento.getCampi()[Evento.I_TITOLO].getValore());
-        jLbNumPartecipanti.setText(evento.getNumIscritti()+"/"+evento.getCampi()[Evento.I_NUM_PARTECIPANTI].getValore()+" iscritti");
-        String info = "" + evento.getCampi()[Evento.I_LUOGO].getValore();
-        info += ", il " + evento.getCampi()[Evento.I_DATA].getValore();
-        info += " alle " + evento.getCampi()[Evento.I_ORA].getValore();
+        this.meetle = meetle;
+        
+        
+        aggiorna();
+        setListeners();
+    }   
+    
+    /**
+     * aggiorna testo e visibilità di tutti i campi e dei pulsanti
+     * @param ev 
+     */
+    private void aggiorna() { 
+        
+        Evento ev = meetle.getBacheca().getByID(eventoID);
+        if(ev==null) { removeAll(); setVisible(false); return; }
+        
+        jLbTitolo.setText((String)ev.getCampi()[Evento.I_TITOLO].getValore());
+        jLbNumPartecipanti.setText("iscritti: "+ev.getNumIscritti() +"/"+ ev.getCampi()[Evento.I_NUM_PARTECIPANTI].getValore());
+        String info = "" + ev.getCampi()[Evento.I_LUOGO].getValore();
+        info += ", il " + ev.getCampi()[Evento.I_DATA].getValore();
+        info += " alle " + ev.getCampi()[Evento.I_ORA].getValore();
+        info += "S" + ev.getIndiceStatoCorrente();
         jLbInformazioni.setText(info);
+//        Random rand = new Random();
+//        setBackground(new Color(rand.nextInt(70)+180, rand.nextInt(70)+180, rand.nextInt(70)+180));
         
         if(godMode) { // Modalità GOD (modifica dal creatore)
             
             jButton1.setText("Elimina");
             jButton2.setText("Modifica");
-            jButton3.setText("Apri in Bacheca");
-            
-            jButton1.addActionListener((ActionEvent e) -> {
-                // meetle.getBacheca().rimuoviEventiByID(evento.getID());
-            });
-            
-            jButton2.addActionListener((ActionEvent e) -> {
-                // java.awt.EventQueue.invokeLater(() -> { new EventoFrame(evento, true).setVisible(true); });
-            });
-            
-            jButton3.addActionListener((ActionEvent e) -> {
-                // meetle.getBacheca().apriEvento(int eID);
-            });            
-            
+            if(ev.getIndiceStatoCorrente()!=Stato.VALIDO)
+                jButton3.setVisible(false);
+            else
+                jButton3.setText("Apri in Bacheca");
             
         } else { // Modalità BASE (finestra bacheca)
             
             jButton1.setText("Visualizza");
-            if(!evento.isIscritto("ciao")) {
+            if(!ev.isUtenteIscritto(meetle.getUtenteLoggatoID())) {
                 jButton2.setText("Iscriviti");                     
             } else {           
                 jButton2.setText("Disiscriviti");  
             }
-            jButton3.setVisible(false);
+            jButton3.setVisible(false);            
             
+        }
+    }
+    
+    /**
+     * imposta i listener sui pulsanti in base alla godMode
+     */
+    private void setListeners() {        
+        
+        Evento ev = meetle.getBacheca().getByID(eventoID);
+        
+        // poi settiamo le azioni che devono fare i pulsanti
+        if(this.godMode) { // modalità GOD (modifica dal creatore)
             
-            jButton1.addActionListener((ActionEvent e) -> {
-                // java.awt.EventQueue.invokeLater(() -> { new EventoFrame(evento, false).setVisible(true); });
+            jButton1.addActionListener((ActionEvent e) -> { // pulsante elimina
+                meetle.getBacheca().rimuoviEventiByID(eventoID);
+                meetle.salvaEventi();
+                aggiorna();
             });
             
-            jButton2.addActionListener((ActionEvent e) -> {
-                // evento.switchIscrizione(meetle.getUtenteLoggatoID());
+            jButton2.addActionListener((ActionEvent e) -> { // pulsante modifica
+                java.awt.EventQueue.invokeLater(() -> { new EventoFrame(ev, true).setVisible(true); });
+            });
+            
+            jButton3.addActionListener((ActionEvent e) -> { // pusante apri in bacheca
+                meetle.getBacheca().rendiApertoEvento(eventoID);
+                aggiorna();
+            });            
+            
+            
+        } else { // modalità BASE (finestra bacheca)
+            
+            jButton1.addActionListener((ActionEvent e) -> { // pulsante visualizza
+                java.awt.EventQueue.invokeLater(() -> { new EventoFrame(ev, false).setVisible(true); });
+            });
+            
+            jButton2.addActionListener((ActionEvent e) -> { // pulsante iscrivi/disiscrivi
+                ev.switchIscrizione(meetle.getUtenteLoggatoID());
+                meetle.salvaEventi();
+                aggiorna();
             });
         }
-//        Random rand = new Random();
-//        this.setBackground(new Color(rand.nextInt(70)+180, rand.nextInt(70)+180, rand.nextInt(70)+180));
-
+        
     }
     
     @SuppressWarnings("unchecked")

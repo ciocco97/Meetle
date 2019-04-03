@@ -4,23 +4,23 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Notifica implements Serializable {
-    private boolean visualizzata;
     private String messaggio;
     private LocalDateTime dataora;
+    private boolean visualizzata;
     private int eventoID;
 
-    public Notifica(String messaggio, LocalDateTime dataora) {
+    public Notifica(int eID, String messaggio, LocalDateTime dataora) {
         this.messaggio = messaggio;
         this.dataora = dataora;
         this.visualizzata = false;
+        this.eventoID = eID;
     }
     
-    public Notifica(String messaggio) {
-        this(messaggio, LocalDateTime.now());
+    public Notifica(int eID, String messaggio) {
+        this(eID, messaggio, LocalDateTime.now());
     }
     
-    public void setVisualizzata()
-    {
+    public void setVisualizzata() {
         this.visualizzata = true;
     }
     

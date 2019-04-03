@@ -16,7 +16,7 @@ public class EventoFrame extends javax.swing.JFrame {
     /**
      * Creates new form EventoFrame
      */
-    public EventoFrame(Evento ev) {
+    public EventoFrame(Evento ev, boolean godMode) {
         initComponents();
     }
 
@@ -45,7 +45,7 @@ public class EventoFrame extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 24)); // NOI18N

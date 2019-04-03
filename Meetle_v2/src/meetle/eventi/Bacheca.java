@@ -18,12 +18,9 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
     public Bacheca(ArrayList<Evento> eventi) {
 //        this.eventi = eventi;
         super(eventi);
-
-        for(int i = 0; i < 3; i++)
-            metodoTemporaneo();
-
     }
     
+    // aggiungiamo una partita di calcio a caso
     public void metodoTemporaneo() {
         Evento e = new PartitaDiCalcio(null);
         int[] indici = new int[]{Evento.I_TITOLO, Evento.I_NUM_PARTECIPANTI, 
@@ -34,6 +31,24 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
             e.setValoreDaString(indici[i], valori[i]);        
         add(e);
     }
+    
+    public Evento getByID(int eID) {
+        for(Evento ev: this)
+            if(ev.getID() == eID)
+                return ev;
+        return null;
+    }
+    
+    public ArrayList getEventiByCreatoreID(String uID) {
+        return (ArrayList) stream()
+                .filter((ev) -> (ev.creatoreID.equals(uID)))
+                .collect(Collectors.toList());
+    }
+    
+    public ArrayList<Evento> getEventiByIscrittoID(String uID) {
+        return (ArrayList) stream().filter((ev) -> ev.isUtenteIscritto(uID))
+                .collect(Collectors.toList());
+    }
 
     /**
      * aggiunge un evento alla lista SOLO SE non c'è già
@@ -42,8 +57,11 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
      */
     @Override
     public boolean add(Evento e) {
-        if (!this.stream().noneMatch((t) -> (t.ID == e.ID))) 
+        if (!this.stream().noneMatch((t) -> (t.ID == e.ID))) {
+            System.out.println("Evento NON iserito! ID replicato");
             return false;        
+        }
+        System.out.println("Aggiunto evento a bacheca:\n"+e);
         return super.add(e); 
     }        
     
@@ -57,21 +75,25 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
 //        return true;
 //    }
     
-    public void rimuoviEventiByID(int ID) {
-        stream().filter((ev) -> (ev.ID == ID))
-                .forEachOrdered((ev) -> remove(ev));
+    public synchronized void rimuoviEventiByID(int eID) {
+        remove(getByID(eID));
     }
     
-    public ArrayList getEventiByCreatoreID(String ID) {
-        return (ArrayList) stream()
-                .filter((ev) -> (ev.creatoreID.equals(ID)))
-                .collect(Collectors.toList());
+    public boolean rendiApertoEvento(int eID) {
+        Evento ev = getByID(eID);
+        if(ev != null && ev.getIndiceStatoCorrente()==Stato.VALIDO) {
+            ev.cambiaStato(Stato.APERTO);
+            return true;
+        }               
+        return false;
     }
-    
-    public ArrayList<Evento> getEventiByIscrittoID(String ID) {
-        return (ArrayList) stream().filter((ev) -> ev.isIscritto(ID))
-                .collect(Collectors.toList());
-    }
+
+    @Override
+    public String toString() {
+        return stream()
+                .map((e) -> e + "\n")
+                .reduce("", String::concat);
+    }    
     
 //    /**
 //     * crea una stringa decentemente stampabile contentente gli eventi in bacheca
@@ -85,10 +107,5 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
 //                .map((e) -> e + "\n")
 //                .reduce("", String::concat);
 //    }
-//
-//    @Override
-//    public String toString() {
-//        return toString(null);
-//    }    
         
 }
