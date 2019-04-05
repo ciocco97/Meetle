@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
-import meetle.gui.BachecaFrame;
+import meetle.gui.*;
 import meetle.io.MeetleIO;
 import meetle.utenti.*;
 
@@ -14,6 +14,7 @@ public class Meetle {
     private Utenti utenti;
     private MeetleIO io;
     private BachecaFrame interfaccia;
+    private AreaPersonaleFrame personale;
     
     private Utente utenteLoggato;
 
@@ -41,6 +42,7 @@ public class Meetle {
             System.err.println("ERRORE lettura eventi da file!! Creo bacheca di default...\n\t"+ex.getMessage());
             bacheca = new Bacheca();
         } 
+        
 //        salvaEventi();    
         
     }  
@@ -48,7 +50,12 @@ public class Meetle {
     public void start() {
         loginUtente();
         interfaccia = new BachecaFrame(this);
+        personale = new AreaPersonaleFrame(this);
         java.awt.EventQueue.invokeLater(() -> { interfaccia.setVisible(true); });
+    }
+    
+    public void areaPersonale() {
+        personale.setVisible(true);
     }
     
     public void salvaEventi() {
@@ -96,16 +103,15 @@ public class Meetle {
     public Bacheca getBacheca() { return bacheca; }    
     public Utenti getUtenti() { return utenti; }
     public String getUtenteLoggatoID() { return utenteLoggato.getID(); }
-//    public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
-//    public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
-//    public ArrayList getNotifiche() { return utenteLoggato.getNotifiche(); }
+    public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
+    public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
+    public ArrayList getNotifiche() { return utenteLoggato.getNotifiche(); }
     
         
     public static void main(String[] args) throws IOException {
             
         Meetle meetle = new Meetle();
-        meetle.start();
-                
+        meetle.start();       
     }
     
     

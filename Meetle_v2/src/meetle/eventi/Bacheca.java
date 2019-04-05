@@ -21,14 +21,14 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
     }
     
     // aggiungiamo una partita di calcio a caso
-    public void metodoTemporaneo() {
-        Evento e = new PartitaDiCalcio(null);
+    public void metodoTemporaneo(String ID) {
+        Evento e = new PartitaDiCalcio(ID);
         int[] indici = new int[]{Evento.I_TITOLO, Evento.I_NUM_PARTECIPANTI, 
             Evento.I_LUOGO, Evento.I_DATA, Evento.I_ORA, PartitaDiCalcio.I_GENERE};
         String[] valori = new String[]{"Partita bella #"+(new Random().nextInt(100)), "45", 
             "a casa", "2018-03-31", "08:45", "1"};
         for(int i=0; i < indici.length; i++)
-            e.setValoreDaString(indici[i], valori[i]);        
+            e.setValoreDaString(indici[i], valori[i]);   
         add(e);
     }
     
@@ -40,9 +40,17 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
     }
     
     public ArrayList getEventiByCreatoreID(String uID) {
-        return (ArrayList) stream()
-                .filter((ev) -> (ev.creatoreID.equals(uID)))
-                .collect(Collectors.toList());
+//        return (ArrayList) stream()
+//                .filter((ev) -> (ev.creatoreID.equals(uID)))
+//                .collect(Collectors.toList());
+
+        ArrayList <Evento> list = new ArrayList();
+        for (Evento e:this)
+        {
+            if (e.creatoreID.equals(uID))
+                list.add(e);
+        }
+        return list;
     }
     
     public ArrayList<Evento> getEventiByIscrittoID(String uID) {

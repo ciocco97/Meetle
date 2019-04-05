@@ -50,6 +50,11 @@ public class BachecaFrame extends javax.swing.JFrame {
         });
 
         jBtnAreaPrivata.setText("userID");
+        jBtnAreaPrivata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAreaPrivataActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("metodoTemporaneo()");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -109,10 +114,14 @@ public class BachecaFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxCategorieItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        meetle.getBacheca().metodoTemporaneo();
+        meetle.getBacheca().metodoTemporaneo(meetle.getUtenteLoggatoID());
         meetle.salvaEventi();
         aggiornaEventi();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jBtnAreaPrivataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAreaPrivataActionPerformed
+        meetle.areaPersonale();
+    }//GEN-LAST:event_jBtnAreaPrivataActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;
