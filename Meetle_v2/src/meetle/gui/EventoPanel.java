@@ -118,8 +118,6 @@ public class EventoPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(60, 75));
-
         jLbTitolo.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLbTitolo.setText("Titolo");
 
@@ -144,7 +142,7 @@ public class EventoPanel extends javax.swing.JPanel {
                         .addComponent(jLbTitolo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLbNumPartecipanti)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)

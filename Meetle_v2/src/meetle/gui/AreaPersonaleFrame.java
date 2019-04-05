@@ -1,16 +1,18 @@
 package meetle.gui;
 
 import java.awt.HeadlessException;
-import javax.swing.DefaultListModel;
+import meetle.Meetle;
 
 public class AreaPersonaleFrame extends javax.swing.JFrame {
-    private DefaultListModel model;
+    private Meetle meetle;
+    private enum Stato {ISCRIZIONI, CREAZIONI, NOTIFICHE};
+    private Stato stato;
 
-    public AreaPersonaleFrame() throws HeadlessException {
+    public AreaPersonaleFrame(Meetle meetle) throws HeadlessException {
         initComponents();
         setLocationRelativeTo(null);
-        listaNotifiche.setVisible(false);
-        
+        this.meetle = meetle;
+        stato = Stato.NOTIFICHE;
     }
     
     @SuppressWarnings("unchecked")
@@ -18,7 +20,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaNotifiche = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         selettore = new javax.swing.JComboBox<>();
 
@@ -26,10 +27,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         setTitle("Area Utente");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        listaNotifiche.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jScrollPane1.setViewportView(listaNotifiche);
-
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 760, 450));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -49,29 +46,28 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void selettoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selettoreActionPerformed
-        togliTutto();
         int selezionato = selettore.getSelectedIndex();
         switch (selezionato) {
             case 0:
                 System.out.println("Eventi a cui sei iscritto");
+                stato = Stato.ISCRIZIONI;
                 break;
             case 1:
                 System.out.println("Eventi creati da te");
+                stato = Stato.CREAZIONI;
                 break;
             case 2:
                 System.out.println("Le tue notifiche");
-                model.addElement(new String("ciao"));
-                listaNotifiche.setModel(model);
-                listaNotifiche.setVisible(true);
-                break;
-            default:
-                System.out.println("What?");
+                stato = Stato.NOTIFICHE;
                 break;
         }
+        aggiorna();
     }//GEN-LAST:event_selettoreActionPerformed
 
-    private void togliTutto() {
-        listaNotifiche.setVisible(false);
+    private void aggiorna() {
+        if(stato.equals(Stato.NOTIFICHE)) {
+            
+        }
     }
     
     public static void main(String args[]) {
@@ -89,14 +85,13 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new AreaPersonaleFrame().setVisible(true);
+            new AreaPersonaleFrame(new Meetle()).setVisible(true);
         });        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> listaNotifiche;
     private javax.swing.JComboBox<String> selettore;
     // End of variables declaration//GEN-END:variables
 }
