@@ -8,12 +8,9 @@ import meetle.utenti.Notifica;
 
 public class AreaPersonaleFrame extends javax.swing.JFrame {
     private Meetle meetle;
-    private enum Stato {ISCRIZIONI, CREAZIONI, NOTIFICHE};
+    private enum Stato {ISCRIZIONI, CREAZIONI, NOTIFICHE}; 
     private Stato stato;
     private String ID;
-    
-    //DA togliere
-    ArrayList<String> notifiche;
 
     public AreaPersonaleFrame(Meetle meetle) throws HeadlessException {
         initComponents();
@@ -22,12 +19,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         ID = meetle.getUtenteLoggatoID();
         stato = Stato.NOTIFICHE;
         this.jLabel1.setText(meetle.getUtenteLoggatoID());
-        
-        //da togliere
-        notifiche = new ArrayList<>();
-        for(int i = 0; i< 10; i++)
-            notifiche.add("Notifica numero: " + i);
-        
+        aggiorna();
     }
     
     @SuppressWarnings("unchecked")
@@ -87,9 +79,10 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
 
     private void aggiorna() {
         jPanelMadre.removeAll();
+        System.out.println("Rimossi tutti");
         if(stato.equals(Stato.ISCRIZIONI)) {
             ArrayList<Evento> list = meetle.getEventiIscritti(ID);
-            list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), false, meetle)); });
+            list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), false, meetle)); meetle.mandaNotifica(e.getID(), meetle.getUtenteLoggatoID(), "Messaggio di prova");});
             pack();
         }
         else if(stato.equals(Stato.CREAZIONI)) {
@@ -98,29 +91,11 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             pack();
         }
         else {
-            for(String s: notifiche)
-                jPanelMadre.add(new NotificaPanel(s));
+            for(Notifica n: meetle.getNotifiche()) {
+                jPanelMadre.add(new NotificaPanel(meetle, n));
+            }
             pack();
         }
-    }
-    
-    public static void main(String args[]) {
-        //<editor-fold defaultstate="collapsed" desc=" Setting the Windows look and feel (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AreaPersonaleFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new AreaPersonaleFrame(new Meetle()).setVisible(true);
-        });        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

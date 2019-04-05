@@ -1,7 +1,6 @@
 package meetle.gui;
 
 import meetle.Meetle;
-import meetle.eventi.Bacheca;
 import meetle.eventi.Evento;
 
 public class BachecaFrame extends javax.swing.JFrame {
@@ -25,7 +24,6 @@ public class BachecaFrame extends javax.swing.JFrame {
         
     }
     
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -43,9 +41,9 @@ public class BachecaFrame extends javax.swing.JFrame {
         jPanelCategorie.setPreferredSize(new java.awt.Dimension(600, 40));
 
         jComboBoxCategorie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tutte le Categorie", "Partite di Calcio" }));
-        jComboBoxCategorie.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxCategorieItemStateChanged(evt);
+        jComboBoxCategorie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxCategorieActionPerformed(evt);
             }
         });
 
@@ -102,17 +100,6 @@ public class BachecaFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBoxCategorieItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxCategorieItemStateChanged
-        switch(jComboBoxCategorie.getSelectedIndex()) {
-            case 0:
-                System.out.println("b");
-                break;
-            case 1:
-                System.out.println("a");
-                break;
-        }
-    }//GEN-LAST:event_jComboBoxCategorieItemStateChanged
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         meetle.getBacheca().metodoTemporaneo(meetle.getUtenteLoggatoID());
         meetle.salvaEventi();
@@ -122,6 +109,17 @@ public class BachecaFrame extends javax.swing.JFrame {
     private void jBtnAreaPrivataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAreaPrivataActionPerformed
         meetle.areaPersonale();
     }//GEN-LAST:event_jBtnAreaPrivataActionPerformed
+
+    private void jComboBoxCategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCategorieActionPerformed
+        switch(jComboBoxCategorie.getSelectedIndex()) {
+            case 0:
+                System.out.println("Tutte le categorie");
+                break;
+            case 1:
+                System.out.println("Partite di calcio");
+                break;
+        }
+    }//GEN-LAST:event_jComboBoxCategorieActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;

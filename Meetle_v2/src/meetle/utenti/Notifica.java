@@ -24,4 +24,9 @@ public class Notifica implements Serializable {
         this.visualizzata = true;
     }
     
+    public String getMessaggio() { return messaggio; }
+    public LocalDateTime getDataora() { return dataora; }
+    public boolean isVisualizzata() { return visualizzata; }
+    public int getEventoID() { return eventoID; }    
+    
 }

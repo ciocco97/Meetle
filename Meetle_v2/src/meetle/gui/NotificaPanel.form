@@ -18,8 +18,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="139" max="32767" attributes="0"/>
+              <Component id="testoNotificaLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="orarioLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="eventoButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="lettoButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="eliminaButton" min="-2" max="-2" attributes="0"/>
@@ -32,9 +36,11 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="testoNotificaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="eliminaButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lettoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="orarioLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="eventoButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -42,7 +48,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="testoNotificaLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Testo notifica"/>
       </Properties>
@@ -51,11 +57,30 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Elimina"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eliminaButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="lettoButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Segna come gi&#xe0; letto"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lettoButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="orarioLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Data e ora"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="eventoButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Vai a evento"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eventoButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -5,18 +5,30 @@
  */
 package meetle.gui;
 
+import meetle.Meetle;
+import meetle.utenti.Notifica;
+
 /**
  *
  * @author Alessandro
  */
 public class NotificaPanel extends javax.swing.JPanel {
+    private int IDEvento;
+    private Meetle meetle;
 
     /**
      * Creates new form NotificaPanell
      */
-   public NotificaPanel(String notifica) {
+   public NotificaPanel(Meetle meetle, Notifica notifica) {
         initComponents();
-        jLabel1.setText(notifica);
+        this.meetle = meetle;
+        testoNotificaLabel.setText(notifica.getMessaggio());
+        IDEvento = notifica.getEventoID();
+        if(notifica.isVisualizzata()) {
+            lettoButton.setText("visualizzata");
+            lettoButton.setEnabled(false);
+        } else { lettoButton.setText("Segnala come già letto"); }
+        orarioLabel.setText("Ora: " + notifica.getDataora().toString());
     }
 
     /**
@@ -28,15 +40,36 @@ public class NotificaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        testoNotificaLabel = new javax.swing.JLabel();
         eliminaButton = new javax.swing.JButton();
         lettoButton = new javax.swing.JButton();
+        orarioLabel = new javax.swing.JLabel();
+        eventoButton = new javax.swing.JButton();
 
-        jLabel1.setText("Testo notifica");
+        testoNotificaLabel.setText("Testo notifica");
 
         eliminaButton.setText("Elimina");
+        eliminaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminaButtonActionPerformed(evt);
+            }
+        });
 
         lettoButton.setText("Segna come già letto");
+        lettoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lettoButtonActionPerformed(evt);
+            }
+        });
+
+        orarioLabel.setText("Data e ora");
+
+        eventoButton.setText("Vai a evento");
+        eventoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eventoButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -44,8 +77,12 @@ public class NotificaPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addComponent(testoNotificaLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(orarioLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(eventoButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lettoButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(eliminaButton)
@@ -56,17 +93,33 @@ public class NotificaPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(testoNotificaLabel)
                     .addComponent(eliminaButton)
-                    .addComponent(lettoButton))
+                    .addComponent(lettoButton)
+                    .addComponent(orarioLabel)
+                    .addComponent(eventoButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void eventoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventoButtonActionPerformed
+        java.awt.EventQueue.invokeLater(() -> { new EventoFrame(meetle.getBacheca().getByID(IDEvento), true).setVisible(true); });
+    }//GEN-LAST:event_eventoButtonActionPerformed
+
+    private void lettoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lettoButtonActionPerformed
+        
+    }//GEN-LAST:event_lettoButtonActionPerformed
+
+    private void eliminaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminaButtonActionPerformed
+        
+    }//GEN-LAST:event_eliminaButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton eliminaButton;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton eventoButton;
     private javax.swing.JButton lettoButton;
+    private javax.swing.JLabel orarioLabel;
+    private javax.swing.JLabel testoNotificaLabel;
     // End of variables declaration//GEN-END:variables
 }

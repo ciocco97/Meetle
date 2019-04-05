@@ -105,7 +105,7 @@ public class Meetle {
     public String getUtenteLoggatoID() { return utenteLoggato.getID(); }
     public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
     public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
-    public ArrayList getNotifiche() { return utenteLoggato.getNotifiche(); }
+    public ArrayList<Notifica> getNotifiche() { return utenteLoggato.getNotifiche(); }
     
         
     public static void main(String[] args) throws IOException {
