@@ -21,4 +21,5 @@ public class PartitaDiCalcio extends Evento {
         campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI] = new CampoRange(N_FASCIA_ETA, "Eta minima e massima per partecipare");
     }
     
+    
 }

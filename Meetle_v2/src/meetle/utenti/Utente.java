@@ -14,15 +14,16 @@ public class Utente implements Serializable {
         notifiche = new ArrayList<>();
     }
     
-    public void notifica(String messaggio){
-        notifiche.add(new Notifica(messaggio, LocalDateTime.now()));
+    public void notifica(int eID, String messaggio){
+        notifiche.add(new Notifica(eID, messaggio, LocalDateTime.now()));
     }
 
     @Override
     public String toString() { return ID; }   
     
-    public boolean equals(Utente obj) { return ID.equals((obj).ID); } 
+    public boolean equals(Utente u) { return ID.equals((u).ID); } 
 
-    public String getID() { return ID; } 
+    public String getID() { return ID; }     
+    public ArrayList getNotifiche() { return notifiche; }
     
 }
