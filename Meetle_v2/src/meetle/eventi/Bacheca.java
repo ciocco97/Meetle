@@ -84,7 +84,8 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
 //    }
     
     public synchronized void rimuoviEventiByID(int eID) {
-        remove(getByID(eID));
+        if(!remove(getByID(eID)))
+            System.err.println("Nessun evento rimosso");
     }
     
     public boolean rendiApertoEvento(int eID) {

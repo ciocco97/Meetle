@@ -2,6 +2,7 @@ package meetle.gui;
 
 import java.awt.HeadlessException;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import meetle.Meetle;
 import meetle.eventi.Evento;
 import meetle.utenti.Notifica;
@@ -62,15 +63,15 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         int selezionato = selettore.getSelectedIndex();
         switch (selezionato) {
             case 0:
-                System.out.println("Eventi a cui sei iscritto");
+//                System.out.println("Eventi a cui sei iscritto");
                 stato = Stato.ISCRIZIONI;
                 break;
             case 1:
-                System.out.println("Eventi creati da te");
+//                System.out.println("Eventi creati da te");
                 stato = Stato.CREAZIONI;
                 break;
             case 2:
-                System.out.println("Le tue notifiche");
+//                System.out.println("Le tue notifiche");
                 stato = Stato.NOTIFICHE;
                 break;
         }
@@ -79,23 +80,25 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
 
     private void aggiorna() {
         jPanelMadre.removeAll();
-        System.out.println("Rimossi tutti");
-        if(stato.equals(Stato.ISCRIZIONI)) {
-            ArrayList<Evento> list = meetle.getEventiIscritti(ID);
-            list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), false, meetle)); meetle.mandaNotifica(e.getID(), meetle.getUtenteLoggatoID(), "Messaggio di prova");});
-            pack();
+        switch (stato) {
+            case ISCRIZIONI:
+                {
+                    ArrayList<Evento> list = meetle.getEventiIscritti(ID);
+                    list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), false, meetle)); });
+                    break;
+                }
+            case CREAZIONI:
+                {
+                    ArrayList<Evento> list = meetle.getEventiByCreatoreID(ID);
+                    list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), true, meetle)); });
+                    break;
+                }
+            default:
+                for(Notifica n: meetle.getNotifiche()) {
+                    jPanelMadre.add(new NotificaPanel(meetle, n));
+                }   break;
         }
-        else if(stato.equals(Stato.CREAZIONI)) {
-            ArrayList<Evento> list = meetle.getEventiByCreatoreID(ID);
-            list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), true, meetle)); });
-            pack();
-        }
-        else {
-            for(Notifica n: meetle.getNotifiche()) {
-                jPanelMadre.add(new NotificaPanel(meetle, n));
-            }
-            pack();
-        }
+        pack();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

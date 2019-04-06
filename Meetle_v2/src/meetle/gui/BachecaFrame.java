@@ -32,6 +32,7 @@ public class BachecaFrame extends javax.swing.JFrame {
         jComboBoxCategorie = new javax.swing.JComboBox<>();
         jBtnAreaPrivata = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jScrollPaneBacheca = new javax.swing.JScrollPane();
         jPanelBacheca = new javax.swing.JPanel();
 
@@ -61,6 +62,8 @@ public class BachecaFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Aggiungi Evento");
+
         javax.swing.GroupLayout jPanelCategorieLayout = new javax.swing.GroupLayout(jPanelCategorie);
         jPanelCategorie.setLayout(jPanelCategorieLayout);
         jPanelCategorieLayout.setHorizontalGroup(
@@ -70,7 +73,9 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 274, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
                 .addComponent(jBtnAreaPrivata)
                 .addContainerGap())
         );
@@ -81,7 +86,8 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .addGroup(jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnAreaPrivata)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -124,6 +130,7 @@ public class BachecaFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBoxCategorie;
     private javax.swing.JPanel jPanelBacheca;
     private javax.swing.JPanel jPanelCategorie;

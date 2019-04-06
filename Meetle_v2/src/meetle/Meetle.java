@@ -96,7 +96,13 @@ public class Meetle {
     }
     
     public void mandaNotifica(int eID, String uID, String messaggio) {
-        utenti.getUtenteDaID(uID).notifica(eID, messaggio);
+        utenti.getUtenteDaID(uID).aggiungiNotifica(eID, messaggio); 
+    }
+    public void rimuoviNotifica(String uID, int IDnotifica) {
+        utenti.getUtenteDaID(uID).rimuoviNotifica(IDnotifica); 
+    }
+    public void setNotificaLetta(String uID, int IDnotifica) {
+        utenti.getUtenteDaID(uID).segnaNotificaLetta(IDnotifica); 
     }
     
     // Getters & Setters

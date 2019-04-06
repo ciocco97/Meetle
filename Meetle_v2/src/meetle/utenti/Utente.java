@@ -14,8 +14,28 @@ public class Utente implements Serializable {
         notifiche = new ArrayList<>();
     }
     
-    public void notifica(int eID, String messaggio){
-        notifiche.add(new Notifica(eID, messaggio, LocalDateTime.now()));
+    public void aggiungiNotifica(int eID, String messaggio){
+        Notifica daAggiungere = new Notifica(eID, messaggio, LocalDateTime.now());
+        boolean OK = true;
+        for(Notifica n: notifiche) {
+            if(n.equals(daAggiungere)) OK = false;
+        }
+        if(OK) notifiche.add(daAggiungere);
+        else aggiungiNotifica(eID, messaggio);
+    }
+    
+    public void rimuoviNotifica(int nID) {
+        for(int i = 0; i < notifiche.size(); i++)
+            if(notifiche.get(i).getID() == nID)
+                notifiche.remove(i);
+        System.err.println("Nessuna notifica rimossa");
+    }
+    
+    public void segnaNotificaLetta(int nID) {
+        for(int i = 0; i < notifiche.size(); i++)
+            if(notifiche.get(i).getID() == nID)
+                notifiche.get(i).setVisualizzata();
+        System.err.println("Nessuna notifica letta");
     }
 
     @Override

@@ -14,21 +14,21 @@ import meetle.utenti.Notifica;
  */
 public class NotificaPanel extends javax.swing.JPanel {
     private int IDEvento;
+    private int IDNotifica;
     private Meetle meetle;
 
-    /**
-     * Creates new form NotificaPanell
-     */
    public NotificaPanel(Meetle meetle, Notifica notifica) {
         initComponents();
         this.meetle = meetle;
-        testoNotificaLabel.setText(notifica.getMessaggio());
         IDEvento = notifica.getEventoID();
+        IDNotifica = notifica.getID();
+        
+        testoNotificaLabel.setText(notifica.getMessaggio());
+        orarioLabel.setText("Ora: " + notifica.getDataora().toString());
         if(notifica.isVisualizzata()) {
             lettoButton.setText("visualizzata");
             lettoButton.setEnabled(false);
         } else { lettoButton.setText("Segnala come già letto"); }
-        orarioLabel.setText("Ora: " + notifica.getDataora().toString());
     }
 
     /**
@@ -107,11 +107,11 @@ public class NotificaPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_eventoButtonActionPerformed
 
     private void lettoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lettoButtonActionPerformed
-        
+        meetle.setNotificaLetta(meetle.getUtenteLoggatoID(), IDNotifica);
     }//GEN-LAST:event_lettoButtonActionPerformed
 
     private void eliminaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminaButtonActionPerformed
-        
+        meetle.rimuoviNotifica(meetle.getUtenteLoggatoID(), IDNotifica);
     }//GEN-LAST:event_eliminaButtonActionPerformed
 
 
