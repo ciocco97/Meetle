@@ -18,7 +18,7 @@ public class CampoPanel extends javax.swing.JPanel {
         initComponents();
         nomeLabel.setText(nome);
         valoreField.setText(valore);
-        valoreField.setEnabled(godmode);
+        valoreField.setEditable(godmode);
     }
 
     /**

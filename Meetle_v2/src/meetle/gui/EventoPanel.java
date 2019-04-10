@@ -120,11 +120,16 @@ public class EventoPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(0, 150, 155));
+
         jLbTitolo.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLbTitolo.setForeground(new java.awt.Color(255, 255, 255));
         jLbTitolo.setText("Titolo");
 
+        jLbNumPartecipanti.setForeground(new java.awt.Color(255, 255, 255));
         jLbNumPartecipanti.setText("N iscritti");
 
+        jLbInformazioni.setForeground(new java.awt.Color(255, 255, 255));
         jLbInformazioni.setText("Data, Ora, Luogo");
 
         jButton1.setText("jButton1");

@@ -67,7 +67,7 @@ public class EventoFrame extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(500, 500));
         setResizable(false);
 
-        titoloLabel.setBackground(new java.awt.Color(50, 100, 255));
+        titoloLabel.setBackground(new java.awt.Color(0, 115, 150));
         titoloLabel.setFont(new java.awt.Font("Segoe UI Semilight", 0, 48)); // NOI18N
         titoloLabel.setForeground(new java.awt.Color(255, 255, 255));
         titoloLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -82,7 +82,7 @@ public class EventoFrame extends javax.swing.JFrame {
         jCampiPanel.setLayout(new javax.swing.BoxLayout(jCampiPanel, javax.swing.BoxLayout.Y_AXIS));
         getContentPane().add(jCampiPanel, java.awt.BorderLayout.CENTER);
 
-        jPanel1.setBackground(new java.awt.Color(50, 100, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 115, 150));
         jPanel1.setPreferredSize(new java.awt.Dimension(560, 64));
 
         jButton1.setText("jButton1");
