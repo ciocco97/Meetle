@@ -5,7 +5,10 @@
  */
 package meetle.gui;
 
+import java.awt.Color;
+import javax.swing.JLabel;
 import meetle.eventi.Evento;
+import meetle.eventi.campi.Campo;
 
 /**
  *
@@ -19,6 +22,18 @@ public class EventoFrame extends javax.swing.JFrame {
      */
     public EventoFrame(Evento ev, boolean godMode) {
         initComponents();
+        titoloLabel.setText(ev.getNome());
+        Campo array[] = ev.getTuttiCampi();
+        for (int i = 0; i< array.length; i++){
+            JLabel label = new JLabel();
+            if (!array[i].toString().equals("")){
+             CampoPanel pannello = new CampoPanel(array[i].getNome(), array[i].getValore().toString(), godMode);
+             jCampiPanel.add(pannello);
+            }
+        }
+        
+        
+        
     }
 
     /**
@@ -31,10 +46,11 @@ public class EventoFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        titoloLabel = new javax.swing.JLabel();
+        jCampiPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -48,41 +64,53 @@ public class EventoFrame extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+        setPreferredSize(new java.awt.Dimension(500, 500));
+        setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.getAccessibleContext().setAccessibleName("titolo");
+        titoloLabel.setBackground(new java.awt.Color(50, 100, 255));
+        titoloLabel.setFont(new java.awt.Font("Segoe UI Semilight", 0, 48)); // NOI18N
+        titoloLabel.setForeground(new java.awt.Color(255, 255, 255));
+        titoloLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titoloLabel.setText("jLabel1");
+        titoloLabel.setMaximumSize(new java.awt.Dimension(500, 500));
+        titoloLabel.setMinimumSize(new java.awt.Dimension(500, 500));
+        titoloLabel.setOpaque(true);
+        getContentPane().add(titoloLabel, java.awt.BorderLayout.PAGE_START);
+        titoloLabel.getAccessibleContext().setAccessibleName("titolo");
 
-        jLabel2.setText("jLabel2");
+        jCampiPanel.setBackground(new java.awt.Color(0, 148, 157));
+        jCampiPanel.setLayout(new javax.swing.BoxLayout(jCampiPanel, javax.swing.BoxLayout.Y_AXIS));
+        getContentPane().add(jCampiPanel, java.awt.BorderLayout.CENTER);
 
-        jLabel3.setText("jLabel3");
+        jPanel1.setBackground(new java.awt.Color(50, 100, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(560, 64));
+
+        jButton1.setText("jButton1");
+
+        jButton2.setText("jButton2");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addContainerGap(356, Short.MAX_VALUE))
+                .addContainerGap(350, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanel1);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -123,10 +151,11 @@ public class EventoFrame extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JPanel jCampiPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel titoloLabel;
     // End of variables declaration//GEN-END:variables
 }

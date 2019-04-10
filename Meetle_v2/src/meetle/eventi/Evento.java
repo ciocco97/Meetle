@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Stream;
 import meetle.eventi.campi.*;
+import org.apache.commons.lang3.ArrayUtils;
 
 public abstract class Evento implements Serializable {
     public static final String NO_DESCRIPTION = "Nessuna descrizione presente";
@@ -79,6 +80,7 @@ public abstract class Evento implements Serializable {
     public int getIndiceStatoCorrente() {
         return statoCorrente.getIndiceStato();
     }
+    public String getCreatore(){ return creatoreID;}
     
     /**
      * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
@@ -155,11 +157,7 @@ public abstract class Evento implements Serializable {
     public String getNome() { return nome; }
     public Campo[] getCampi() { return campi; }
     public Campo[] getCampiExtra() { return campiExtra; }
-    public Campo[] getTuttiCampi() {
-        java.util.List l = Arrays.asList(campi);
-        l.addAll(Arrays.asList(campiExtra));
-        return (Campo[]) l.toArray();
-    }
+    public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(campi, campiExtra); }
     
         
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }

@@ -95,7 +95,9 @@ public class EventoPanel extends javax.swing.JPanel {
         } else { // modalità BASE (finestra bacheca)
             
             jButton1.addActionListener((ActionEvent e) -> { // pulsante visualizza
-                java.awt.EventQueue.invokeLater(() -> { new EventoFrame(ev, false).setVisible(true); });
+                boolean godmode;
+                godmode = ev.getCreatore().equals(meetle.getUtenteLoggatoID()) ? true : false;
+                java.awt.EventQueue.invokeLater(() -> { new EventoFrame(ev, godmode).setVisible(true); });
             });
             
             jButton2.addActionListener((ActionEvent e) -> { // pulsante iscrivi/disiscrivi

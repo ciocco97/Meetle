@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
+import meetle.eventi.Evento;
 import meetle.gui.*;
 import meetle.io.MeetleIO;
 import meetle.utenti.*;
@@ -112,6 +113,8 @@ public class Meetle {
     public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
     public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
     public ArrayList<Notifica> getNotifiche() { return utenteLoggato.getNotifiche(); }
+            
+            
     
         
     public static void main(String[] args) throws IOException {
