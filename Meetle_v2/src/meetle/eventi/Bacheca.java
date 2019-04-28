@@ -66,7 +66,7 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
     @Override
     public boolean add(Evento e) {
         if (!this.stream().noneMatch((t) -> (t.ID == e.ID))) {
-            System.out.println("Evento NON iserito! ID replicato");
+            System.err.println("Evento NON iserito! ID replicato");
             return false;        
         }
         System.out.println("Aggiunto evento a bacheca:\n"+e);

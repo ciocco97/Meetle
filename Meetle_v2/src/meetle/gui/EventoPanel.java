@@ -34,11 +34,11 @@ public class EventoPanel extends javax.swing.JPanel {
         Evento ev = meetle.getBacheca().getByID(eventoID);
         if(ev==null) { removeAll(); setVisible(false); return; }
         
-        jLbTitolo.setText((String)ev.getCampi()[Evento.I_TITOLO].getValore());
-        jLbNumPartecipanti.setText("iscritti: "+ev.getNumIscritti() +"/"+ ev.getCampi()[Evento.I_NUM_PARTECIPANTI].getValore());
-        String info = "" + ev.getCampi()[Evento.I_LUOGO].getValore();
-        info += ", il " + ev.getCampi()[Evento.I_DATA].getValore();
-        info += " alle " + ev.getCampi()[Evento.I_ORA].getValore();
+        jLbTitolo.setText((String)ev.getTuttiCampi()[Evento.I_TITOLO].getValore());
+        jLbNumPartecipanti.setText("iscritti: "+ev.getNumIscritti() +"/"+ ev.getTuttiCampi()[Evento.I_NUM_PARTECIPANTI].getValore());
+        String info = "" + ev.getTuttiCampi()[Evento.I_LUOGO].getValore();
+        info += ", il " + ev.getTuttiCampi()[Evento.I_DATA].getValore();
+        info += " alle " + ev.getTuttiCampi()[Evento.I_ORA].getValore();
         info += "S" + ev.getIndiceStatoCorrente();
         jLbInformazioni.setText(info);
 //        Random rand = new Random();
@@ -83,7 +83,7 @@ public class EventoPanel extends javax.swing.JPanel {
             });
             
             jButton2.addActionListener((ActionEvent e) -> { // pulsante modifica
-                java.awt.EventQueue.invokeLater(() -> { new EventoFrame(ev, true).setVisible(true); });
+                java.awt.EventQueue.invokeLater(() -> { new EventoFrame(meetle, ev, EventoFrame.MODIFICA).setVisible(true); });
             });
             
             jButton3.addActionListener((ActionEvent e) -> { // pusante apri in bacheca
@@ -95,9 +95,7 @@ public class EventoPanel extends javax.swing.JPanel {
         } else { // modalità BASE (finestra bacheca)
             
             jButton1.addActionListener((ActionEvent e) -> { // pulsante visualizza
-                boolean godmode;
-                godmode = ev.getCreatore().equals(meetle.getUtenteLoggatoID()) ? true : false;
-                java.awt.EventQueue.invokeLater(() -> { new EventoFrame(ev, godmode).setVisible(true); });
+                java.awt.EventQueue.invokeLater(() -> { new EventoFrame(meetle, ev, EventoFrame.VISUALIZZA).setVisible(true); });
             });
             
             jButton2.addActionListener((ActionEvent e) -> { // pulsante iscrivi/disiscrivi

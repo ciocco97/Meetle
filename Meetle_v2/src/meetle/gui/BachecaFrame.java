@@ -2,6 +2,7 @@ package meetle.gui;
 
 import meetle.Meetle;
 import meetle.eventi.Evento;
+import meetle.eventi.PartitaDiCalcio;
 
 public class BachecaFrame extends javax.swing.JFrame {
 
@@ -31,8 +32,8 @@ public class BachecaFrame extends javax.swing.JFrame {
         jPanelCategorie = new javax.swing.JPanel();
         jComboBoxCategorie = new javax.swing.JComboBox<>();
         jBtnAreaPrivata = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonTemporaneo = new javax.swing.JButton();
+        jButtonAggiungiEvento = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPaneBacheca = new javax.swing.JScrollPane();
         jPanelBacheca = new javax.swing.JPanel();
@@ -59,17 +60,17 @@ public class BachecaFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("metodoTemporaneo()");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonTemporaneo.setText("metodoTemporaneo()");
+        jButtonTemporaneo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonTemporaneoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Aggiungi Evento");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAggiungiEvento.setText("Aggiungi Evento");
+        jButtonAggiungiEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonAggiungiEventoActionPerformed(evt);
             }
         });
 
@@ -86,13 +87,13 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .addGroup(jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelCategorieLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 653, Short.MAX_VALUE))
+                        .addGap(0, 467, Short.MAX_VALUE))
                     .addGroup(jPanelCategorieLayout.createSequentialGroup()
                         .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonTemporaneo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(jButtonAggiungiEvento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBtnAreaPrivata)))
                 .addContainerGap())
@@ -105,8 +106,8 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addGroup(jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(jButtonTemporaneo)
+                    .addComponent(jButtonAggiungiEvento)
                     .addComponent(jBtnAreaPrivata))
                 .addGap(28, 28, 28))
         );
@@ -126,11 +127,11 @@ public class BachecaFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonTemporaneoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTemporaneoActionPerformed
         meetle.getBacheca().metodoTemporaneo(meetle.getUtenteLoggatoID());
         meetle.salvaEventi();
         aggiornaEventi();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonTemporaneoActionPerformed
 
     private void jBtnAreaPrivataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAreaPrivataActionPerformed
         meetle.areaPersonale();
@@ -147,14 +148,19 @@ public class BachecaFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxCategorieActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButtonAggiungiEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAggiungiEventoActionPerformed
+        Evento e = new PartitaDiCalcio(meetle.getUtenteLoggatoID());
+        meetle.getBacheca().add(e);
+        meetle.salvaEventi();
+        aggiornaEventi();
+        (new EventoFrame(meetle, e, EventoFrame.CREA)).setVisible(true);
+        
+    }//GEN-LAST:event_jButtonAggiungiEventoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAggiungiEvento;
+    private javax.swing.JButton jButtonTemporaneo;
     private javax.swing.JComboBox<String> jComboBoxCategorie;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelBacheca;

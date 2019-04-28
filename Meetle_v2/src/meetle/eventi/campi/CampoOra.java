@@ -19,7 +19,7 @@ public class CampoOra extends Campo<LocalTime> {
 
     @Override
     public void setValoreDaString(String stringaOra) {
-        this.valore = LocalTime.parse(stringaOra, DateTimeFormatter.ISO_TIME);
+        this.valore = LocalTime.parse(stringaOra, DateTimeFormatter.ISO_LOCAL_TIME);
     }
     
 }

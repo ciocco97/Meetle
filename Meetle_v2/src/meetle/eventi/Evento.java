@@ -62,7 +62,7 @@ public abstract class Evento implements Serializable {
         campi[I_COMPRESO_QUOTA].setFacoltativo();
         campi[I_DATA_CONCLUSIVA].setFacoltativo();
         campi[I_ORA_CONCLUSIVA].setFacoltativo();
-        campi[I_NOTE].setFacoltativo();
+        campi[I_NOTE].setFacoltativo();        
     }  
     
     public void setValoreDaString(int indice, String valore){
@@ -72,15 +72,10 @@ public abstract class Evento implements Serializable {
             campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);
     }
     
-    public void setTuttiValori(String[] valori) {
-        for (int i = 0; i<campi.length; i++)
-            campi[i].setValoreDaString(valori[i]);
-    }    
-
-    public int getIndiceStatoCorrente() {
-        return statoCorrente.getIndiceStato();
-    }
-    public String getCreatore(){ return creatoreID;}
+//    public void setTuttiValori(String[] valori) {
+//        for (int i = 0; i<campi.length; i++)
+//            campi[i].setValoreDaString(valori[i]);
+//    }    
     
     /**
      * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
@@ -133,7 +128,6 @@ public abstract class Evento implements Serializable {
             return iscrittiIDs.add(uID);
     }
     
-    public int getNumIscritti() { return iscrittiIDs.size(); }
     
 //    // ritorna la lista dei campi con la loro descrizione (usato per mostrare le info di categoria)
 //    public String toDescrizioneCategoria() {
@@ -155,9 +149,10 @@ public abstract class Evento implements Serializable {
     
     public int getID() { return ID; }
     public String getNome() { return nome; }
-    public Campo[] getCampi() { return campi; }
-    public Campo[] getCampiExtra() { return campiExtra; }
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(campi, campiExtra); }
+    public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
+    public String getCreatoreID(){ return creatoreID; }
+    public int getNumIscritti() { return iscrittiIDs.size(); }
     
         
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }

@@ -19,7 +19,7 @@ public class CampoData extends Campo<LocalDate> {
 
     @Override
     public void setValoreDaString(String stringaData) {
-        this.valore = LocalDate.parse(stringaData, DateTimeFormatter.ISO_DATE);
+        this.valore = LocalDate.parse(stringaData, DateTimeFormatter.ISO_LOCAL_DATE);
     }
     
     

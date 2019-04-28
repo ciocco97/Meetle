@@ -28,7 +28,7 @@ public class NotificaPanel extends javax.swing.JPanel {
         if(notifica.isVisualizzata()) {
             lettoButton.setText("visualizzata");
             lettoButton.setEnabled(false);
-        } else { lettoButton.setText("Segnala come già letto"); }
+        } else { lettoButton.setText("Segna come già letto"); }
     }
 
     /**
@@ -103,7 +103,7 @@ public class NotificaPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void eventoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventoButtonActionPerformed
-        java.awt.EventQueue.invokeLater(() -> { new EventoFrame(meetle.getBacheca().getByID(IDEvento), true).setVisible(true); });
+        java.awt.EventQueue.invokeLater(() -> { new EventoFrame(meetle, meetle.getBacheca().getByID(IDEvento), EventoFrame.VISUALIZZA).setVisible(true); });
     }//GEN-LAST:event_eventoButtonActionPerformed
 
     private void lettoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lettoButtonActionPerformed

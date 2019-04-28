@@ -11,23 +11,47 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     private Meetle meetle;
     private enum Stato {ISCRIZIONI, CREAZIONI, NOTIFICHE}; 
     private Stato stato;
-    private String ID;
+    private String uID;
 
-    public AreaPersonaleFrame(Meetle meetle) throws HeadlessException {
+    public AreaPersonaleFrame(Meetle meetle) {
         initComponents();
-        setLocationRelativeTo(null);
         this.meetle = meetle;
-        ID = meetle.getUtenteLoggatoID();
+        
+        uID = meetle.getUtenteLoggatoID();
         stato = Stato.NOTIFICHE;
         this.jLabel1.setText(meetle.getUtenteLoggatoID());
         aggiorna();
+    }    
+    
+    private void aggiorna() {
+        jPanelMadre.removeAll();
+        switch (stato) {
+            case ISCRIZIONI:
+                {
+                    ArrayList<Evento> list = meetle.getEventiIscritti(uID);
+                    list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), false, meetle)); });
+                    break;
+                }
+            case CREAZIONI:
+                {
+                    ArrayList<Evento> list = meetle.getEventiByCreatoreID(uID);
+                    list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), true, meetle)); });
+                    break;
+                }
+            default:
+                for(Notifica n: meetle.getNotifiche()) {
+                    jPanelMadre.add(new NotificaPanel(meetle, n));
+                }   
+                break;
+        }
+        pack();
     }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         selettore = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -37,14 +61,13 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 115, 150));
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(0, 115, 150));
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelHeader.setBackground(new java.awt.Color(0, 115, 150));
+        jPanelHeader.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanelHeader.setPreferredSize(new java.awt.Dimension(500, 100));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("jLabel2");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, -1, -1));
+        jLabel1.setText("AreaPersonale");
 
         selettore.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Eventi a cui sei iscritto", "Eventi creati da te", "Le tue notifiche" }));
         selettore.addActionListener(new java.awt.event.ActionListener() {
@@ -52,11 +75,29 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 selettoreActionPerformed(evt);
             }
         });
-        jPanel1.add(selettore, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 210, -1));
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
+        javax.swing.GroupLayout jPanelHeaderLayout = new javax.swing.GroupLayout(jPanelHeader);
+        jPanelHeader.setLayout(jPanelHeaderLayout);
+        jPanelHeaderLayout.setHorizontalGroup(
+            jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
+        );
+        jPanelHeaderLayout.setVerticalGroup(
+            jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        getContentPane().add(jPanelHeader, java.awt.BorderLayout.NORTH);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(2, 200));
 
         jPanelMadre.setLayout(new javax.swing.BoxLayout(jPanelMadre, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(jPanelMadre);
@@ -85,32 +126,10 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         aggiorna();
     }//GEN-LAST:event_selettoreActionPerformed
 
-    private void aggiorna() {
-        jPanelMadre.removeAll();
-        switch (stato) {
-            case ISCRIZIONI:
-                {
-                    ArrayList<Evento> list = meetle.getEventiIscritti(ID);
-                    list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), false, meetle)); });
-                    break;
-                }
-            case CREAZIONI:
-                {
-                    ArrayList<Evento> list = meetle.getEventiByCreatoreID(ID);
-                    list.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), true, meetle)); });
-                    break;
-                }
-            default:
-                for(Notifica n: meetle.getNotifiche()) {
-                    jPanelMadre.add(new NotificaPanel(meetle, n));
-                }   break;
-        }
-        pack();
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelMadre;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> selettore;

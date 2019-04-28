@@ -1,6 +1,9 @@
 package meetle;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
@@ -113,12 +116,12 @@ public class Meetle {
     public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
     public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
     public ArrayList<Notifica> getNotifiche() { return utenteLoggato.getNotifiche(); }
-            
-            
     
         
     public static void main(String[] args) throws IOException {
             
+//        LocalDate.parse(JOptionPane.showInputDialog(""));
+        
         Meetle meetle = new Meetle();
         meetle.start();       
     }

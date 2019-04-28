@@ -19,6 +19,18 @@ public class PartitaDiCalcio extends Evento {
         campiExtra = new Campo[NUM_CAMPI_EXTRA];
         campiExtra[I_GENERE-NUM_CAMPI_FISSI] = new CampoString(N_GENERE, "Genere dei giocatori");
         campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI] = new CampoRange(N_FASCIA_ETA, "Eta minima e massima per partecipare");
+        
+        setFacoltativi();
+    }
+    
+    // METODO DA CANCELLARE PRIMA O POI
+    private void setFacoltativi(){        
+        // i prossimi sono solo per comodità per non stare a inserirli ogni volta
+        campi[I_DATA].setFacoltativo();
+        campi[I_TERMINE_ISCRIZIONE].setFacoltativo();
+        campiExtra[I_GENERE-NUM_CAMPI_FISSI].setFacoltativo();
+        campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI].setFacoltativo();
+        
     }
     
     
