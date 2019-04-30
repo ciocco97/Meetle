@@ -21,8 +21,14 @@ public class EventoFrame extends javax.swing.JFrame {
         initComponents();
         this.eventoID = eventoID;
         this.mode = mode;
-        for(Campo campoT: Meetle.getIstanza().getBacheca().getByID(eventoID).getTuttiCampi()) 
+        for(Campo campoT: Meetle.getIstanza().getBacheca().getByID(eventoID).getTuttiCampi()) // qualche altro metodo?
             jPanelCampi.add(new CampoPanel(campoT, mode!=VISUALIZZA));
+        String titolo = Meetle.getIstanza().getBacheca().getByID(eventoID).getTitolo();
+        if (titolo == null)
+            jLabelTitolo.setText(mode == CREA ? "Nuovo Evento" : "evento senza nome");
+        else
+            jLabelTitolo.setText(!titolo.equals("") ? titolo : "evento senza nome");
+        
         pack();
         setLocationRelativeTo(null);
         

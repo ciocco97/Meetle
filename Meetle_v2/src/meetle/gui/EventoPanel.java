@@ -76,16 +76,9 @@ public class EventoPanel extends javax.swing.JPanel {
             setVisible(false);
             return;
         }
-        
-        jLbTitolo.setText((String)evento.getTuttiCampi()[Evento.I_TITOLO].getValore());        
-        jLbNumPartecipanti.setText("("+evento.getNumIscritti() +"/"+ evento.getTuttiCampi()[Evento.I_NUM_PARTECIPANTI].getValore()+")");
-        
-        String info = "" + evento.getTuttiCampi()[Evento.I_LUOGO].getValore();
-        info += ", il " + evento.getTuttiCampi()[Evento.I_DATA].getValore();
-        info += " alle ore " + evento.getTuttiCampi()[Evento.I_ORA].getValore();
-        info += "                    Stato " + evento.getIndiceStatoCorrente();
-        jLbInformazioni.setText(info);
-        
+        if (evento.getIndiceStatoCorrente() == Stato.NONVALIDO)
+            jLbTitolo.setText("non valido");
+        else riempiPannello(evento);
         if(mode==MODE_EVENTO_APERTO) 
             if(Meetle.getIstanza().getUtenteLoggatoID().equals(evento.getCreatoreID()))
                 jButton2.setVisible(false);
@@ -93,6 +86,25 @@ public class EventoPanel extends javax.swing.JPanel {
                 jButton2.setText("Iscriviti");                     
             else jButton2.setText("Disiscriviti");        
         
+    }
+    
+    private void riempiPannello(Evento evento){
+        jLbTitolo.setText((String)evento.getTuttiCampi()[Evento.I_TITOLO].getValore());        
+        jLbNumPartecipanti.setText("("+evento.getNumIscritti() +"/"+ evento.getTuttiCampi()[Evento.I_NUM_PARTECIPANTI].getValore()+")");
+        String info = "" + evento.getTuttiCampi()[Evento.I_LUOGO].getValore();
+        info += ", il " + evento.getTuttiCampi()[Evento.I_DATA].getValore();
+        info += " alle ore " + evento.getTuttiCampi()[Evento.I_ORA].getValore();
+        info += "                    Stato: ";
+        switch (evento.getIndiceStatoCorrente())
+        {
+            case Stato.APERTO: info+="Aperto"; break;
+            case Stato.CHIUSO: info+="Chiuso"; break;
+            case Stato.CONCLUSO: info+="Concluso"; break;
+            case Stato.FALLITO: info+="Fallito"; break;
+            case Stato.NONVALIDO: info+="Non valido"; break;
+            case Stato.VALIDO: info+="Valido"; break;
+        }
+        jLbInformazioni.setText(info);
     }
     
 //    /**
@@ -185,11 +197,9 @@ public class EventoPanel extends javax.swing.JPanel {
 
         jLbNumPartecipanti.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLbNumPartecipanti.setForeground(new java.awt.Color(255, 255, 255));
-        jLbNumPartecipanti.setText("N iscritti");
 
         jLbInformazioni.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLbInformazioni.setForeground(new java.awt.Color(255, 255, 255));
-        jLbInformazioni.setText("Luogo, Data, Ora");
 
         jButton1.setText("jButton1");
 

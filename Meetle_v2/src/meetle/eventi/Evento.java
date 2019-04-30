@@ -9,7 +9,7 @@ import meetle.Meetle;
 import meetle.eventi.campi.*;
 import org.apache.commons.lang3.ArrayUtils;
 
-public abstract class Evento implements Serializable {
+public abstract class Evento implements Serializable {   
     public static final String NO_DESCRIPTION = "Nessuna descrizione presente";
     // Nomi dei campi (usati anche in IO)
     public static final String N_TITOLO = "Titolo", N_NUMERO_PARTECIPANTI = "N° Partecipanti", 
@@ -155,6 +155,7 @@ public abstract class Evento implements Serializable {
     
     public int getID() { return ID; }
     public String getNome() { return nome; }
+    public String getTitolo() { return (String) campi[I_TITOLO].getValore(); }
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(campi, campiExtra); }
     public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
     public String getCreatoreID(){ return creatoreID; }

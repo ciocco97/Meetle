@@ -14,7 +14,6 @@ public class CampoPanel extends javax.swing.JPanel {
         nomeLabel.setText(campo.getNome());
         valoreField.setText(campo.getValore()==null ? "" : campo.getValore().toString());
         valoreField.setEditable(godmode);
-        
         if(!campo.isFacoltativo()) nomeLabel.setText(nomeLabel.getText()+"*");
     }
     
