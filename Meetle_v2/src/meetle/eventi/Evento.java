@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Stream;
+import meetle.Meetle;
 import meetle.eventi.campi.*;
 import org.apache.commons.lang3.ArrayUtils;
 
 public abstract class Evento implements Serializable {
     public static final String NO_DESCRIPTION = "Nessuna descrizione presente";
     // Nomi dei campi (usati anche in IO)
-    public static final String N_TITOLO = "Titolo", N_NUMERO_PARTECIPANTI = "Numero Partecipanti", 
+    public static final String N_TITOLO = "Titolo", N_NUMERO_PARTECIPANTI = "N° Partecipanti", 
             N_TERMINE_ISCR = "Termine Iscrizione", N_LUOGO = "Luogo", N_DATA = "Data", N_ORA = "Ora", 
             N_DURATA = "Durata", N_QUOTA_INDIVIDUALE = "Quota individuale", 
             N_COMPRESO_QUOTA = "Compreso quota", N_DATA_CONCLUSIVA = "Data conclusiva", 
@@ -81,25 +82,49 @@ public abstract class Evento implements Serializable {
      * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
      * @param nuovoIndiceStato 
      */
-    public void cambiaStato(int nuovoIndiceStato){
+    private void nuovoStato(int nuovoIndiceStato){
         statiPassati.add(statoCorrente);
         statoCorrente = new Stato(nuovoIndiceStato);
     }
     
     /**
-     * controlla la validità dell'evento (se i campi obbligatori sono compilati)
-     * se true imposta lo stato su Stato.VALIDO
-     * @return true se è valido, false altrimenti
+     * fa cambiare lo stato dell'evento 
      */
-    public boolean checkValido() {
-        if(getIndiceStatoCorrente()!=Stato.NONVALIDO) 
-            return false; // lo stato deve diventare valido solo se adesso non lo è
-        for(Campo c: getTuttiCampi())
-            if(!c.isFacoltativo() && c.getValore()==null)
-                return false;
-        cambiaStato(Stato.VALIDO);
-        return true;
+    public void checkStato() {
+        switch(getIndiceStatoCorrente()) {
+            case Stato.NONVALIDO:
+                boolean ok = true;
+                for(Campo c: getTuttiCampi())
+                    if(!c.isFacoltativo() && c.getValore()==null) 
+                        ok = false;
+                if (ok)
+                    nuovoStato(Stato.VALIDO); 
+                break;
+            case Stato.VALIDO:
+                for(Campo c: getTuttiCampi())
+                    if(!c.isFacoltativo() && c.getValore()==null) {
+                        nuovoStato(Stato.NONVALIDO);
+                        break;
+                    }
+                break;
+            case Stato.APERTO:
+                if(getNumIscritti() >= (int)campi[I_NUM_PARTECIPANTI].getValore())
+                    nuovoStato(Stato.CHIUSO);
+                else if (false) // la data attuale supera la data termine iscrizione
+                    nuovoStato(Stato.FALLITO);
+                break;
+            case Stato.CONCLUSO:
+                if (false) // quando la data attuale supera la data di termine evento
+                    nuovoStato(Stato.CONCLUSO);
+                break;
+        }
     }
+    
+    public void apriEvento() {
+        if(getIndiceStatoCorrente()==Stato.VALIDO)
+            nuovoStato(Stato.APERTO);            
+    }
+    
     
     /**
      * dice se l'utente con questo ID è iscritto
@@ -109,32 +134,13 @@ public abstract class Evento implements Serializable {
     public boolean isUtenteIscritto(String uID) { 
         return uID.equals(creatoreID) || iscrittiIDs.contains(uID); 
     }
-        
-//    /**
-//     * @param uID id utente da iscrivere
-//     * @return true se l'utente viene iscritto normalmente, false se l'utente è il creatore o è già iscritto
-//     */
-//    public boolean iscriviUtente(String uID) {
-//        if(isUtenteIscritto(uID)) 
-//            return false;
-//        iscrittiIDs.add(uID);
-//        return true;
-//    }
     
-    public boolean switchIscrizione(String uID){
+    public void switchIscrizione(String uID){
         if (isUtenteIscritto(uID))
-            return iscrittiIDs.remove(uID); 
-        else
-            return iscrittiIDs.add(uID);
+            iscrittiIDs.remove(uID); 
+        else 
+            iscrittiIDs.add(uID);
     }
-    
-    
-//    // ritorna la lista dei campi con la loro descrizione (usato per mostrare le info di categoria)
-//    public String toDescrizioneCategoria() {
-//        return nome +"\n"+ Stream.concat(Arrays.stream(campi), Arrays.stream(campiExtra))
-//                .map(c -> "\t" + c.getNome() +": "+ c.getDescrizione() + SEPARATORE_CAMPI) 
-//                .reduce("", String::concat);
-//    }
 
     @Override
     public String toString() {
@@ -152,7 +158,7 @@ public abstract class Evento implements Serializable {
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(campi, campiExtra); }
     public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
     public String getCreatoreID(){ return creatoreID; }
-    public int getNumIscritti() { return iscrittiIDs.size(); }
+    public int getNumIscritti() { return 1+iscrittiIDs.size(); }
     
         
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }

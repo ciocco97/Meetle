@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
 import meetle.eventi.Evento;
@@ -14,15 +16,24 @@ import meetle.utenti.*;
 
 public class Meetle {
     
+    private static Meetle istanza; // single ton
+    
     private Bacheca bacheca;
     private Utenti utenti;
-    private MeetleIO io;
-    private BachecaFrame interfaccia;
-    private AreaPersonaleFrame personale;
+    private MeetleIO io; 
+    private String utenteLoggatoID;    
+    private boolean daSalvare = true; // booleana che dice se ci sono correntemente dei dati non salvati su file
     
-    private Utente utenteLoggato;
-
-    public Meetle() {
+    private BachecaFrame bachecaFrame;
+    private AreaPersonaleFrame areaPersonaleFrame;  
+    
+    public static Meetle getIstanza() {
+        if(istanza==null) 
+            istanza = new Meetle();
+        return istanza;
+    }
+    
+    private Meetle() {
         
         io = new MeetleIO(this);
         
@@ -33,11 +44,6 @@ public class Meetle {
             System.err.println("ERRORE lettura utenti da file!!\n\t"+ex.getMessage());
             utenti = new Utenti();
         } 
-//        try {
-//            // salva subito gli utenti
-//            io.salvaUtenti();
-//        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti...\n\t"+ex.getMessage()); }   
-
 
         try {
             // prova a caricare eventi da file
@@ -45,129 +51,74 @@ public class Meetle {
         } catch (IOException | ClassNotFoundException ex) { 
             System.err.println("ERRORE lettura eventi da file!! Creo bacheca di default...\n\t"+ex.getMessage());
             bacheca = new Bacheca();
-        } 
-        
-//        salvaEventi();    
+        }  
         
     }  
     
     public void start() {
         loginUtente();
-        interfaccia = new BachecaFrame(this);
-        personale = new AreaPersonaleFrame(this);
-        java.awt.EventQueue.invokeLater(() -> { interfaccia.setVisible(true); });
-    }
-    
-    public void areaPersonale() {
-        personale.setVisible(true);
-    }
-    
-    public void salvaEventi() {
-        try {
-            System.out.print("Salvataggio eventi su file... ");
-            io.salvaEventi();
-            System.out.println("OK!");
-        } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getMessage()); }
+        bachecaFrame = new BachecaFrame();
+        areaPersonaleFrame = new AreaPersonaleFrame();
+        java.awt.EventQueue.invokeLater(() -> bachecaFrame.setVisible(true));
+        
+        new Thread(() -> {
+            synchronized(this) {
+                while(true) {
+                    bacheca.aggiornaStati();
+                    if(daSalvare)
+                        salva();
+                    try {
+                        wait(500);
+                    } catch (InterruptedException ex) { }
+                }
+            }
+        }).start();
     }
     
     public void loginUtente (){ 
-        String ID = JOptionPane.showInputDialog("LOGIN UTENTE");
-        utenteLoggato = utenti.getUtenteDaID(ID);
+        utenteLoggatoID = JOptionPane.showInputDialog("LOGIN UTENTE");
         try {
             // salva subito gli utenti
             io.salvaUtenti();
         } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti!!\n\t"+ex.getMessage()); }  
     }
-
-    public void checkEventi() { 
-//        for(Evento e: bacheca) {
-//            LocalDateTime dataOraEvento = ((LocalDate)e.getCampi()[Evento.I_DATA].getValore()).atTime((LocalTime)e.getCampi()[Evento.I_ORA].getValore());
-//            switch(e.getStatoCorrente()){
-//                case Stato.APERTO:
-//                    if(dataoraSistema.isAfter(dataOraEvento))
-//                        if(e.getNumIscritti() == (Integer)e.getCampi()[Evento.I_NUM_PARTECIPANTI].getValore())
-//                            e.cambiaStato(Stato.CHIUSO);
-//                        else
-//                            e.cambiaStato(Stato.FALLITO);
-//                    break;
-//                case Stato.CHIUSO:
-//                    LocalDateTime dataOraFineEvento = ((LocalDate)e.getCampi()[Evento.I_DATA_CONCLUSIVA].getValore()).atTime((LocalTime)e.getCampi()[Evento.I_ORA_CONCLUSIVA].getValore());
-//                    if(dataOraEvento.isAfter(dataOraFineEvento))
-//                        e.cambiaStato(Stato.CONCLUSO);
-//                            
-//            }
-//        }
+    
+    
+    public void mostraAreaPersonale() {        
+        areaPersonaleFrame.setVisible(true);
     }
     
-    public void mandaNotifica(int eID, String uID, String messaggio) {
-        utenti.getUtenteDaID(uID).aggiungiNotifica(eID, messaggio); 
+    public void setDaSalvare() { daSalvare=true; }
+    
+    public void salva() {
+        try {
+            System.out.print("Salvataggio utenti su file... ");
+            io.salvaUtenti();
+            System.out.println("OK!");
+        } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti!!\n\t"+ex.getMessage()); }
+        
+        try {
+            System.out.print("Salvataggio eventi su file... ");
+            io.salvaEventi();
+            System.out.println("OK!");
+        } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getMessage()); }
+            
+        daSalvare=false;
     }
-    public void rimuoviNotifica(String uID, int IDnotifica) {
-        utenti.getUtenteDaID(uID).rimuoviNotifica(IDnotifica); 
-    }
-    public void setNotificaLetta(String uID, int IDnotifica) {
-        utenti.getUtenteDaID(uID).segnaNotificaLetta(IDnotifica); 
-    }
+    public void mandaNotifica(int eID, String uID, String messaggio) { utenti.getUtenteDaID(uID).aggiungiNotifica(eID, messaggio); }
+    public void rimuoviNotifica(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).rimuoviNotifica(IDnotifica); }
+    public void setNotificaLetta(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).segnaNotificaLetta(IDnotifica); }
     
     // Getters & Setters
-    public Bacheca getBacheca() { return bacheca; }    
+    public Bacheca getBacheca() { setDaSalvare(); return bacheca; }    
     public Utenti getUtenti() { return utenti; }
-    public String getUtenteLoggatoID() { return utenteLoggato.getID(); }
-    public ArrayList getEventiByCreatoreID(String ID) { return bacheca.getEventiByCreatoreID(ID); }
-    public ArrayList getEventiIscritti(String ID) { return bacheca.getEventiByIscrittoID(ID); }
-    public ArrayList<Notifica> getNotifiche() { return utenteLoggato.getNotifiche(); }
-    
+    public String getUtenteLoggatoID() { return utenteLoggatoID; }
+    public ArrayList<Notifica> getNotifiche() { return utenti.getUtenteDaID(utenteLoggatoID).getNotifiche(); }    
         
     public static void main(String[] args) throws IOException {
             
-//        LocalDate.parse(JOptionPane.showInputDialog(""));
-        
-        Meetle meetle = new Meetle();
+        Meetle meetle = Meetle.getIstanza();
         meetle.start();       
     }
-    
-    
-    
-//    public String getDescrizioneCategorie() {
-//        return (new PartitaDiCalcio(null)).toDescrizioneCategoria() + "\n";
-//    }
-        
-//    public String stampaBacheca(String filtroNome) { return bacheca.toString(filtroNome); }    
-//    public String stampaBacheca() { return stampaBacheca(null); }
-    
-    //funzioni e attributi per aggiungere campi
-//    
-//    private Evento e = null;
-//    private Campo [] campi = null;
-//    
-//    public String[] istanziaEvento(String categoria) {
-//        if(categoria.equals(PartitaDiCalcio.NOME))
-//            e = new PartitaDiCalcio(null);
-//        campi = e.getTuttiCampi();
-//        String[] nomiCampiToString = new String[campi.length];
-//        for(int i = 0; i < campi.length; i++)
-//            nomiCampiToString[i] = campi[i].getNome();
-//        return nomiCampiToString;
-//    }
-//    
-//    public boolean aggiungiCampi(int indice, String valore) {
-//        try {
-//            campi[indice].setValoreDaString(valore);
-//            e.setValoreDaString(indice, valore);
-//        } catch (Exception e) {
-//            return false;
-//        }
-//        return true;
-//    }
-//        
-//    public boolean salvaEvento() {
-//        if(e == null) return false;
-//        bacheca.add(e);
-//        e = null;
-//        campi = null;
-//        return true;
-//    }
-//    
-    //fine funzioni per aggiungere campi
         
 }

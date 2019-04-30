@@ -19,9 +19,9 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
      * @return utente con quell'ID
      */
     public Utente getUtenteDaID(String ID) {
-        for(Utente u: this)
+        for(Utente u: this) { System.out.println(u);
             if(u.getID().equals(ID))
-                return u;
+                return u; }
         System.out.println("Utente non presente, creazione nuovo...");
         Utente u = new Utente(ID);
         add(u);

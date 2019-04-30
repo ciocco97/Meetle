@@ -4,9 +4,8 @@ import java.awt.Color;
 import meetle.eventi.campi.Campo;
 
 public class CampoPanel extends javax.swing.JPanel {
-
     
-    private Campo campo;
+    private final Campo campo;
     
     public CampoPanel(Campo campo, boolean godmode) {
         initComponents();
@@ -16,20 +15,22 @@ public class CampoPanel extends javax.swing.JPanel {
         valoreField.setText(campo.getValore()==null ? "" : campo.getValore().toString());
         valoreField.setEditable(godmode);
         
-        if(!campo.isFacoltativo()) nomeLabel.setForeground(new Color(200, 100, 0));
+        if(!campo.isFacoltativo()) nomeLabel.setText(nomeLabel.getText()+"*");
     }
     
-    public boolean checkValido() {
+    public boolean checkCompilato() {
         return campo.isFacoltativo() || !valoreField.getText().equals("");
     }
     
-    public void salvaValore() {
+    public boolean salvaValore() {
         try {
-        if(!valoreField.getText().equals(""))
-            campo.setValoreDaString(valoreField.getText());
+            if(!valoreField.getText().equals(""))
+                campo.setValoreDaString(valoreField.getText());
         } catch (Exception ex) { 
             System.out.println("Errore compilazione "+campo.getNome()+"\n"+ex.getMessage());
+            return false;
         }
+        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -39,19 +40,20 @@ public class CampoPanel extends javax.swing.JPanel {
         nomeLabel = new javax.swing.JLabel();
         valoreField = new javax.swing.JTextField();
 
-        setOpaque(false);
-        setLayout(new java.awt.GridLayout(1, 0));
+        setBackground(new java.awt.Color(0, 150, 155));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        setLayout(new java.awt.GridLayout());
 
-        nomeLabel.setBackground(new java.awt.Color(0, 150, 155));
-        nomeLabel.setFont(new java.awt.Font("Segoe UI Semilight", 0, 24)); // NOI18N
+        nomeLabel.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         nomeLabel.setForeground(new java.awt.Color(255, 255, 255));
+        nomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nomeLabel.setText("nome");
         nomeLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        nomeLabel.setOpaque(true);
         add(nomeLabel);
 
-        valoreField.setFont(new java.awt.Font("Segoe UI Emoji", 0, 21)); // NOI18N
+        valoreField.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         valoreField.setForeground(new java.awt.Color(30, 98, 255));
+        valoreField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         valoreField.setText("valore");
         valoreField.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         add(valoreField);

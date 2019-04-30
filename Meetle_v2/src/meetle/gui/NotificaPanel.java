@@ -15,20 +15,18 @@ import meetle.utenti.Notifica;
 public class NotificaPanel extends javax.swing.JPanel {
     private int IDEvento;
     private int IDNotifica;
-    private Meetle meetle;
 
-   public NotificaPanel(Meetle meetle, Notifica notifica) {
+   public NotificaPanel(Notifica notifica) {
         initComponents();
-        this.meetle = meetle;
         IDEvento = notifica.getEventoID();
         IDNotifica = notifica.getID();
         
-        testoNotificaLabel.setText(notifica.getMessaggio());
-        orarioLabel.setText("Ora: " + notifica.getDataora().toString());
+        jLabelTestoNotifica.setText(notifica.getMessaggio());
+        jLabelOrario.setText("Ora: " + notifica.getDataora().toString());
         if(notifica.isVisualizzata()) {
-            lettoButton.setText("visualizzata");
-            lettoButton.setEnabled(false);
-        } else { lettoButton.setText("Segna come già letto"); }
+            jButtonSegnaLetto.setText("visualizzata");
+            jButtonSegnaLetto.setEnabled(false);
+        } else { jButtonSegnaLetto.setText("Segna come già letto"); }
     }
 
     /**
@@ -40,34 +38,38 @@ public class NotificaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        testoNotificaLabel = new javax.swing.JLabel();
-        eliminaButton = new javax.swing.JButton();
-        lettoButton = new javax.swing.JButton();
-        orarioLabel = new javax.swing.JLabel();
-        eventoButton = new javax.swing.JButton();
+        jLabelTestoNotifica = new javax.swing.JLabel();
+        jLabelOrario = new javax.swing.JLabel();
+        jButtonVaiEvento = new javax.swing.JButton();
+        jButtonSegnaLetto = new javax.swing.JButton();
+        jButtonElimina = new javax.swing.JButton();
 
-        testoNotificaLabel.setText("Testo notifica");
+        setBackground(new java.awt.Color(0, 150, 155));
 
-        eliminaButton.setText("Elimina");
-        eliminaButton.addActionListener(new java.awt.event.ActionListener() {
+        jLabelTestoNotifica.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTestoNotifica.setText("Testo notifica");
+
+        jLabelOrario.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelOrario.setText("Data e ora");
+
+        jButtonVaiEvento.setText("Vai a evento");
+        jButtonVaiEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminaButtonActionPerformed(evt);
+                jButtonVaiEventoActionPerformed(evt);
             }
         });
 
-        lettoButton.setText("Segna come già letto");
-        lettoButton.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSegnaLetto.setText("Segna come già letto");
+        jButtonSegnaLetto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lettoButtonActionPerformed(evt);
+                jButtonSegnaLettoActionPerformed(evt);
             }
         });
 
-        orarioLabel.setText("Data e ora");
-
-        eventoButton.setText("Vai a evento");
-        eventoButton.addActionListener(new java.awt.event.ActionListener() {
+        jButtonElimina.setText("Elimina");
+        jButtonElimina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventoButtonActionPerformed(evt);
+                jButtonEliminaActionPerformed(evt);
             }
         });
 
@@ -77,15 +79,15 @@ public class NotificaPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(testoNotificaLabel)
+                .addComponent(jLabelTestoNotifica)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelOrario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(orarioLabel)
+                .addComponent(jButtonVaiEvento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(eventoButton)
+                .addComponent(jButtonSegnaLetto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lettoButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(eliminaButton)
+                .addComponent(jButtonElimina)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -93,33 +95,33 @@ public class NotificaPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(testoNotificaLabel)
-                    .addComponent(eliminaButton)
-                    .addComponent(lettoButton)
-                    .addComponent(orarioLabel)
-                    .addComponent(eventoButton))
+                    .addComponent(jButtonElimina)
+                    .addComponent(jButtonSegnaLetto)
+                    .addComponent(jButtonVaiEvento)
+                    .addComponent(jLabelTestoNotifica)
+                    .addComponent(jLabelOrario))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void eventoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventoButtonActionPerformed
-        java.awt.EventQueue.invokeLater(() -> { new EventoFrame(meetle, meetle.getBacheca().getByID(IDEvento), EventoFrame.VISUALIZZA).setVisible(true); });
-    }//GEN-LAST:event_eventoButtonActionPerformed
+    private void jButtonVaiEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVaiEventoActionPerformed
+        java.awt.EventQueue.invokeLater(() -> { new EventoFrame(IDEvento, EventoFrame.VISUALIZZA).setVisible(true); });
+    }//GEN-LAST:event_jButtonVaiEventoActionPerformed
 
-    private void lettoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lettoButtonActionPerformed
-        meetle.setNotificaLetta(meetle.getUtenteLoggatoID(), IDNotifica);
-    }//GEN-LAST:event_lettoButtonActionPerformed
+    private void jButtonSegnaLettoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSegnaLettoActionPerformed
+        Meetle.getIstanza().setNotificaLetta(Meetle.getIstanza().getUtenteLoggatoID(), IDNotifica);
+    }//GEN-LAST:event_jButtonSegnaLettoActionPerformed
 
-    private void eliminaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminaButtonActionPerformed
-        meetle.rimuoviNotifica(meetle.getUtenteLoggatoID(), IDNotifica);
-    }//GEN-LAST:event_eliminaButtonActionPerformed
+    private void jButtonEliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminaActionPerformed
+        Meetle.getIstanza().rimuoviNotifica(Meetle.getIstanza().getUtenteLoggatoID(), IDNotifica);
+    }//GEN-LAST:event_jButtonEliminaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton eliminaButton;
-    private javax.swing.JButton eventoButton;
-    private javax.swing.JButton lettoButton;
-    private javax.swing.JLabel orarioLabel;
-    private javax.swing.JLabel testoNotificaLabel;
+    private javax.swing.JButton jButtonElimina;
+    private javax.swing.JButton jButtonSegnaLetto;
+    private javax.swing.JButton jButtonVaiEvento;
+    private javax.swing.JLabel jLabelOrario;
+    private javax.swing.JLabel jLabelTestoNotifica;
     // End of variables declaration//GEN-END:variables
 }

@@ -24,9 +24,9 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
     public void metodoTemporaneo(String ID) {
         Evento e = new PartitaDiCalcio(ID);
         int[] indici = new int[]{Evento.I_TITOLO, Evento.I_NUM_PARTECIPANTI, 
-            Evento.I_LUOGO, Evento.I_DATA, Evento.I_ORA, PartitaDiCalcio.I_GENERE};
+            Evento.I_LUOGO, Evento.I_DATA, Evento.I_ORA, PartitaDiCalcio.I_QUOTA_INDIVIDUALE};
         String[] valori = new String[]{"Partita bella #"+(new Random().nextInt(100)), "45", 
-            "a casa", "2018-03-31", "08:45", "Maschile"};
+            "a casa", "2018-03-31", "08:45", "20"};
         for(int i=0; i < indici.length; i++)
             e.setValoreDaString(indici[i], valori[i]);   
         add(e);
@@ -39,18 +39,10 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
         return null;
     }
     
-    public ArrayList getEventiByCreatoreID(String uID) {
-//        return (ArrayList) stream()
-//                .filter((ev) -> (ev.creatoreID.equals(uID)))
-//                .collect(Collectors.toList());
-
-        ArrayList <Evento> list = new ArrayList();
-        for (Evento e:this)
-        {
-            if (e.creatoreID.equals(uID))
-                list.add(e);
-        }
-        return list;
+    public ArrayList<Evento> getEventiByCreatoreID(String uID) {
+        return (ArrayList) stream()
+                .filter((ev) -> (ev.creatoreID.equals(uID)))
+                .collect(Collectors.toList());
     }
     
     public ArrayList<Evento> getEventiByIscrittoID(String uID) {
@@ -73,28 +65,13 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
         return super.add(e); 
     }        
     
-//    public boolean aggiungiEvento(Evento ev)
-//    {
-//        int ID = ev.ID;
-//        for (Evento e:this)
-//            if (e.ID == ID)
-//                return false;
-//        this.add(ev);
-//        return true;
-//    }
-    
-    public synchronized void rimuoviEventiByID(int eID) {
+    public synchronized void rimuoviByID(int eID) {
         if(!remove(getByID(eID)))
             System.err.println("Nessun evento rimosso");
     }
     
-    public boolean rendiApertoEvento(int eID) {
-        Evento ev = getByID(eID);
-        if(ev != null && ev.getIndiceStatoCorrente()==Stato.VALIDO) {
-            ev.cambiaStato(Stato.APERTO);
-            return true;
-        }               
-        return false;
+    public void aggiornaStati() {
+        stream().forEach(e -> e.checkStato());
     }
 
     @Override

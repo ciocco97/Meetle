@@ -1,8 +1,10 @@
 package meetle.eventi.campi;
 
+import java.io.Serializable;
+
 public class CampoRange extends Campo<CampoRange.Range> {
        
-    static class Range {
+    static class Range implements Serializable {
         private int min, max;
 
         public Range(int min, int max) {
@@ -11,11 +13,9 @@ public class CampoRange extends Campo<CampoRange.Range> {
         }
         
         public Range(String stringaRange){
-            System.out.println(stringaRange);
             String[] numeri = stringaRange.split("-");
             min = Integer.parseInt(numeri[0]);
             max = Integer.parseInt(numeri[1]);
-            System.out.println(min+" e "+max);
         }
 
         @Override

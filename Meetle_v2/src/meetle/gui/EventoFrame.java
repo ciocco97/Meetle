@@ -12,27 +12,25 @@ import meetle.eventi.campi.Campo;
 
 public class EventoFrame extends javax.swing.JFrame {
     public static final int CREA = 0, MODIFICA = 1, VISUALIZZA = 2;
-    
-    private Meetle meetle;
-    
+        
     private int mode; // modalità d'uso
-    private Evento evento;
+    private int eventoID;
 
     
-    public EventoFrame(Meetle meetle, Evento evento, int mode) {
+    public EventoFrame(int eventoID, int mode) {
         initComponents();
-        this.meetle = meetle;
-        this.evento = evento;
+        this.eventoID = eventoID;
         this.mode = mode;
+        for(Campo campoT: Meetle.getIstanza().getBacheca().getByID(eventoID).getTuttiCampi()) 
+            jPanelCampi.add(new CampoPanel(campoT, mode!=VISUALIZZA));
+        pack();
+        setLocationRelativeTo(null);
         
-        for(Campo campoT: evento.getTuttiCampi()) 
-            jCampiPanel.add(new CampoPanel(campoT, true));
-        
-        
+        jButton1.setText("Salva");
         switch(mode){
             case CREA:
             case MODIFICA:
-                jButton1.addActionListener((ActionEvent e) -> salvaEvento());
+                jButton1.addActionListener((ActionEvent e) -> salvaEventoEChiudi());
                 break;
             case VISUALIZZA:
                 jButton1.setVisible(false);
@@ -53,15 +51,13 @@ public class EventoFrame extends javax.swing.JFrame {
         
     }
     
-    public boolean salvaEvento() {
-        for(Component c: jCampiPanel.getComponents())
-            if(c instanceof CampoPanel && !((CampoPanel) c).checkValido()) {
-                JOptionPane.showMessageDialog(this, "Errore inserimento campi");
+    public boolean salvaEventoEChiudi() {
+        for(Component c: jPanelCampi.getComponents())
+            if(!((CampoPanel)c).salvaValore()) {
+                JOptionPane.showMessageDialog(this, "Errore compilazione campo");
                 return false;
-            } else {
-                ((CampoPanel) c).salvaValore();
             }
-        meetle.salvaEventi();
+        Meetle.getIstanza().getBacheca().getByID(eventoID).checkStato();
         dispose();
         return true;
     }
@@ -70,32 +66,27 @@ public class EventoFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        titoloLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jCampiPanel = new javax.swing.JPanel();
+        jLabelTitolo = new javax.swing.JLabel();
+        jPanelCampi = new javax.swing.JPanel();
         jPanelBottoni = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
+        setTitle("Evento");
+        setMinimumSize(new java.awt.Dimension(400, 400));
 
-        titoloLabel.setBackground(new java.awt.Color(0, 115, 150));
-        titoloLabel.setFont(new java.awt.Font("Century Gothic", 0, 48)); // NOI18N
-        titoloLabel.setForeground(new java.awt.Color(255, 255, 255));
-        titoloLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titoloLabel.setText("EventoFrame");
-        titoloLabel.setOpaque(true);
-        getContentPane().add(titoloLabel, java.awt.BorderLayout.NORTH);
-        titoloLabel.getAccessibleContext().setAccessibleName("titolo");
+        jLabelTitolo.setBackground(new java.awt.Color(0, 115, 150));
+        jLabelTitolo.setFont(new java.awt.Font("Century Gothic", 0, 48)); // NOI18N
+        jLabelTitolo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTitolo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelTitolo.setText("EventoFrame");
+        jLabelTitolo.setOpaque(true);
+        getContentPane().add(jLabelTitolo, java.awt.BorderLayout.NORTH);
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(500, 300));
-
-        jCampiPanel.setBackground(new java.awt.Color(0, 148, 157));
-        jCampiPanel.setLayout(new javax.swing.BoxLayout(jCampiPanel, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPane1.setViewportView(jCampiPanel);
-
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        jPanelCampi.setBackground(new java.awt.Color(0, 148, 157));
+        jPanelCampi.setLayout(new javax.swing.BoxLayout(jPanelCampi, javax.swing.BoxLayout.Y_AXIS));
+        getContentPane().add(jPanelCampi, java.awt.BorderLayout.CENTER);
 
         jPanelBottoni.setBackground(new java.awt.Color(0, 115, 150));
 
@@ -108,7 +99,7 @@ public class EventoFrame extends javax.swing.JFrame {
         jPanelBottoniLayout.setHorizontalGroup(
             jPanelBottoniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBottoniLayout.createSequentialGroup()
-                .addContainerGap(326, Short.MAX_VALUE)
+                .addContainerGap(278, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
@@ -124,7 +115,7 @@ public class EventoFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanelBottoni, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(jPanelBottoni, java.awt.BorderLayout.SOUTH);
 
         pack();
         setLocationRelativeTo(null);
@@ -133,9 +124,8 @@ public class EventoFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jCampiPanel;
+    private javax.swing.JLabel jLabelTitolo;
     private javax.swing.JPanel jPanelBottoni;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel titoloLabel;
+    private javax.swing.JPanel jPanelCampi;
     // End of variables declaration//GEN-END:variables
 }
