@@ -39,6 +39,7 @@ public class EventoPanel extends javax.swing.JPanel {
                 if(evento.getIndiceStatoCorrente()==Stato.VALIDO)
                     jButton3.addActionListener((ActionEvent e) -> { // pusante apri in bacheca
                         evento.apriEvento();
+                        jButton3.setVisible(false);
                         aggiorna();
                     });
                 else jButton3.setVisible(false);

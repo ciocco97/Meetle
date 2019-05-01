@@ -20,10 +20,11 @@ public class NotificaPanel extends javax.swing.JPanel {
         initComponents();
         IDEvento = notifica.getEventoID();
         IDNotifica = notifica.getID();
-        
+        jLabelTitolo.setText(notifica.getTitolo());
         jLabelTestoNotifica.setText(notifica.getMessaggio());
         jLabelOrario.setText("Ora: " + notifica.getDataora().toString());
         if(notifica.isVisualizzata()) {
+            jLabelTitolo.setFont(new java.awt.Font("Century Gothic", 0, 20));
             jButtonSegnaLetto.setText("visualizzata");
             jButtonSegnaLetto.setEnabled(false);
         } else { jButtonSegnaLetto.setText("Segna come già letto"); }
@@ -43,13 +44,17 @@ public class NotificaPanel extends javax.swing.JPanel {
         jButtonVaiEvento = new javax.swing.JButton();
         jButtonSegnaLetto = new javax.swing.JButton();
         jButtonElimina = new javax.swing.JButton();
+        jLabelTitolo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 150, 155));
 
+        jLabelTestoNotifica.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelTestoNotifica.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTestoNotifica.setText("Testo notifica");
 
-        jLabelOrario.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelOrario.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelOrario.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabelOrario.setForeground(new java.awt.Color(204, 204, 204));
         jLabelOrario.setText("Data e ora");
 
         jButtonVaiEvento.setText("Vai a evento");
@@ -73,34 +78,49 @@ public class NotificaPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabelTitolo.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
+        jLabelTitolo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTitolo.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelTestoNotifica)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelOrario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelTitolo, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelTestoNotifica)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelOrario)))
+                .addGap(90, 90, 90)
                 .addComponent(jButtonVaiEvento)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jButtonSegnaLetto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jButtonElimina)
-                .addContainerGap())
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
+                .addComponent(jLabelTitolo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonElimina)
-                    .addComponent(jButtonSegnaLetto)
-                    .addComponent(jButtonVaiEvento)
                     .addComponent(jLabelTestoNotifica)
                     .addComponent(jLabelOrario))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jButtonVaiEvento))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jButtonSegnaLetto))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jButtonElimina))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -110,10 +130,17 @@ public class NotificaPanel extends javax.swing.JPanel {
 
     private void jButtonSegnaLettoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSegnaLettoActionPerformed
         Meetle.getIstanza().setNotificaLetta(Meetle.getIstanza().getUtenteLoggatoID(), IDNotifica);
+        jLabelTitolo.setFont(new java.awt.Font("Century Gothic", 0, 20));
+        jButtonSegnaLetto.setText("visualizzata");
+        jButtonSegnaLetto.setEnabled(false);
+        Meetle.getIstanza().setDaSalvare();
     }//GEN-LAST:event_jButtonSegnaLettoActionPerformed
 
     private void jButtonEliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminaActionPerformed
         Meetle.getIstanza().rimuoviNotifica(Meetle.getIstanza().getUtenteLoggatoID(), IDNotifica);
+        removeAll();
+        setVisible(false);
+        Meetle.getIstanza().setDaSalvare();
     }//GEN-LAST:event_jButtonEliminaActionPerformed
 
 
@@ -123,5 +150,6 @@ public class NotificaPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonVaiEvento;
     private javax.swing.JLabel jLabelOrario;
     private javax.swing.JLabel jLabelTestoNotifica;
+    private javax.swing.JLabel jLabelTitolo;
     // End of variables declaration//GEN-END:variables
 }

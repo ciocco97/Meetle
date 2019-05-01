@@ -14,14 +14,14 @@ public class Utente implements Serializable {
         notifiche = new ArrayList<>();
     }
     
-    public void aggiungiNotifica(int eID, String messaggio){
-        Notifica daAggiungere = new Notifica(eID, messaggio, LocalDateTime.now());
+    public void aggiungiNotifica(int eID,String titolo, String messaggio){
+        Notifica daAggiungere = new Notifica(eID, titolo, messaggio, LocalDateTime.now());
         boolean OK = true;
         for(Notifica n: notifiche) {
             if(n.equals(daAggiungere)) OK = false;
         }
         if(OK) notifiche.add(daAggiungere);
-        else aggiungiNotifica(eID, messaggio);
+        else aggiungiNotifica(eID, titolo, messaggio);
     }
     
     public void rimuoviNotifica(int nID) {

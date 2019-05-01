@@ -6,27 +6,30 @@ import java.util.Random;
 
 public class Notifica implements Serializable {
     private String messaggio;
+    private String titolo;
     private LocalDateTime dataora;
     private boolean visualizzata;
     private int eventoID;
     private int ID;
 
-    public Notifica(int eID, String messaggio, LocalDateTime dataora) {
+    public Notifica(int eID, String titolo, String messaggio, LocalDateTime dataora) {
         this.messaggio = messaggio;
+        this.titolo = titolo;
         this.dataora = dataora;
         this.visualizzata = false;
         this.eventoID = eID;
         ID = hashCode()+(new Random()).nextInt();
     }
     
-    public Notifica(int eID, String messaggio) {
-        this(eID, messaggio, LocalDateTime.now());
+    public Notifica(int eID, String titolo, String messaggio) {
+        this(eID, titolo, messaggio, LocalDateTime.now());
     }
     
     public void setVisualizzata() { this.visualizzata = true; }
 
     public boolean equals(Notifica notifica) { return notifica.getID() == ID; }
     
+    public String getTitolo() { return titolo; }
     public String getMessaggio() { return messaggio; }
     public LocalDateTime getDataora() { return dataora; }
     public boolean isVisualizzata() { return visualizzata; }

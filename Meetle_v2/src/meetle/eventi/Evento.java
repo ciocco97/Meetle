@@ -110,13 +110,19 @@ public abstract class Evento implements Serializable {
                 break;
             case Stato.APERTO:
                 if(getNumIscritti() >= (int)campi[I_NUM_PARTECIPANTI].getValore())
-                    nuovoStato(Stato.CHIUSO);
-                else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) < 0) // la data attuale supera la data termine iscrizione
+                    chiudiEvento();
+                else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
                     nuovoStato(Stato.FALLITO);
                 break;
             case Stato.CHIUSO:
-                if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) < 0) // quando la data attuale supera la data di termine evento
-                    nuovoStato(Stato.CONCLUSO);
+                //if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0) // quando la data attuale supera la data di termine evento
+                if (campi[I_DATA_CONCLUSIVA].getValore() != null){
+                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0)
+                        nuovoStato(Stato.CONCLUSO);
+                }
+                else
+                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA].getValore()) > 0)
+                        nuovoStato(Stato.CONCLUSO);       
                 break;
         }
     }
@@ -126,6 +132,13 @@ public abstract class Evento implements Serializable {
             nuovoStato(Stato.APERTO);            
     }
     
+    public void chiudiEvento()
+    {
+        nuovoStato(Stato.CHIUSO);
+        String messaggio = "Evento ufficialmente chiuso!";
+        for (String utente:iscrittiIDs)
+            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
+    }
     
     /**
      * dice se l'utente con questo ID è iscritto

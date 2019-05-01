@@ -105,7 +105,8 @@ public class Meetle {
             
         daSalvare=false;
     }
-    public void mandaNotifica(int eID, String uID, String messaggio) { utenti.getUtenteDaID(uID).aggiungiNotifica(eID, messaggio); }
+    
+    public void mandaNotifica(int eID, String titolo, String uID, String messaggio) { utenti.getUtenteDaID(uID).aggiungiNotifica(eID, titolo, messaggio); }
     public void rimuoviNotifica(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).rimuoviNotifica(IDnotifica); }
     public void setNotificaLetta(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).segnaNotificaLetta(IDnotifica); }
     
@@ -120,6 +121,7 @@ public class Meetle {
         Meetle meetle = Meetle.getIstanza();
         meetle.start();       
     }
+    
 }
 
 
