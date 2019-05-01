@@ -16,7 +16,6 @@ public class Notifica implements Serializable {
         this.dataora = dataora;
         this.visualizzata = false;
         this.eventoID = eID;
-        
         ID = hashCode()+(new Random()).nextInt();
     }
     

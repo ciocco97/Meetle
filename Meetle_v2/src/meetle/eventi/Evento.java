@@ -1,6 +1,7 @@
 package meetle.eventi;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -110,11 +111,11 @@ public abstract class Evento implements Serializable {
             case Stato.APERTO:
                 if(getNumIscritti() >= (int)campi[I_NUM_PARTECIPANTI].getValore())
                     nuovoStato(Stato.CHIUSO);
-                else if (false) // la data attuale supera la data termine iscrizione
+                else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) < 0) // la data attuale supera la data termine iscrizione
                     nuovoStato(Stato.FALLITO);
                 break;
-            case Stato.CONCLUSO:
-                if (false) // quando la data attuale supera la data di termine evento
+            case Stato.CHIUSO:
+                if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) < 0) // quando la data attuale supera la data di termine evento
                     nuovoStato(Stato.CONCLUSO);
                 break;
         }
