@@ -67,8 +67,9 @@ public class Meetle {
                     bacheca.aggiornaStati();
                     if(daSalvare)
                         salva();
+                        bachecaFrame.aggiorna();
                     try {
-                        wait(100);
+                        wait(500);
                     } catch (InterruptedException ex) { }
                 }
             }

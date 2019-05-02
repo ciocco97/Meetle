@@ -49,7 +49,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 break;
         }      
         repaint();  
-        validate();
+        pack();
     }
 
     @Override

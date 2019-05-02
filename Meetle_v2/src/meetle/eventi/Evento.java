@@ -130,7 +130,7 @@ public abstract class Evento implements Serializable {
     public void apriEvento() {
         if(getIndiceStatoCorrente()==Stato.VALIDO) {
             nuovoStato(Stato.APERTO); 
-            String messaggio = "Hai pubblicato (APERTO) l'evento: " + campi[I_TITOLO].getValore().toString();
+            String messaggio = "Hai pubblicato (APERTO) l'evento";
             Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
         }
     }
