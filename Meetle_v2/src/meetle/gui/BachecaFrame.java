@@ -15,7 +15,7 @@ public class BachecaFrame extends javax.swing.JFrame {
         aggiorna();
     }
     
-    private void aggiorna() {
+    public void aggiorna() {
         jPanelBacheca.removeAll();
         Meetle.getIstanza().getBacheca().stream()
                 .filter((e) -> {
@@ -26,7 +26,7 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .filter((e) -> e.getIndiceStatoCorrente()==Stato.APERTO)
                 .forEach((e) -> jPanelBacheca.add(new EventoPanel(e.getID(), EventoPanel.MODE_EVENTO_APERTO)));
         repaint();
-        pack();
+        validate();
         
     }
     
@@ -38,7 +38,6 @@ public class BachecaFrame extends javax.swing.JFrame {
         jLabelTitolo = new javax.swing.JLabel();
         jComboBoxCategorie = new javax.swing.JComboBox<>();
         jButtonAggiungiEvento = new javax.swing.JButton();
-        jButtonTemporaneo = new javax.swing.JButton();
         jBtnAreaPrivata = new javax.swing.JButton();
         jScrollPaneBacheca = new javax.swing.JScrollPane();
         jPanelBacheca = new javax.swing.JPanel();
@@ -68,14 +67,6 @@ public class BachecaFrame extends javax.swing.JFrame {
             }
         });
 
-        jButtonTemporaneo.setText("metodoTemporaneo()");
-        jButtonTemporaneo.setEnabled(false);
-        jButtonTemporaneo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonTemporaneoActionPerformed(evt);
-            }
-        });
-
         jBtnAreaPrivata.setText("userID");
         jBtnAreaPrivata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,9 +88,7 @@ public class BachecaFrame extends javax.swing.JFrame {
                         .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAggiungiEvento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonTemporaneo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 284, Short.MAX_VALUE)
                         .addComponent(jBtnAreaPrivata)))
                 .addContainerGap())
         );
@@ -112,7 +101,6 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .addGroup(jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonAggiungiEvento)
-                    .addComponent(jButtonTemporaneo)
                     .addComponent(jBtnAreaPrivata))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -131,11 +119,6 @@ public class BachecaFrame extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonTemporaneoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTemporaneoActionPerformed
-        Meetle.getIstanza().getBacheca().metodoTemporaneo(Meetle.getIstanza().getUtenteLoggatoID());
-        aggiorna();
-    }//GEN-LAST:event_jButtonTemporaneoActionPerformed
 
     private void jBtnAreaPrivataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAreaPrivataActionPerformed
         Meetle.getIstanza().mostraAreaPersonale();
@@ -164,7 +147,6 @@ public class BachecaFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;
     private javax.swing.JButton jButtonAggiungiEvento;
-    private javax.swing.JButton jButtonTemporaneo;
     private javax.swing.JComboBox<String> jComboBoxCategorie;
     private javax.swing.JLabel jLabelTitolo;
     private javax.swing.JPanel jPanelBacheca;

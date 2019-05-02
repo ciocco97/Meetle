@@ -1,5 +1,6 @@
 package meetle.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import meetle.Meetle;
 import meetle.eventi.Evento;
@@ -20,6 +21,15 @@ public class EventoPanel extends javax.swing.JPanel {
         this.mode = mode;
         
         Evento evento = Meetle.getIstanza().getBacheca().getByID(eID);
+        
+        int stato = evento.getIndiceStatoCorrente();
+        
+        switch(stato) {
+            case Stato.APERTO: jLbTitolo.setForeground(Color.green); break;
+            case Stato.CHIUSO: jLbTitolo.setForeground(Color.blue); break;
+            case Stato.FALLITO: jLbTitolo.setForeground(Color.red); break;
+            default: jLbTitolo.setForeground(new Color(0, 150, 155));
+        }
         
         // Configurazione testo e azione dei pulsanti
         switch(mode) {
@@ -85,7 +95,10 @@ public class EventoPanel extends javax.swing.JPanel {
                 jButton2.setVisible(false);
             else if(!evento.isUtenteIscritto(Meetle.getIstanza().getUtenteLoggatoID())) 
                 jButton2.setText("Iscriviti");                     
-            else jButton2.setText("Disiscriviti");        
+            else jButton2.setText("Disiscriviti");  
+        if(evento.getNumIscritti() == evento.getMaxIscritti())
+            jButton2.setEnabled(false);
+        
         
     }
     

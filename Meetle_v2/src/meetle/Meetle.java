@@ -68,7 +68,7 @@ public class Meetle {
                     if(daSalvare)
                         salva();
                     try {
-                        wait(500);
+                        wait(100);
                     } catch (InterruptedException ex) { }
                 }
             }
@@ -84,8 +84,16 @@ public class Meetle {
     }
     
     
-    public void mostraAreaPersonale() {        
+    public void mostraAreaPersonale() {
+        bachecaFrame.setVisible(false);
+        areaPersonaleFrame.aggiorna();
         areaPersonaleFrame.setVisible(true);
+    }
+    
+    public void mostraBacheca() {
+        areaPersonaleFrame.setVisible(false);
+        bachecaFrame.aggiorna();
+        bachecaFrame.setVisible(true);
     }
     
     public void setDaSalvare() { daSalvare=true; }

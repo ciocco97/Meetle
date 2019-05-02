@@ -58,9 +58,7 @@
                           <Component id="jComboBoxCategorie" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButtonAggiungiEvento" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButtonTemporaneo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="284" max="32767" attributes="0"/>
                           <Component id="jBtnAreaPrivata" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -77,7 +75,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jComboBoxCategorie" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonAggiungiEvento" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonTemporaneo" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jBtnAreaPrivata" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -119,15 +116,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAggiungiEventoActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButtonTemporaneo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="metodoTemporaneo()"/>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonTemporaneoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jBtnAreaPrivata">

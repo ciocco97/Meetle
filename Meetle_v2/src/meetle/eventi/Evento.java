@@ -112,7 +112,7 @@ public abstract class Evento implements Serializable {
                 if(getNumIscritti() >= (int)campi[I_NUM_PARTECIPANTI].getValore())
                     chiudiEvento();
                 else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
-                    nuovoStato(Stato.FALLITO);
+                    fallisciEvento();
                 break;
             case Stato.CHIUSO:
                 //if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0) // quando la data attuale supera la data di termine evento
@@ -128,8 +128,11 @@ public abstract class Evento implements Serializable {
     }
     
     public void apriEvento() {
-        if(getIndiceStatoCorrente()==Stato.VALIDO)
-            nuovoStato(Stato.APERTO);            
+        if(getIndiceStatoCorrente()==Stato.VALIDO) {
+            nuovoStato(Stato.APERTO); 
+            String messaggio = "Hai pubblicato (APERTO) l'evento: " + campi[I_TITOLO].getValore().toString();
+            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
+        }
     }
     
     public void chiudiEvento()
@@ -137,6 +140,13 @@ public abstract class Evento implements Serializable {
         nuovoStato(Stato.CHIUSO);
         String messaggio = "Evento ufficialmente chiuso!";
         for (String utente:iscrittiIDs)
+            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
+    }
+    
+    public void fallisciEvento() {
+        nuovoStato(Stato.FALLITO);
+        String messaggio = "Evento ufficialmente Fallito :(";
+        for(String utente: iscrittiIDs)
             Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
     }
     
@@ -174,6 +184,7 @@ public abstract class Evento implements Serializable {
     public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
     public String getCreatoreID(){ return creatoreID; }
     public int getNumIscritti() { return 1+iscrittiIDs.size(); }
+    public int getMaxIscritti() { return (campi[I_NUM_PARTECIPANTI] != null) ? ((Integer) campi[I_NUM_PARTECIPANTI].getValore()) : -1;}
     
         
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }
