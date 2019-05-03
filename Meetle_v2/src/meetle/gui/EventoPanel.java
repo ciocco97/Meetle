@@ -90,14 +90,12 @@ public class EventoPanel extends javax.swing.JPanel {
         if (evento.getIndiceStatoCorrente() == Stato.NONVALIDO)
             jLbTitolo.setText("non valido");
         else riempiPannello(evento);
-        if(mode==MODE_EVENTO_APERTO) 
+        if(mode == MODE_EVENTO_APERTO) 
             if(Meetle.getIstanza().getUtenteLoggatoID().equals(evento.getCreatoreID()))
                 jButton2.setVisible(false);
             else if(!evento.isUtenteIscritto(Meetle.getIstanza().getUtenteLoggatoID())) 
                 jButton2.setText("Iscriviti");                     
-            else jButton2.setText("Disiscriviti");  
-        if(evento.getNumIscritti() == evento.getMaxIscritti())
-            jButton2.setEnabled(false);
+            else jButton2.setText("Disiscriviti");
         
         
     }

@@ -110,9 +110,9 @@ public abstract class Evento implements Serializable {
                 break;
             case Stato.APERTO:
                 if(getNumIscritti() >= (int)campi[I_NUM_PARTECIPANTI].getValore())
-                    chiudiEvento();
+                    cambiaStato(Stato.CHIUSO);
                 else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
-                    fallisciEvento();
+                    cambiaStato(Stato.FALLITO);
                 break;
             case Stato.CHIUSO:
                 //if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0) // quando la data attuale supera la data di termine evento
@@ -127,28 +127,47 @@ public abstract class Evento implements Serializable {
         }
     }
     
-    public void apriEvento() {
-        if(getIndiceStatoCorrente()==Stato.VALIDO) {
-            nuovoStato(Stato.APERTO); 
-            String messaggio = "Hai pubblicato (APERTO) l'evento";
-            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
+    private void cambiaStato(int indiceStato) {
+        String messaggio;
+        switch(indiceStato) {
+            case Stato.CHIUSO:
+                messaggio = "Evento ufficialmente chiuso :)";
+                break;
+            case Stato.FALLITO:
+                messaggio = "Evento ufficialmente fallito :(";
+                break;
+            case Stato.APERTO:
+                messaggio = "Hai aperto l'evento :|";
+                break;
+            default:
+                messaggio = "Questo messaggio se lo vedi significa che c'è qualcosa che non quadra";
         }
-    }
-    
-    public void chiudiEvento()
-    {
-        nuovoStato(Stato.CHIUSO);
-        String messaggio = "Evento ufficialmente chiuso!";
+        nuovoStato(indiceStato);
         for (String utente:iscrittiIDs)
             Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
+        
+        Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
     }
     
-    public void fallisciEvento() {
-        nuovoStato(Stato.FALLITO);
-        String messaggio = "Evento ufficialmente Fallito :(";
-        for(String utente: iscrittiIDs)
-            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
+    public void apriEvento() {
+        if(getIndiceStatoCorrente()==Stato.VALIDO) 
+            cambiaStato(Stato.APERTO);
     }
+    
+//    public void chiudiEvento()
+//    {
+//        nuovoStato(Stato.CHIUSO);
+//        String messaggio = "Evento ufficialmente chiuso!";
+//        for (String utente:iscrittiIDs)
+//            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
+//    }
+    
+//    public void fallisciEvento() {
+//        nuovoStato(Stato.FALLITO);
+//        String messaggio = "Evento ufficialmente Fallito :(";
+//        for(String utente: iscrittiIDs)
+//            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
+//    }
     
     /**
      * dice se l'utente con questo ID è iscritto
@@ -184,8 +203,6 @@ public abstract class Evento implements Serializable {
     public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
     public String getCreatoreID(){ return creatoreID; }
     public int getNumIscritti() { return 1+iscrittiIDs.size(); }
-    public int getMaxIscritti() { return (campi[I_NUM_PARTECIPANTI] != null) ? ((Integer) campi[I_NUM_PARTECIPANTI].getValore()) : -1;}
-    
         
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }
 //    public void setDurata(String valore){campi[I_DURATA].setValoreDaString(valore);}
