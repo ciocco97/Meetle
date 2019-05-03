@@ -38,8 +38,17 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 }
             case CREAZIONI:
                 {
-                    Meetle.getIstanza().getBacheca().getEventiByCreatoreID(uID).stream()
-                            .forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_MODIFICA)); });
+                    ArrayList<Evento> l = Meetle.getIstanza().getBacheca().getEventiByCreatoreID(uID);
+                    for(Evento e: l) {
+                        int stato = e.getIndiceStatoCorrente();
+                        
+                        if(stato == Stato.VALIDO || stato == Stato.NONVALIDO)
+                            jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_MODIFICA));
+                        if(stato == Stato.APERTO || stato == Stato.CHIUSO || stato == Stato.CONCLUSO)
+                            jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_VISUALIZZA));
+                    }
+//                    Meetle.getIstanza().getBacheca().getEventiByCreatoreID(uID).stream()
+//                            .forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_MODIFICA)); });
                     break;
                 }
             case NOTIFICHE:
@@ -126,7 +135,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         jScrollPane.setBorder(null);
         jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jPanelMadre.setBackground(new java.awt.Color(0, 150, 155));
+        jPanelMadre.setBackground(new java.awt.Color(0, 150, 156));
         jPanelMadre.setLayout(new javax.swing.BoxLayout(jPanelMadre, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane.setViewportView(jPanelMadre);
 

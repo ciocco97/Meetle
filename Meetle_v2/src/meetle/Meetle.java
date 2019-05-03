@@ -77,7 +77,8 @@ public class Meetle {
     }
     
     public void loginUtente (){ 
-        utenteLoggatoID = JOptionPane.showInputDialog("LOGIN UTENTE");
+        if((utenteLoggatoID = JOptionPane.showInputDialog("LOGIN UTENTE")) == null)
+            System.exit(0);
         try {
             // salva subito gli utenti
             io.salvaUtenti();
@@ -86,7 +87,7 @@ public class Meetle {
     
     
     public void mostraAreaPersonale() {
-        bachecaFrame.setVisible(false);
+        bachecaFrame.setEnabled(false);
         areaPersonaleFrame.aggiorna();
         areaPersonaleFrame.setVisible(true);
     }
@@ -94,7 +95,8 @@ public class Meetle {
     public void mostraBacheca() {
         areaPersonaleFrame.setVisible(false);
         bachecaFrame.aggiorna();
-        bachecaFrame.setVisible(true);
+        bachecaFrame.setEnabled(true);
+        
     }
     
     public void setDaSalvare() { daSalvare=true; }

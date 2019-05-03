@@ -13,7 +13,6 @@ public class EventoPanel extends javax.swing.JPanel {
     private final int eventoID; // ID dell'evento di riferimento
     private final int mode; // true se siamo in modalità modifica
     
-    
     public EventoPanel(int eID, int mode) {
         
         initComponents();
@@ -28,6 +27,7 @@ public class EventoPanel extends javax.swing.JPanel {
             case Stato.APERTO: jLbTitolo.setForeground(Color.green); break;
             case Stato.CHIUSO: jLbTitolo.setForeground(Color.blue); break;
             case Stato.FALLITO: jLbTitolo.setForeground(Color.red); break;
+            case Stato.VALIDO: jLbTitolo.setForeground(Color.white); break;
             default: jLbTitolo.setForeground(new Color(0, 150, 155));
         }
         
