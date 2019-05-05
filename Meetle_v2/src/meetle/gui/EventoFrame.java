@@ -1,13 +1,9 @@
 package meetle.gui;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import meetle.Meetle;
-import meetle.eventi.Evento;
 import meetle.eventi.campi.Campo;
 
 public class EventoFrame extends javax.swing.JFrame {

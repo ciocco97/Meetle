@@ -1,73 +1,74 @@
 package meetle.gui;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import meetle.Meetle;
 import meetle.eventi.Evento;
-import meetle.eventi.Stato;
 import meetle.utenti.Notifica;
 
 public class AreaPersonaleFrame extends javax.swing.JFrame {
-    
-    private static final int ISCRIZIONI=0, CREAZIONI=1, NOTIFICHE=2; 
-    
-    private String uID;
+
+    private static final int ISCRIZIONI = 0, CREAZIONI = 1, NOTIFICHE = 2;
+
+    private final String uID;
 
     public AreaPersonaleFrame() {
         initComponents();
-        
+
         uID = Meetle.getIstanza().getUtenteLoggatoID();
         jLabelTitolo.setText(uID);
-        setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-        
+        inizializza();
         aggiorna();
-    }    
-    
-    public void aggiorna() {
+    }
+
+    public void inizializza() {
         jPanelMadre.removeAll();
+        jPanelMadre.repaint();
+        jPanelMadre.validate();
+        
         switch (selettore.getSelectedIndex()) {
-            case ISCRIZIONI:
-                {
-                    ArrayList<Evento> l = Meetle.getIstanza().getBacheca().getEventiByIscrittoID(uID);
-                    for(Evento e : l) {
-                        if(e.getIndiceStatoCorrente() == Stato.APERTO)
-                            jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_EVENTO_APERTO));
-                        else if(e.getIndiceStatoCorrente() == Stato.CHIUSO)
-                            jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_VISUALIZZA));
-                    }
-                    break;
-                }
-            case CREAZIONI:
-                {
-                    ArrayList<Evento> l = Meetle.getIstanza().getBacheca().getEventiByCreatoreID(uID);
-                    for(Evento e: l) {
-                        int stato = e.getIndiceStatoCorrente();
-                        
-                        if(stato == Stato.VALIDO || stato == Stato.NONVALIDO)
-                            jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_MODIFICA));
-                        if(stato == Stato.APERTO || stato == Stato.CHIUSO || stato == Stato.CONCLUSO)
-                            jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_VISUALIZZA));
-                    }
+            case ISCRIZIONI: {
+                ArrayList<Evento> l = Meetle.getIstanza().getBacheca().getEventiByIscrittoID(uID);
+                for (Evento e : l) 
+                    jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.POS_ISCRIZIONI));
+                
+                break;
+            }
+            case CREAZIONI: {
+                ArrayList<Evento> l = Meetle.getIstanza().getBacheca().getEventiByCreatoreID(uID);
+                for (Evento e : l) 
+                    jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.POS_POSSEDUTI));
+                
 //                    Meetle.getIstanza().getBacheca().getEventiByCreatoreID(uID).stream()
 //                            .forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_MODIFICA)); });
-                    break;
-                }
-            case NOTIFICHE:
-                for(Notifica n: Meetle.getIstanza().getNotifiche()) {
-                    jPanelMadre.add(new NotificaPanel(n));
-                }   
                 break;
-        }      
-        repaint();  
-        pack();
+            }
+            case NOTIFICHE:
+                for (Notifica n : Meetle.getIstanza().getNotifiche()) {
+                    jPanelMadre.add(new NotificaPanel(n));
+                }
+                break;
+        }
+    }
+
+    public void aggiorna() {
+        Component comp[] = jPanelMadre.getComponents();
+//        System.out.println("Agggiorna -> comp.lenght: " + comp.length);
+        for (Component comp1 : comp) {
+            try {
+                EventoPanel pannello = (EventoPanel) comp1;
+                pannello.aggiorna();
+            }catch (Exception e) {;}
+        }
+        jPanelMadre.validate();
     }
 
     @Override
     public void setVisible(boolean b) {
         aggiorna();
-        super.setVisible(b); 
+        super.setVisible(b);
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -82,6 +83,11 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         setTitle("Area Utente");
         setBackground(new java.awt.Color(0, 115, 150));
         setMinimumSize(new java.awt.Dimension(600, 400));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanelHeader.setBackground(new java.awt.Color(0, 115, 150));
         jPanelHeader.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -110,9 +116,9 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(selettore, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(jLabelTitolo)
                 .addContainerGap())
@@ -120,14 +126,15 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         jPanelHeaderLayout.setVerticalGroup(
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHeaderLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(1, 1, 1)
                 .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
                         .addComponent(jButton1)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabelTitolo))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanelHeader, java.awt.BorderLayout.NORTH);
@@ -146,8 +153,13 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void selettoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selettoreActionPerformed
+        inizializza();
         aggiorna();
     }//GEN-LAST:event_selettoreActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Meetle.getIstanza().mostraBacheca();
+    }//GEN-LAST:event_formWindowClosing
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Meetle.getIstanza().mostraBacheca();

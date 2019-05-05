@@ -1,6 +1,10 @@
 package meetle.gui;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import meetle.eventi.campi.Campo;
 
 public class CampoPanel extends javax.swing.JPanel {
@@ -9,7 +13,15 @@ public class CampoPanel extends javax.swing.JPanel {
     
     public CampoPanel(Campo campo, boolean godmode) {
         initComponents();
-        
+        if (campo.getNome() == "Titolo"){
+            valoreField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyTyped(KeyEvent e) { 
+                    if (valoreField.getText().length() >= 10 ) // limit textfield to 3 characters
+                        e.consume(); 
+                    }  
+            });
+        }
         this.campo = campo;
         nomeLabel.setText(campo.getNome());
         valoreField.setText(campo.getValore()==null ? "" : campo.getValore().toString());

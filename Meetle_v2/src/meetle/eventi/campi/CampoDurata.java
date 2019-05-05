@@ -1,8 +1,10 @@
 package meetle.eventi.campi;
 
-public class CampoDurata extends Campo<CampoDurata.Durata> {
+import java.io.Serializable;
+
+public class CampoDurata extends Campo<CampoDurata.Durata>{
     
-    static class Durata {
+    static class Durata implements Serializable{
         private int giorni, ore, minuti;
 
         public Durata(int giorni, int ore, int minuti) {
@@ -20,7 +22,7 @@ public class CampoDurata extends Campo<CampoDurata.Durata> {
 
         @Override
         public String toString() {
-            return giorni + "g "+ ore + "o " + minuti + "m";
+            return giorni + ":"+ ore + ":" + minuti;
         }
     }
     

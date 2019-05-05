@@ -1,5 +1,6 @@
 package meetle.gui;
 
+import java.awt.Component;
 import javax.swing.JOptionPane;
 import meetle.Meetle;
 import meetle.eventi.Evento;
@@ -11,23 +12,30 @@ public class BachecaFrame extends javax.swing.JFrame {
     public BachecaFrame() {
         initComponents();        
         jBtnAreaPrivata.setText(Meetle.getIstanza().getUtenteLoggatoID());
-        
-        aggiorna();
+        inizializza();
     }
-    
-    public void aggiorna() {
+    public void inizializza() {
         jPanelBacheca.removeAll();
+        jPanelBacheca.repaint();
+        jPanelBacheca.validate();
+        
         Meetle.getIstanza().getBacheca().stream()
                 .filter((e) -> {
                     switch(jComboBoxCategorie.getSelectedIndex()) {
                         case 1: return e instanceof PartitaDiCalcio;
                         default: return true;
                     }})
-                .filter((e) -> e.getIndiceStatoCorrente()==Stato.APERTO)
-                .forEach((e) -> jPanelBacheca.add(new EventoPanel(e.getID(), EventoPanel.MODE_EVENTO_APERTO)));
-        repaint();
-        validate();
-        
+                .forEach((e) -> jPanelBacheca.add(new EventoPanel(e.getID(), EventoPanel.POS_BACHECA)));
+        pack();
+    }
+    public void aggiorna()
+    {
+        Component comp[] = jPanelBacheca.getComponents();
+        for (int i = 0; i<comp.length; i++)
+        {
+             EventoPanel pannello = (EventoPanel) comp[i];
+             pannello.aggiorna();
+        }
     }
     
     @SuppressWarnings("unchecked")

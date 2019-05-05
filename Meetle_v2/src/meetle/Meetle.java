@@ -67,7 +67,8 @@ public class Meetle {
                     bacheca.aggiornaStati();
                     if(daSalvare)
                         salva();
-                        bachecaFrame.aggiorna();
+                    bachecaFrame.aggiorna();
+                    areaPersonaleFrame.aggiorna();
                     try {
                         wait(500);
                     } catch (InterruptedException ex) { }
@@ -87,15 +88,15 @@ public class Meetle {
     
     
     public void mostraAreaPersonale() {
-        bachecaFrame.setEnabled(false);
-        areaPersonaleFrame.aggiorna();
+        bachecaFrame.setVisible(false);
+        areaPersonaleFrame.inizializza();
         areaPersonaleFrame.setVisible(true);
     }
     
     public void mostraBacheca() {
         areaPersonaleFrame.setVisible(false);
-        bachecaFrame.aggiorna();
-        bachecaFrame.setEnabled(true);
+        bachecaFrame.inizializza();
+        bachecaFrame.setVisible(true);
         
     }
     
@@ -103,16 +104,16 @@ public class Meetle {
     
     public void salva() {
         try {
-            System.out.print("Salvataggio utenti su file... ");
+            //System.out.print("Salvataggio utenti su file... ");
             io.salvaUtenti();
-            System.out.println("OK!");
+            //System.out.println("OK!");
         } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti!!\n\t"+ex.getMessage()); }
         
         try {
-            System.out.print("Salvataggio eventi su file... ");
+            //System.out.print("Salvataggio eventi su file... ");
             io.salvaEventi();
-            System.out.println("OK!");
-        } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getMessage()); }
+            //System.out.println("OK!");
+        } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getStackTrace()); }
             
         daSalvare=false;
     }

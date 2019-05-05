@@ -140,7 +140,7 @@ public abstract class Evento implements Serializable {
                 messaggio = "Hai aperto l'evento :|";
                 break;
             default:
-                messaggio = "Questo messaggio se lo vedi significa che c'è qualcosa che non quadra";
+                messaggio = "Questo messaggio se lo vedi significa che c'è qualquadra che non cosa XD LOL !!!111!!11!1";
         }
         nuovoStato(indiceStato);
         for (String utente:iscrittiIDs)
@@ -196,7 +196,7 @@ public abstract class Evento implements Serializable {
     
     // Getters e Setters
     
-    public int getID() { return ID; }
+    public int getID() {/*System.out.println("Evento.getID() -> ID: " + ID);*/ return ID; }
     public String getNome() { return nome; }
     public String getTitolo() { return (String) campi[I_TITOLO].getValore(); }
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(campi, campiExtra); }
