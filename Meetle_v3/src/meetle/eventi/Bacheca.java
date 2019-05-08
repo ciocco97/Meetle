@@ -23,10 +23,12 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
     // aggiungiamo una partita di calcio a caso
     public void metodoTemporaneo(String ID) {
         Evento e = new PartitaDiCalcio(ID);
-        int[] indici = new int[]{Evento.I_TITOLO, Evento.I_NUM_PARTECIPANTI, 
-            Evento.I_LUOGO, Evento.I_DATA, Evento.I_ORA, PartitaDiCalcio.I_QUOTA_INDIVIDUALE};
-        String[] valori = new String[]{"Partita bella #"+(new Random().nextInt(100)), "45", 
-            "a casa", "2018-03-31", "08:45", "20"};
+        int[] indici = new int[]{Evento.I_TITOLO, Evento.I_NUM_PARTECIPANTI, Evento.I_TERMINE_ISCRIZIONE,
+            Evento.I_LUOGO, Evento.I_DATA, Evento.I_ORA, PartitaDiCalcio.I_QUOTA_INDIVIDUALE, 
+            Evento.I_TOLLERANZA_PARTECIPANTI, Evento.I_DATA_RITIRO_ISCRIZIONE,
+            PartitaDiCalcio.I_GENERE, PartitaDiCalcio.I_FASCIA_ETA };
+        String[] valori = new String[]{"Partita bella #"+(new Random().nextInt(100)), "3", "2019-05-15",
+            "a casa", "2019-05-20", "08:45", "20", "2", "2019-05-12", "femminile fighettine", "8-15"};
         for(int i=0; i < indici.length; i++)
             e.setValoreDaString(indici[i], valori[i]);   
         add(e);

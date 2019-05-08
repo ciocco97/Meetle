@@ -116,11 +116,11 @@ public abstract class Evento implements Serializable {
                 int numMinPartecipanti = (Integer)campi[I_NUM_PARTECIPANTI].getValore(), 
                     numMaxPartecipanti = getMaxNumIscritti();
                 // Condizione 1 per passare da aperto a chiuso
-                if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) == 0 &&
+                if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) >= 0 &&
                         getNumIscritti() >= numMinPartecipanti && getNumIscritti() <= numMaxPartecipanti)
                     cambiaStato(Stato.CHIUSO);
                 // Condizione 2 per passare da aperto a chiuso
-                if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 &&
+                else if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 &&
                         LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) >= 0 &&
                         getNumIscritti() == numMaxPartecipanti)
                     cambiaStato(Stato.CHIUSO);

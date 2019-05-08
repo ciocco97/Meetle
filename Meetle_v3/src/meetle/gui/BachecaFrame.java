@@ -47,6 +47,7 @@ public class BachecaFrame extends javax.swing.JFrame {
         jComboBoxCategorie = new javax.swing.JComboBox<>();
         jButtonAggiungiEvento = new javax.swing.JButton();
         jBtnAreaPrivata = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jScrollPaneBacheca = new javax.swing.JScrollPane();
         jPanelBacheca = new javax.swing.JPanel();
 
@@ -82,6 +83,13 @@ public class BachecaFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("temporaneo()");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelCategorieLayout = new javax.swing.GroupLayout(jPanelCategorie);
         jPanelCategorie.setLayout(jPanelCategorieLayout);
         jPanelCategorieLayout.setHorizontalGroup(
@@ -96,7 +104,9 @@ public class BachecaFrame extends javax.swing.JFrame {
                         .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAggiungiEvento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 284, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
                         .addComponent(jBtnAreaPrivata)))
                 .addContainerGap())
         );
@@ -109,7 +119,8 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .addGroup(jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonAggiungiEvento)
-                    .addComponent(jBtnAreaPrivata))
+                    .addComponent(jBtnAreaPrivata)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -153,8 +164,13 @@ public class BachecaFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonAggiungiEventoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Meetle.getIstanza().getBacheca().metodoTemporaneo(Meetle.getIstanza().getUtenteLoggatoID());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAggiungiEvento;
     private javax.swing.JComboBox<String> jComboBoxCategorie;
     private javax.swing.JLabel jLabelTitolo;
