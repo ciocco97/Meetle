@@ -116,7 +116,7 @@ public class EventoPanel extends javax.swing.JPanel {
     private void addIscrizione(Evento evento)
     {
         jButton2.setText(evento.isUtenteIscritto(Meetle.getIstanza().getUtenteLoggatoID()) ? "Disiscriviti" : "Iscriviti");
-        jButton2.setVisible(true);
+        jButton2.setVisible(!evento.isUtenteIscritto(Meetle.getIstanza().getUtenteLoggatoID()));
         rimuoviListener(jButton2);
         jButton2.addActionListener((ActionEvent e) -> {
                     evento.switchIscrizione(Meetle.getIstanza().getUtenteLoggatoID());

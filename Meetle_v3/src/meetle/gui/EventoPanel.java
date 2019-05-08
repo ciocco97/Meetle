@@ -127,8 +127,10 @@ public class EventoPanel extends javax.swing.JPanel {
     
     private void addIscrizione(Evento evento)
     {
-        if(evento.isUtenteIscritto(Meetle.getIstanza().getUtenteLoggatoID()))
+        if(evento.isUtenteIscritto(Meetle.getIstanza().getUtenteLoggatoID())) {
             jButton2.setText("Disiscriviti");
+            jButton2.setEnabled(evento.isIscrivibile());
+        }
         else {
             jButton2.setText("Iscriviti");
             if(evento.getNumIscritti() == evento.getMaxNumIscritti())

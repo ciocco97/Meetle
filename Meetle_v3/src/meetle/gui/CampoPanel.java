@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
 import meetle.eventi.campi.Campo;
 
 public class CampoPanel extends javax.swing.JPanel {
@@ -17,7 +18,7 @@ public class CampoPanel extends javax.swing.JPanel {
             valoreField.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyTyped(KeyEvent e) { 
-                    if (valoreField.getText().length() >= 10 ) // limit textfield to 3 characters
+                    if (valoreField.getText().length() >= 18 ) // limit textfield to 3 characters
                         e.consume(); 
                     }  
             });
