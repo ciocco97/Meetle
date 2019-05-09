@@ -31,15 +31,15 @@ public class EventoFrame extends javax.swing.JFrame {
         jButton1.setText("Salva");
         switch(mode){
             case CREA:
-            case MODIFICA:
+            case MODIFICA:jButton2.setText("Elimina");
+                jButton2.addActionListener((ActionEvent e) -> Meetle.getIstanza().getBacheca().rimuoviByID(eventoID));
                 jButton1.addActionListener((ActionEvent e) -> salvaEventoEChiudi());
                 break;
             case VISUALIZZA:
                 jButton1.setVisible(false);
-                
+                jButton2.setText("Chiudi");
         }
         
-        jButton2.setText("Chiudi");
         jButton2.addActionListener((ActionEvent e) -> dispose());
         
 //        Campo campi[] = ev.getTuttiCampi();
