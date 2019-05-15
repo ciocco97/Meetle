@@ -38,6 +38,8 @@ public class CampoPanel extends javax.swing.JPanel {
         try {
             if(!valoreField.getText().equals(""))
                 campo.setValoreDaString(valoreField.getText());
+            else 
+                campo.svuota();
         } catch (Exception ex) { 
             System.out.println("Errore compilazione "+campo.getNome()+"\n"+ex.getMessage());
             return false;

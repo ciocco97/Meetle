@@ -19,6 +19,8 @@ public abstract class Campo <TipoCampo> implements Serializable {
 
     public abstract void setValoreDaString(String stringa);
 
+    public final void svuota() { valore = null; }
+    
     @Override
     public String toString() {
         return valore == null? "" : nome +SEPARATORE_NOME_VALORE+ valore; 
