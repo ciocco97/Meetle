@@ -15,8 +15,12 @@ public class MeetleIO {
     private final File fileEventi, fileUtenti;
     
 
-    public MeetleIO(Meetle meetle) {
+    public MeetleIO(Meetle meetle) throws IOException {
         this.meetle = meetle;
+        
+        File cartella = new File("saves");
+        if (!cartella.exists()) cartella.mkdir();
+        
         fileEventi = new File(NOME_FILE_EVENTI);
         fileUtenti = new File(NOME_FILE_UTENTI);
     }       

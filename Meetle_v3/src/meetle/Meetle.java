@@ -35,7 +35,9 @@ public class Meetle {
     
     private Meetle() {
         
-        io = new MeetleIO(this);
+        try {
+            io = new MeetleIO(this);
+        } catch (IOException e) { System.out.println("Errore istanza meetleIO...\n\t" + e.getMessage()); }
         
         try {
             // prova a caricare utenti da file
