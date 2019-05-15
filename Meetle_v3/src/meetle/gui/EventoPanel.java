@@ -54,7 +54,7 @@ public class EventoPanel extends javax.swing.JPanel {
             default: jLbTitolo.setForeground(Color.BLACK);
         }
         boolean proprietario = evento.getCreatoreID().equals(Meetle.getIstanza().getUtenteLoggatoID());
-        boolean condRitiro = evento.isRitirabile();
+//        boolean condRitiro = evento.isRitirabile(); // tolta perché se lo stato non era valido (valore data null) dava nullpointer
         int stE = evento.getIndiceStatoCorrente(); //stato evento
         switch(posizione)
         {
@@ -62,7 +62,7 @@ public class EventoPanel extends javax.swing.JPanel {
                 if (stE == Stato.APERTO){
                     if (!proprietario)
                         addIscrizione(evento);
-                    else if (condRitiro)
+                    else if (evento.isRitirabile())
                         addRitira(evento);
                     addVisualizza();
                 }
@@ -73,14 +73,14 @@ public class EventoPanel extends javax.swing.JPanel {
                 if (stE == Stato.APERTO)
                     if (!proprietario)
                         addIscrizione(evento);
-                    else if (condRitiro)
+                    else if (evento.isRitirabile())
                         addRitira(evento);
                 if (stE == Stato.VALIDO || stE == Stato.NONVALIDO) //TO DO eliminato
                     elimina();
             break;
             case POS_POSSEDUTI:
                 if (stE == Stato.APERTO || stE == Stato.CHIUSO || stE == Stato.FALLITO || stE == Stato.CONCLUSO || stE == Stato.RITIRATO) {
-                    if (condRitiro) {
+                    if (evento.isRitirabile()) {
                         addRitira(evento);
                     }
                     addVisualizza();

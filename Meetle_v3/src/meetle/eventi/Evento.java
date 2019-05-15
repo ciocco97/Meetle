@@ -173,7 +173,7 @@ public abstract class Evento implements Serializable {
     public void ritiraEvento() {
         if(getIndiceStatoCorrente()==Stato.APERTO) {
             cambiaStato(Stato.RITIRATO);
-            iscrittiIDs.clear();
+            // iscrittiIDs.clear();
         }
     }
     
@@ -228,7 +228,7 @@ public abstract class Evento implements Serializable {
     public int getNumIscritti() { return 1+iscrittiIDs.size(); }
     public int getMaxNumIscritti() {return (Integer)campi[I_NUM_PARTECIPANTI].getValore() + (Integer)campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
     public boolean isRitirabile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }
-    public boolean isIscrivibile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) < 0; }
+    public boolean isIscrivibile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0; }
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }
 //    public void setDurata(String valore){campi[I_DURATA].setValoreDaString(valore);}
 //    public void setCompresoQuota(String valore){campi[I_COMPRESO_QUOTA].setValoreDaString(valore);}
