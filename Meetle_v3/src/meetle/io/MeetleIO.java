@@ -7,27 +7,23 @@ import meetle.eventi.Evento;
 import meetle.utenti.Utente;
 
 public class MeetleIO {
-    private static final String NOME_FILE_EVENTI = "saves/eventi.sav",
-            NOME_FILE_UTENTI = "saves/utenti.sav";
-    
-    private final Meetle meetle;
+    private static final String PATH_FILE_EVENTI = "saves/eventi.sav",
+            PATH_FILE_UTENTI = "saves/utenti.sav";
     
     private final File fileEventi, fileUtenti;
     
 
-    public MeetleIO(Meetle meetle) throws IOException {
-        this.meetle = meetle;
+    public MeetleIO() throws IOException {
+        new File("saves").mkdir();
         
-        File cartella = new File("saves");
-        if (!cartella.exists()) cartella.mkdir();
+        fileEventi = new File(PATH_FILE_EVENTI);
+        fileUtenti = new File(PATH_FILE_UTENTI);
         
-        fileEventi = new File(NOME_FILE_EVENTI);
-        fileUtenti = new File(NOME_FILE_UTENTI);
     }       
     
     public void salvaEventi() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileEventi));
-        oos.writeObject(meetle.getBacheca());
+        oos.writeObject(Meetle.getIstanza().getBacheca());
     }
     
     public ArrayList<Evento> caricaEventi() throws IOException, ClassNotFoundException {
@@ -37,7 +33,7 @@ public class MeetleIO {
     
     public void salvaUtenti() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileUtenti));
-        oos.writeObject(meetle.getUtenti());
+        oos.writeObject(Meetle.getIstanza().getUtenti());
     }
     
     public ArrayList<Utente> caricaUtenti() throws IOException, ClassNotFoundException {

@@ -59,7 +59,7 @@ public class EventoFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Errore compilazione campo");
                 return false;
             }
-        Meetle.getIstanza().getBacheca().getByID(eventoID).checkStato();
+        Meetle.getIstanza().getBacheca().getByID(eventoID).aggiornaStato();
         dispose();
         return true;
     }

@@ -28,8 +28,8 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .forEach((e) -> jPanelBacheca.add(new EventoPanel(e.getID(), EventoPanel.POS_BACHECA)));
         pack();
     }
-    public void aggiorna()
-    {
+    
+    public void aggiorna() {
         Component comp[] = jPanelBacheca.getComponents();
         for (int i = 0; i<comp.length; i++)
         {
@@ -54,6 +54,11 @@ public class BachecaFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Meetle");
         setMinimumSize(new java.awt.Dimension(600, 400));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanelCategorie.setBackground(new java.awt.Color(0, 115, 150));
         jPanelCategorie.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -167,6 +172,10 @@ public class BachecaFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Meetle.getIstanza().getBacheca().metodoTemporaneo(Meetle.getIstanza().getUtenteLoggatoID());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Meetle.getIstanza().salva();
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;

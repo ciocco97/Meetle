@@ -5,12 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 public class Notifica implements Serializable {
-    private String messaggio;
-    private String titolo;
-    private LocalDateTime dataora;
+    private final int ID, eventoID;
+    private final String titolo, messaggio;
+    private final LocalDateTime dataora;
     private boolean visualizzata;
-    private int eventoID;
-    private int ID;
 
     public Notifica(int eID, String titolo, String messaggio, LocalDateTime dataora) {
         this.messaggio = messaggio;

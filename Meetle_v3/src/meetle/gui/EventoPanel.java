@@ -133,7 +133,7 @@ public class EventoPanel extends javax.swing.JPanel {
         }
         else {
             jButton2.setText("Iscriviti");
-            if(evento.getNumIscritti() == evento.getMaxNumIscritti())
+            if(evento.getNumIscritti() == evento.getNumIscrittiMax())
                 jButton2.setEnabled(false);
         }
         jButton2.setVisible(true);

@@ -14,27 +14,25 @@ public class Utente implements Serializable {
         notifiche = new ArrayList<>();
     }
     
-    public void aggiungiNotifica(int eID,String titolo, String messaggio){
+    public void aggiungiNotifica(int eID, String titolo, String messaggio){
         Notifica daAggiungere = new Notifica(eID, titolo, messaggio, LocalDateTime.now());
-        boolean OK = true;
-        for(Notifica n: notifiche) {
-            if(n.equals(daAggiungere)) OK = false;
-        }
-        if(OK) notifiche.add(daAggiungere);
-        else aggiungiNotifica(eID, titolo, messaggio);
+        if (notifiche.contains(daAggiungere)) // se c'è già vuol dire che c'è un duplicato di ID
+            aggiungiNotifica(eID, titolo, messaggio);
+        else
+            notifiche.add(daAggiungere);
     }
     
     public void rimuoviNotifica(int nID) {
         for(int i = 0; i < notifiche.size(); i++)
             if(notifiche.get(i).getID() == nID)
-                notifiche.remove(i);
+                { notifiche.remove(i); return; }
         System.err.println("Nessuna notifica rimossa");
     }
     
     public void segnaNotificaLetta(int nID) {
         for(int i = 0; i < notifiche.size(); i++)
             if(notifiche.get(i).getID() == nID)
-                notifiche.get(i).setVisualizzata();
+                { notifiche.get(i).setVisualizzata(); return; }
         System.err.println("Nessuna notifica letta");
     }
 

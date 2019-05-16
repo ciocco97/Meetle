@@ -12,13 +12,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public abstract class Evento implements Serializable {   
     public static final String NO_DESCRIPTION = "Nessuna descrizione presente";
-    // Nomi dei campi (usati anche in IO)
-    public static final String N_TITOLO = "Titolo", N_NUMERO_PARTECIPANTI = "N° Partecipanti", 
-            N_TERMINE_ISCR = "Termine Iscrizione", N_LUOGO = "Luogo", N_DATA = "Data", N_ORA = "Ora", 
-            N_DURATA = "Durata", N_QUOTA_INDIVIDUALE = "Quota individuale", 
-            N_COMPRESO_QUOTA = "Compreso quota", N_DATA_CONCLUSIVA = "Data conclusiva", 
-            N_ORA_CONCLUSIVA = "Ora conclusiva", N_NOTE = "Note", N_TOLLERANZA_PARTECIPANTI = "Tolleranza partecipanti",
-            N_DATA_RITIRO_ISCRIZIONE = "Data ritiro iscrizione";
     public static final String SEPARATORE_CAMPI = "\n";
     
     public static final int NUM_CAMPI_FISSI = 14;
@@ -27,6 +20,14 @@ public abstract class Evento implements Serializable {
             I_LUOGO = 3, I_DATA = 4, I_ORA = 5, I_DURATA = 6, I_QUOTA_INDIVIDUALE = 7, 
             I_COMPRESO_QUOTA = 8, I_DATA_CONCLUSIVA = 9, I_ORA_CONCLUSIVA = 10, I_NOTE = 11,
             I_TOLLERANZA_PARTECIPANTI = 12, I_DATA_RITIRO_ISCRIZIONE = 13;
+    
+    // Nomi dei campi (usati anche in IO)
+    public static final String N_TITOLO = "Titolo", N_NUMERO_PARTECIPANTI = "N° Partecipanti", 
+            N_TERMINE_ISCR = "Termine Iscrizione", N_LUOGO = "Luogo", N_DATA = "Data", N_ORA = "Ora", 
+            N_DURATA = "Durata", N_QUOTA_INDIVIDUALE = "Quota individuale", 
+            N_COMPRESO_QUOTA = "Compreso quota", N_DATA_CONCLUSIVA = "Data conclusiva", 
+            N_ORA_CONCLUSIVA = "Ora conclusiva", N_NOTE = "Note", N_TOLLERANZA_PARTECIPANTI = "Tolleranza partecipanti",
+            N_DATA_RITIRO_ISCRIZIONE = "Data ritiro iscrizione";
     
     protected String nome, descrizione;    
     protected final int ID; // identificatore univoco 
@@ -85,62 +86,9 @@ public abstract class Evento implements Serializable {
     
     /**
      * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
-     * @param nuovoIndiceStato 
-     */
-    private void nuovoStato(int nuovoIndiceStato){
-        statiPassati.add(statoCorrente);
-        statoCorrente = new Stato(nuovoIndiceStato);
-    }
-    
-    /**
-     * fa cambiare lo stato dell'evento 
-     */
-    public void checkStato() {
-        switch(getIndiceStatoCorrente()) {
-            case Stato.NONVALIDO:
-                boolean ok = true;
-                for(Campo c: getTuttiCampi())
-                    if(!c.isFacoltativo() && c.getValore()==null) 
-                        ok = false;
-                if (ok)
-                    nuovoStato(Stato.VALIDO); 
-                break;
-            case Stato.VALIDO:
-                for(Campo c: getTuttiCampi())
-                    if(!c.isFacoltativo() && c.getValore()==null) {
-                        nuovoStato(Stato.NONVALIDO);
-                        break;
-                    }
-                break;
-            case Stato.APERTO:
-                int numMinPartecipanti = (Integer)campi[I_NUM_PARTECIPANTI].getValore(), 
-                    numMaxPartecipanti = getMaxNumIscritti();
-                // Condizione 1 per passare da aperto a chiuso
-                if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) >= 0 &&
-                        getNumIscritti() >= numMinPartecipanti && getNumIscritti() <= numMaxPartecipanti)
-                    cambiaStato(Stato.CHIUSO);
-                // Condizione 2 per passare da aperto a chiuso
-                else if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 &&
-                        LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) >= 0 &&
-                        getNumIscritti() == numMaxPartecipanti)
-                    cambiaStato(Stato.CHIUSO);
-                else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
-                    cambiaStato(Stato.FALLITO);
-                break;
-            case Stato.CHIUSO:
-                //if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0) // quando la data attuale supera la data di termine evento
-                if (campi[I_DATA_CONCLUSIVA].getValore() != null){
-                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0)
-                        nuovoStato(Stato.CONCLUSO);
-                }
-                else
-                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA].getValore()) > 0)
-                        nuovoStato(Stato.CONCLUSO);       
-                break;
-        }
-    }
-    
-    private void cambiaStato(int indiceStato) {
+     * @param indiceStato indice del nuovo stato
+     */    
+    private void nuovoStato(int indiceStato) {
         String messaggio;
         switch(indiceStato) {
             case Stato.CHIUSO:
@@ -158,21 +106,81 @@ public abstract class Evento implements Serializable {
             default:
                 messaggio = "Questo messaggio se lo vedi significa che c'è qualquadra che non cosa XD LOL !!!111!!11!1";
         }
-        nuovoStato(indiceStato);
-        for (String utente:iscrittiIDs)
-            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
         
+        statiPassati.add(statoCorrente);
+        statoCorrente = new Stato(indiceStato);
+        
+        iscrittiIDs.forEach(uID -> Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), uID, messaggio));        
         Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
+    }
+    
+    /**
+     * fa cambiare lo stato dell'evento 
+     */
+    public void aggiornaStato() {
+        switch(getIndiceStatoCorrente()) {
+            case Stato.NONVALIDO:
+                boolean ok = true;
+                for(Campo c: getTuttiCampi())
+                    if(!c.isFacoltativo() && c.getValore()==null) 
+                        ok = false;
+                // questo controlla che le date siano nell'ordine giusto
+                if(((getDataRitiroIscrizione() != null && getTermineIscrizione()!= null) && getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
+                        (getData() != null && getTermineIscrizione().compareTo(getData()) > 0) ||
+                        (getDataConlusiva() != null && getData().compareTo(getDataConlusiva()) > 0) )
+                    ok = false;
+                if (ok)
+                    nuovoStato(Stato.VALIDO); 
+                break;
+            case Stato.VALIDO:
+                // questo controlla che le date siano nell'ordine giusto
+                if(((getDataRitiroIscrizione() != null && getTermineIscrizione()!= null) && getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
+                        (getData() != null && getTermineIscrizione().compareTo(getData()) > 0) ||
+                        (getDataConlusiva() != null && getData().compareTo(getDataConlusiva()) > 0) ) {
+                    nuovoStato(Stato.NONVALIDO);
+                    break;
+                }                
+                for(Campo c: getTuttiCampi())
+                    if(!c.isFacoltativo() && c.getValore()==null) {
+                        nuovoStato(Stato.NONVALIDO);
+                        break;
+                    }
+                break;
+            case Stato.APERTO:
+                int numMinPartecipanti = (Integer)campi[I_NUM_PARTECIPANTI].getValore(), 
+                    numMaxPartecipanti = getNumIscrittiMax();
+                // Condizione 1 per passare da aperto a chiuso
+                if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0 &&
+                        getNumIscritti() >= numMinPartecipanti && getNumIscritti() <= numMaxPartecipanti)
+                    nuovoStato(Stato.CHIUSO);
+                // Condizione 2 per passare da aperto a chiuso
+                else if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 &&
+                        LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) > 0 &&
+                        getNumIscritti() == numMaxPartecipanti)
+                    nuovoStato(Stato.CHIUSO);
+                else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
+                    nuovoStato(Stato.FALLITO);
+                break;
+            case Stato.CHIUSO:
+                //if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0) // quando la data attuale supera la data di termine evento
+                if (campi[I_DATA_CONCLUSIVA].getValore() != null) {
+                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0)
+                        nuovoStato(Stato.CONCLUSO);
+                } else
+                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA].getValore()) > 0)
+                        nuovoStato(Stato.CONCLUSO);       
+                break;
+        }
     }
     
     public void apriEvento() {
         if(getIndiceStatoCorrente()==Stato.VALIDO) 
-            cambiaStato(Stato.APERTO);
+            nuovoStato(Stato.APERTO);
     }
     
     public void ritiraEvento() {
         if(getIndiceStatoCorrente()==Stato.APERTO) {
-            cambiaStato(Stato.RITIRATO);
+            nuovoStato(Stato.RITIRATO);
             // iscrittiIDs.clear();
         }
     }
@@ -204,13 +212,13 @@ public abstract class Evento implements Serializable {
     public void switchIscrizione(String uID){
         if (isUtenteIscritto(uID))
             iscrittiIDs.remove(uID); 
-        else 
+        else
             iscrittiIDs.add(uID);
     }
 
     @Override
     public String toString() {
-        return nome +"\n"+ Stream.concat(Arrays.stream(campi), Arrays.stream(campiExtra))
+        return nome +"\n"+ Arrays.stream(getTuttiCampi())
                 .filter(c -> !c.toString().equals(""))
                 .map(c -> "\t" + c + SEPARATORE_CAMPI)
                 .reduce("", String::concat);     
@@ -219,16 +227,21 @@ public abstract class Evento implements Serializable {
     
     // Getters e Setters
     
-    public int getID() {/*System.out.println("Evento.getID() -> ID: " + ID);*/ return ID; }
+    public int getID() { /*System.out.println("Evento.getID() -> ID: " + ID);*/ return ID; }
     public String getNome() { return nome; }
     public String getTitolo() { return (String) campi[I_TITOLO].getValore(); }
+    public int getNumPartecipanti() { return (int) campi[I_NUM_PARTECIPANTI].getValore(); }
+    public LocalDate getTermineIscrizione() { return (LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore(); }
+    public LocalDate getData() { return (LocalDate) campi[I_DATA].getValore(); }
+    public LocalDate getDataConlusiva() { return (LocalDate) campi[I_DATA_CONCLUSIVA].getValore(); }
+    public LocalDate getDataRitiroIscrizione() { return (LocalDate) campi[I_DATA_RITIRO_ISCRIZIONE].getValore(); }
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(campi, campiExtra); }
     public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
-    public String getCreatoreID(){ return creatoreID; }
-    public int getNumIscritti() { return 1+iscrittiIDs.size(); }
-    public int getMaxNumIscritti() {return (Integer)campi[I_NUM_PARTECIPANTI].getValore() + (Integer)campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
     public boolean isRitirabile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }
     public boolean isIscrivibile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0; }
+    public String getCreatoreID() { return creatoreID; }
+    public int getNumIscritti() { return 1+iscrittiIDs.size(); }
+    public int getNumIscrittiMax() { return (Integer)campi[I_NUM_PARTECIPANTI].getValore() + (Integer)campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }
 //    public void setDurata(String valore){campi[I_DURATA].setValoreDaString(valore);}
 //    public void setCompresoQuota(String valore){campi[I_COMPRESO_QUOTA].setValoreDaString(valore);}

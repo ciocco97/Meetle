@@ -14,6 +14,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
 
     public AreaPersonaleFrame() {
         initComponents();
+        jButton1.setVisible(false);
 
         uID = Meetle.getIstanza().getUtenteLoggatoID();
         jLabelTitolo.setText(uID);
@@ -58,7 +59,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             try {
                 EventoPanel pannello = (EventoPanel) comp1;
                 pannello.aggiorna();
-            }catch (Exception e) {;}
+            } catch (Exception e) {}
         }
         jPanelMadre.validate();
     }

@@ -36,7 +36,7 @@ public class Meetle {
     private Meetle() {
         
         try {
-            io = new MeetleIO(this);
+            io = new MeetleIO();
         } catch (IOException e) { System.out.println("Errore istanza meetleIO...\n\t" + e.getMessage()); }
         
         try {
@@ -67,8 +67,8 @@ public class Meetle {
             synchronized(this) {
                 while(true) {
                     bacheca.aggiornaStati();
-                    if(daSalvare)
-                        salva();
+//                    if(daSalvare)
+//                        salva();
                     bachecaFrame.aggiorna();
                     areaPersonaleFrame.aggiorna();
                     try {
@@ -80,8 +80,11 @@ public class Meetle {
     }
     
     public void loginUtente (){ 
-        if((utenteLoggatoID = JOptionPane.showInputDialog("LOGIN UTENTE")) == null)
+        String accessoID = JOptionPane.showInputDialog("LOGIN UTENTE");
+        if (accessoID == null)
             System.exit(0);
+        else 
+            utenteLoggatoID = utenti.getUtenteDaID(accessoID).getID();
         try {
             // salva subito gli utenti
             io.salvaUtenti();
@@ -106,15 +109,15 @@ public class Meetle {
     
     public void salva() {
         try {
-            //System.out.print("Salvataggio utenti su file... ");
+            System.out.print("Salvataggio utenti su file... ");
             io.salvaUtenti();
-            //System.out.println("OK!");
+            System.out.println("OK!");
         } catch (IOException ex) { System.err.println("ERRORE salvataggio utenti!!\n\t"+ex.getMessage()); }
         
         try {
-            //System.out.print("Salvataggio eventi su file... ");
+            System.out.print("Salvataggio eventi su file... ");
             io.salvaEventi();
-            //System.out.println("OK!");
+            System.out.println("OK!");
         } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getStackTrace()); }
             
         daSalvare=false;
@@ -131,7 +134,7 @@ public class Meetle {
     public ArrayList<Notifica> getNotifiche() { return utenti.getUtenteDaID(utenteLoggatoID).getNotifiche(); }    
         
     public static void main(String[] args) throws IOException {
-            
+        
         Meetle meetle = Meetle.getIstanza();
         meetle.start();       
     }
