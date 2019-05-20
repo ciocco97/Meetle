@@ -19,7 +19,7 @@ public class Utente implements Serializable {
         if (notifiche.contains(daAggiungere)) // se c'è già vuol dire che c'è un duplicato di ID
             aggiungiNotifica(eID, titolo, messaggio);
         else
-            notifiche.add(daAggiungere);
+            notifiche.add(0, daAggiungere);
     }
     
     public void rimuoviNotifica(int nID) {

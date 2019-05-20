@@ -5,13 +5,13 @@ import javax.swing.JOptionPane;
 import meetle.Meetle;
 import meetle.eventi.Evento;
 import meetle.eventi.PartitaDiCalcio;
-import meetle.eventi.Stato;
 
 public class BachecaFrame extends javax.swing.JFrame {
 
     public BachecaFrame() {
         initComponents();        
         jBtnAreaPrivata.setText(Meetle.getIstanza().getUtenteLoggatoID());
+        jScrollPaneBacheca.getVerticalScrollBar().setUnitIncrement(20);
         inizializza();
     }
     public void inizializza() {
@@ -30,11 +30,9 @@ public class BachecaFrame extends javax.swing.JFrame {
     }
     
     public void aggiorna() {
-        Component comp[] = jPanelBacheca.getComponents();
-        for (int i = 0; i<comp.length; i++)
-        {
-             EventoPanel pannello = (EventoPanel) comp[i];
-             pannello.aggiorna();
+        Component contenuti[] = jPanelBacheca.getComponents();
+        for (Component componente : contenuti) {
+            ((EventoPanel) componente).aggiorna();
         }
     }
     
@@ -42,26 +40,28 @@ public class BachecaFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelCategorie = new javax.swing.JPanel();
+        jPanelHeader = new javax.swing.JPanel();
         jLabelTitolo = new javax.swing.JLabel();
         jComboBoxCategorie = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
         jButtonAggiungiEvento = new javax.swing.JButton();
         jBtnAreaPrivata = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jScrollPaneBacheca = new javax.swing.JScrollPane();
         jPanelBacheca = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Meetle");
-        setMinimumSize(new java.awt.Dimension(600, 400));
+        setMinimumSize(new java.awt.Dimension(800, 600));
+        setName("BachecaFrame"); // NOI18N
+        setPreferredSize(getMinimumSize());
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
 
-        jPanelCategorie.setBackground(new java.awt.Color(0, 115, 150));
-        jPanelCategorie.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanelHeader.setBackground(new java.awt.Color(0, 115, 150));
 
         jLabelTitolo.setFont(new java.awt.Font("Century Gothic", 0, 48)); // NOI18N
         jLabelTitolo.setForeground(new java.awt.Color(255, 255, 255));
@@ -71,6 +71,13 @@ public class BachecaFrame extends javax.swing.JFrame {
         jComboBoxCategorie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxCategorieActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("temporaneo()");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -88,48 +95,41 @@ public class BachecaFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("temporaneo()");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelCategorieLayout = new javax.swing.GroupLayout(jPanelCategorie);
-        jPanelCategorie.setLayout(jPanelCategorieLayout);
-        jPanelCategorieLayout.setHorizontalGroup(
-            jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelCategorieLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelHeaderLayout = new javax.swing.GroupLayout(jPanelHeader);
+        jPanelHeader.setLayout(jPanelHeaderLayout);
+        jPanelHeaderLayout.setHorizontalGroup(
+            jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelCategorieLayout.createSequentialGroup()
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelHeaderLayout.createSequentialGroup()
                         .addComponent(jLabelTitolo)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanelCategorieLayout.createSequentialGroup()
+                    .addGroup(jPanelHeaderLayout.createSequentialGroup()
                         .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAggiungiEvento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
                         .addComponent(jBtnAreaPrivata)))
                 .addContainerGap())
         );
-        jPanelCategorieLayout.setVerticalGroup(
-            jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelCategorieLayout.createSequentialGroup()
+        jPanelHeaderLayout.setVerticalGroup(
+            jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelTitolo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelCategorieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonAggiungiEvento)
-                    .addComponent(jBtnAreaPrivata)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1)
+                    .addComponent(jBtnAreaPrivata))
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanelCategorie, java.awt.BorderLayout.NORTH);
+        getContentPane().add(jPanelHeader, java.awt.BorderLayout.NORTH);
 
         jScrollPaneBacheca.setBorder(null);
         jScrollPaneBacheca.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -184,7 +184,7 @@ public class BachecaFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBoxCategorie;
     private javax.swing.JLabel jLabelTitolo;
     private javax.swing.JPanel jPanelBacheca;
-    private javax.swing.JPanel jPanelCategorie;
+    private javax.swing.JPanel jPanelHeader;
     private javax.swing.JScrollPane jScrollPaneBacheca;
     // End of variables declaration//GEN-END:variables
 }

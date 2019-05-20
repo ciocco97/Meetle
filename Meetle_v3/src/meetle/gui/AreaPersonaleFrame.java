@@ -13,11 +13,13 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     private final String uID;
 
     public AreaPersonaleFrame() {
+        uID = Meetle.getIstanza().getUtenteLoggatoID();
+        
         initComponents();
         jButton1.setVisible(false);
-
-        uID = Meetle.getIstanza().getUtenteLoggatoID();
         jLabelTitolo.setText(uID);
+        jScrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        
         inizializza();
         aggiorna();
     }
@@ -51,39 +53,36 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 break;
         }
     }
-
+    int i=0;
     public void aggiorna() {
-        Component comp[] = jPanelMadre.getComponents();
+        Component componenti[] = jPanelMadre.getComponents();
 //        System.out.println("Agggiorna -> comp.lenght: " + comp.length);
-        for (Component comp1 : comp) {
+        for (Component componente : componenti) {
             try {
-                EventoPanel pannello = (EventoPanel) comp1;
-                pannello.aggiorna();
+                ((EventoPanel) componente).aggiorna();
+                System.out.println(i++);
             } catch (Exception e) {}
         }
         jPanelMadre.validate();
-    }
-
-    @Override
-    public void setVisible(boolean b) {
-        aggiorna();
-        super.setVisible(b);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jPanelHeader = new javax.swing.JPanel();
         jLabelTitolo = new javax.swing.JLabel();
         selettore = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
         jScrollPane = new javax.swing.JScrollPane();
         jPanelMadre = new javax.swing.JPanel();
 
+        jButton1.setText("Torna a bacheca");
+
         setTitle("Area Utente");
-        setBackground(new java.awt.Color(0, 115, 150));
-        setMinimumSize(new java.awt.Dimension(600, 400));
+        setMinimumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(getMinimumSize());
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -104,37 +103,24 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Torna a bacheca");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelHeaderLayout = new javax.swing.GroupLayout(jPanelHeader);
         jPanelHeader.setLayout(jPanelHeaderLayout);
         jPanelHeaderLayout.setHorizontalGroup(
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHeaderLayout.createSequentialGroup()
+            .addGroup(jPanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(selettore, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-                .addComponent(jLabelTitolo)
-                .addContainerGap())
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelTitolo)
+                    .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelHeaderLayout.setVerticalGroup(
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHeaderLayout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelHeaderLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabelTitolo))
+            .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelTitolo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -143,7 +129,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         jScrollPane.setBorder(null);
         jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jPanelMadre.setBackground(new java.awt.Color(0, 150, 156));
+        jPanelMadre.setBackground(new java.awt.Color(0, 150, 155));
         jPanelMadre.setLayout(new javax.swing.BoxLayout(jPanelMadre, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane.setViewportView(jPanelMadre);
 
@@ -161,10 +147,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Meetle.getIstanza().mostraBacheca();
     }//GEN-LAST:event_formWindowClosing
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Meetle.getIstanza().mostraBacheca();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

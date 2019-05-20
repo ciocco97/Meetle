@@ -109,6 +109,7 @@ public abstract class Evento implements Serializable {
         
         statiPassati.add(statoCorrente);
         statoCorrente = new Stato(indiceStato);
+        if(indiceStato == Stato.VALIDO || indiceStato == Stato.NONVALIDO) return; // così non invia le notifiche
         
         iscrittiIDs.forEach(uID -> Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), uID, messaggio));        
         Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);

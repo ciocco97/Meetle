@@ -1,15 +1,9 @@
 package meetle;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
-import meetle.eventi.Evento;
 import meetle.gui.*;
 import meetle.io.MeetleIO;
 import meetle.utenti.*;
