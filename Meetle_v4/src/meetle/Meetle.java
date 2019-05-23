@@ -2,6 +2,8 @@ package meetle;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
 import meetle.gui.*;
@@ -77,8 +79,20 @@ public class Meetle {
         String accessoID = JOptionPane.showInputDialog("LOGIN UTENTE");
         if (accessoID == null)
             System.exit(0);
-        else 
+        else {
+            if (utenti.getUtenteDaID(accessoID) == null) {
+                utenti.add(new Utente(accessoID));
+                utenteLoggatoID = utenti.getUtenteDaID(accessoID).getID();
+                new ProfiloFrame().setVisible(true);
+                try {
+                    synchronized(this) {
+                    wait();
+                    }
+                } catch (InterruptedException ex) {
+                }
+            }
             utenteLoggatoID = utenti.getUtenteDaID(accessoID).getID();
+        }
         try {
             // salva subito gli utenti
             io.salvaUtenti();

@@ -3,6 +3,7 @@ package meetle.utenti;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import meetle.eventi.campi.CampoRange.Range;
 
 
@@ -41,6 +42,19 @@ public class Utente implements Serializable {
         System.err.println("Nessuna notifica letta");
     }
 
+    public void setNickname(String nickname) {
+        this.nomignoloPercheNicknameEraTroppoMainStream = nickname;
+    }
+
+    public void setFasciaEta(int min, int max) {
+        this.fasciaEta = new Range(min, max);
+    }
+
+    public void setCategoriePreferite(ArrayList<String> categoriePreferite) {
+        this.categoriePreferite = categoriePreferite;
+    }
+    
+
     @Override
     public String toString() { return ID; }   
     
@@ -48,5 +62,8 @@ public class Utente implements Serializable {
 
     public String getID() { return ID; }     
     public ArrayList getNotifiche() { return notifiche; }
+    public String getNomignoloPercheNicknameEraTroppoMainStream() { return nomignoloPercheNicknameEraTroppoMainStream; }
+    public int[] getFasciaEtaVals() { return fasciaEta==null? null : new int[]{fasciaEta.min, fasciaEta.max}; }    
+    public ArrayList<String> getCategoriePreferite() { return categoriePreferite; }
     
 }

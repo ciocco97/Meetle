@@ -1,7 +1,6 @@
 package meetle.eventi;
 
 import meetle.eventi.campi.*;
-import meetle.utenti.Utente;
 
 public class PartitaDiCalcio extends Evento {
     public static final String NOME = "Partita di Calcio", DESCRIZIONE = "Sport perloppiù maschile o comunque sappiamo guidare ecco...";

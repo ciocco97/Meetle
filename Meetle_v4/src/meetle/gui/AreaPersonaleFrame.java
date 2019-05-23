@@ -17,7 +17,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         
         initComponents();
         jButton1.setVisible(false);
-        jLabelTitolo.setText(uID);
+        jLabelTitolo.setText(Meetle.getIstanza().getUtenti().getUtenteDaID(uID).getNomignoloPercheNicknameEraTroppoMainStream());
         jScrollPane.getVerticalScrollBar().setUnitIncrement(20);
         
         inizializza();
@@ -74,6 +74,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         jPanelHeader = new javax.swing.JPanel();
         jLabelTitolo = new javax.swing.JLabel();
         selettore = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
         jScrollPane = new javax.swing.JScrollPane();
         jPanelMadre = new javax.swing.JPanel();
 
@@ -103,6 +104,13 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Profilo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelHeaderLayout = new javax.swing.GroupLayout(jPanelHeader);
         jPanelHeader.setLayout(jPanelHeaderLayout);
         jPanelHeaderLayout.setHorizontalGroup(
@@ -110,9 +118,14 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             .addGroup(jPanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelTitolo)
-                    .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                        .addComponent(jLabelTitolo)
+                        .addGap(0, 430, Short.MAX_VALUE))
+                    .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                        .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
+                .addContainerGap())
         );
         jPanelHeaderLayout.setVerticalGroup(
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,7 +133,9 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabelTitolo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -148,9 +163,14 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         Meetle.getIstanza().mostraBacheca();
     }//GEN-LAST:event_formWindowClosing
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new ProfiloFrame().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabelTitolo;
     private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelMadre;

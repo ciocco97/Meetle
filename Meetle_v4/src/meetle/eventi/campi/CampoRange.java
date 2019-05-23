@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class CampoRange extends Campo<CampoRange.Range> {
        
     public static class Range implements Serializable {
-        private int min, max;
+        public int min, max;
 
         public Range(int min, int max) {
             this.min = min;

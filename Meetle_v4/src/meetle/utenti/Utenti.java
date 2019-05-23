@@ -22,11 +22,11 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
         for(Utente u: this) //System.out.println(u);
             if(u.getID().equals(ID))
                 return u; 
-        System.out.println("Utente \""+ID+"\" non presente, creazione nuovo...");
-        Utente u = new Utente(ID);
-        add(u);
-        return u;
-        
+//        System.out.println("Utente \""+ID+"\" non presente, creazione nuovo...");
+//        Utente u = new Utente(ID);
+//        add(u);
+//        return u;
+        return null;
     }    
     
 }

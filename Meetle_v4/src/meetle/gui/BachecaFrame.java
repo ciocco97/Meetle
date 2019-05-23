@@ -10,7 +10,7 @@ public class BachecaFrame extends javax.swing.JFrame {
 
     public BachecaFrame() {
         initComponents();        
-        jBtnAreaPrivata.setText(Meetle.getIstanza().getUtenteLoggatoID());
+        jBtnAreaPrivata.setText(Meetle.getIstanza().getUtenti().getUtenteDaID(Meetle.getIstanza().getUtenteLoggatoID()).getNomignoloPercheNicknameEraTroppoMainStream());
         jScrollPaneBacheca.getVerticalScrollBar().setUnitIncrement(20);
         inizializza();
     }
