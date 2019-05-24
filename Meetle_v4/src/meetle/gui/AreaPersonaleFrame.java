@@ -53,14 +53,13 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 break;
         }
     }
-    int i=0;
+    
     public void aggiorna() {
         Component componenti[] = jPanelMadre.getComponents();
 //        System.out.println("Agggiorna -> comp.lenght: " + comp.length);
         for (Component componente : componenti) {
             try {
                 ((EventoPanel) componente).aggiorna();
-                System.out.println(i++);
             } catch (Exception e) {}
         }
         jPanelMadre.validate();

@@ -54,13 +54,12 @@ public class Utente implements Serializable {
         this.categoriePreferite = categoriePreferite;
     }
     
-
     @Override
     public String toString() { return ID; }   
     
     public boolean equals(Utente u) { return ID.equals((u).ID); } 
 
-    public String getID() { return ID; }     
+    public String getID() { return ID; }
     public ArrayList getNotifiche() { return notifiche; }
     public String getNomignoloPercheNicknameEraTroppoMainStream() { return nomignoloPercheNicknameEraTroppoMainStream; }
     public int[] getFasciaEtaVals() { return fasciaEta==null? null : new int[]{fasciaEta.min, fasciaEta.max}; }    

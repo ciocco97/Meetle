@@ -27,6 +27,6 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
 //        add(u);
 //        return u;
         return null;
-    }    
+    }
     
 }

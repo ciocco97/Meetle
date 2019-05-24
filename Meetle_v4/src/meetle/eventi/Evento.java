@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.Stream;
 import meetle.Meetle;
 import meetle.eventi.campi.*;
 import org.apache.commons.lang3.ArrayUtils;
@@ -29,6 +28,7 @@ public abstract class Evento implements Serializable {
             N_ORA_CONCLUSIVA = "Ora conclusiva", N_NOTE = "Note", N_TOLLERANZA_PARTECIPANTI = "Tolleranza partecipanti",
             N_DATA_RITIRO_ISCRIZIONE = "Data ritiro iscrizione";
     
+    protected String categoria;
     protected String nome, descrizione;    
     protected final int ID; // identificatore univoco 
     protected Campo[] campi, campiExtra;  
@@ -37,7 +37,7 @@ public abstract class Evento implements Serializable {
     protected final String creatoreID;
     protected ArrayList<String> iscrittiIDs;
     
-    public Evento(String creatoreID) {                
+    public Evento(String creatoreID, String categoria) {                
         campi = new Campo[NUM_CAMPI_FISSI];
         campi[I_TITOLO] = new CampoString(N_TITOLO, "Titolo dell'evento");
         campi[I_NUM_PARTECIPANTI] = new CampoInt(N_NUMERO_PARTECIPANTI, "Numero massimo di partecipanti all'evento");
@@ -59,6 +59,7 @@ public abstract class Evento implements Serializable {
         statoCorrente = new Stato();
         statiPassati = new ArrayList<>();
         this.creatoreID = creatoreID;
+        this.categoria = categoria;
         iscrittiIDs = new ArrayList<>();
         ID = hashCode()+(new Random()).nextInt();
     }  
@@ -89,16 +90,27 @@ public abstract class Evento implements Serializable {
      * @param indiceStato indice del nuovo stato
      */    
     private void nuovoStato(int indiceStato) {
-        String messaggio;
+        String messaggio, messaggio2 = "Messaggio che se viene visualizzato è laffine";
+        boolean bandieruccia = false;
         switch(indiceStato) {
             case Stato.CHIUSO:
                 messaggio = "Evento ufficialmente chiuso :)";
+//                /**
+//                 * Bisogna aggiungere gli utenti iscritti a questo evento alla 
+//                 * lista degli utenti che hanno partecipato ad un evento di una data categoria
+//                 * proposto dall'utente propositore dell'evento corrente :)
+//                 */
+//                bandieruccia = true;
                 break;
             case Stato.FALLITO:
                 messaggio = "Evento ufficialmente fallito :(";
                 break;
             case Stato.APERTO:
                 messaggio = "Hai aperto l'evento :|";
+                bandieruccia = true; // Bisogna inviare la notifica a tutti quelli che sono interessati
+                String idUtente = Meetle.getIstanza().getUtenteLoggatoID();
+                String nomeUtente = Meetle.getIstanza().getUtenti().getUtenteDaID(idUtente).getNomignoloPercheNicknameEraTroppoMainStream();
+                messaggio2 = nomeUtente + " ha appena aperto in bacheca un evento maggico *_*";
                 break;
             case Stato.RITIRATO:
                 messaggio = "Evento ritirato :'(";
@@ -113,6 +125,11 @@ public abstract class Evento implements Serializable {
         
         iscrittiIDs.forEach(uID -> Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), uID, messaggio));        
         Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
+        
+        if(bandieruccia) {
+            Meetle.getIstanza().notificaIlMondoTondo(ID, messaggio2);
+        }
+        
     }
     
     /**
@@ -228,6 +245,7 @@ public abstract class Evento implements Serializable {
     
     // Getters e Setters
     
+    public String getCategoria() {return categoria;}
     public int getID() { /*System.out.println("Evento.getID() -> ID: " + ID);*/ return ID; }
     public String getNome() { return nome; }
     public String getTitolo() { return (String) campi[I_TITOLO].getValore(); }
@@ -239,6 +257,7 @@ public abstract class Evento implements Serializable {
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(campi, campiExtra); }
     public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
     public boolean isRitirabile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }
+    public boolean isInvitoInviabile() { return LocalDate.now().compareTo((LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }
     public boolean isIscrivibile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0; }
     public String getCreatoreID() { return creatoreID; }
     public int getNumIscritti() { return 1+iscrittiIDs.size(); }
