@@ -157,7 +157,7 @@ public class Meetle {
     public void notificaIlMondoTondo(int eID, String messaggio) {
         String categoria = bacheca.getByID(eID).getCategoria();
         for(Utente u: utenti.getUtentiPerPreferenza(categoria)) {
-            if(u.getID().equals(utenteLoggatoID))
+            if(!u.getID().equals(utenteLoggatoID))
                 mandaNotifica(eID, bacheca.getByID(eID).getTitolo(), u.getID(), messaggio);
         }
     }
@@ -165,6 +165,7 @@ public class Meetle {
     public void mandaNotifica(int eID, String titolo, String uID, String messaggio) { utenti.getUtenteDaID(uID).aggiungiNotifica(eID, titolo, messaggio); }
     public void rimuoviNotifica(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).rimuoviNotifica(IDnotifica); }
     public void setNotificaLetta(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).segnaNotificaLetta(IDnotifica); }
+    public void mandaInvito(int eID, String uID) { System.out.println(":"+uID+":");utenti.getUtenteDaID(uID).aggiungiInvito(eID); }
     
     // Getters & Setters
     public Bacheca getBacheca() { setDaSalvare(); return bacheca; }    

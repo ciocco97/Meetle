@@ -108,8 +108,7 @@ public abstract class Evento implements Serializable {
             case Stato.APERTO:
                 messaggio = "Hai aperto l'evento :|";
                 bandieruccia = true; // Bisogna inviare la notifica a tutti quelli che sono interessati
-                String idUtente = Meetle.getIstanza().getUtenteLoggatoID();
-                String nomeUtente = Meetle.getIstanza().getUtenti().getUtenteDaID(idUtente).getNomignoloPercheNicknameEraTroppoMainStream();
+                String nomeUtente = Meetle.getIstanza().getUtenteLoggatoID();   
                 messaggio2 = nomeUtente + " ha appena aperto in bacheca un evento maggico *_*";
                 break;
             case Stato.RITIRATO:

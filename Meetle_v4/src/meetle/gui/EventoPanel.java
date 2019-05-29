@@ -163,8 +163,8 @@ public class EventoPanel extends javax.swing.JPanel {
         jButton4.setVisible(true);
         rimuoviListener(jButton4);
         jButton4.addActionListener((ActionEvent e) -> { // pusante per invitare altri fruitori :)
-                        System.err.println("EventoPanel.addInvita() da implementare");
-                    });
+            new SelezioneUtentiFrame(eID);
+        });
     }
     
     private void removeInvita() {

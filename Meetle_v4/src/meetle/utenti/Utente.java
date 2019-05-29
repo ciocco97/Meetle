@@ -41,6 +41,15 @@ public class Utente implements Serializable {
                 { notifiche.get(i).setVisualizzata(); return; }
         System.err.println("Nessuna notifica letta");
     }
+    
+    public void aggiungiInvito(int eID) {
+        Notifica daAggiungere = new Notifica(eID, "Nuovo Invito!", "Sei stato invitato a questo evento!");
+        daAggiungere.setInvito();
+        if (notifiche.contains(daAggiungere)) // se c'è già vuol dire che c'è un duplicato di ID
+            aggiungiInvito(eID);
+        else
+            notifiche.add(0, daAggiungere);
+    }
 
 //    public void setNickname(String nickname) {
 //        this.nomignoloPercheNicknameEraTroppoMainStream = nickname;
