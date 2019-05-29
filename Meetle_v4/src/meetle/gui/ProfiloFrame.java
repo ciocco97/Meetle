@@ -55,13 +55,13 @@ public class ProfiloFrame extends javax.swing.JFrame {
         jLabelCategorie = new javax.swing.JLabel();
         jCheckBoxTutti = new javax.swing.JCheckBox();
         jCheckBoxPartite = new javax.swing.JCheckBox();
-        jButton3 = new javax.swing.JButton();
+        jButtonSalva = new javax.swing.JButton();
         jTextFieldFasciaMin = new javax.swing.JTextField();
         jTextFieldFasciaMax = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Profilo");
+        setTitle("Configura il tuo Profilo");
         setAlwaysOnTop(true);
         setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -74,14 +74,17 @@ public class ProfiloFrame extends javax.swing.JFrame {
         jLabelUserID.setForeground(jPanel1.getForeground());
         jLabelUserID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelUserID.setText("userID");
+        jLabelUserID.setMinimumSize(new java.awt.Dimension(300, 45));
 
         jLabelFasciaEta.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLabelFasciaEta.setForeground(jPanel1.getForeground());
         jLabelFasciaEta.setText("La tua fascia d'età: ");
+        jLabelFasciaEta.setToolTipText("");
 
         jLabelCategorie.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLabelCategorie.setForeground(jPanel1.getForeground());
         jLabelCategorie.setText("Le categorie che ti interessano:");
+        jLabelCategorie.setToolTipText("Riceverai una notifica per ogni nuovo evento aperto di una delle categorie selezionate");
 
         jCheckBoxTutti.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jCheckBoxTutti.setForeground(jPanel1.getForeground());
@@ -98,18 +101,20 @@ public class ProfiloFrame extends javax.swing.JFrame {
         jCheckBoxPartite.setText("Partite di calcio");
         jCheckBoxPartite.setOpaque(false);
 
-        jButton3.setText("Salva");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSalva.setText("Salva");
+        jButtonSalva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonSalvaActionPerformed(evt);
             }
         });
 
         jTextFieldFasciaMin.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        jTextFieldFasciaMin.setToolTipText("Età minima");
         jTextFieldFasciaMin.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTextFieldFasciaMin.setPreferredSize(new java.awt.Dimension(30, 20));
 
         jTextFieldFasciaMax.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        jTextFieldFasciaMax.setToolTipText("Età massima");
         jTextFieldFasciaMax.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTextFieldFasciaMax.setPreferredSize(new java.awt.Dimension(30, 20));
 
@@ -125,15 +130,6 @@ public class ProfiloFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelUserID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCategorie)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBoxPartite)
-                                    .addComponent(jCheckBoxTutti))))
-                        .addGap(0, 103, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelFasciaEta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -144,14 +140,23 @@ public class ProfiloFrame extends javax.swing.JFrame {
                         .addComponent(jTextFieldFasciaMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)))
+                        .addComponent(jButtonSalva))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBoxPartite)
+                                    .addComponent(jCheckBoxTutti)))
+                            .addComponent(jLabelCategorie))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelUserID)
+                .addComponent(jLabelUserID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelFasciaEta)
@@ -164,8 +169,8 @@ public class ProfiloFrame extends javax.swing.JFrame {
                 .addComponent(jCheckBoxTutti)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxPartite)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonSalva)
                 .addContainerGap())
         );
 
@@ -175,7 +180,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButtonSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvaActionPerformed
         
         if(!jTextFieldFasciaMin.getText().equals("") || !jTextFieldFasciaMax.getText().equals(""))
             try {
@@ -198,7 +203,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
         }
         
         dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonSalvaActionPerformed
 
     private void jCheckBoxTuttiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxTuttiItemStateChanged
         jCheckBoxPartite.setSelected(jCheckBoxTutti.isSelected());
@@ -217,7 +222,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
 //    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonSalva;
     private javax.swing.JCheckBox jCheckBoxPartite;
     private javax.swing.JCheckBox jCheckBoxTutti;
     private javax.swing.JLabel jLabel1;

@@ -2,6 +2,7 @@ package meetle;
 
 import java.io.*;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
 import meetle.eventi.Evento;
@@ -76,14 +77,16 @@ public class Meetle {
     }
     
     public void loginUtente (){ 
-        String accessoID = JOptionPane.showInputDialog("LOGIN UTENTE");
+        String accessoID = JOptionPane.showInputDialog("Insersci il tuo nome utente");
         if (accessoID == null)
             System.exit(0);
         else {
             if (utenti.getUtenteDaID(accessoID) == null) {
                 utenti.add(new Utente(accessoID));
                 utenteLoggatoID = utenti.getUtenteDaID(accessoID).getID();
-                new ProfiloFrame().setVisible(true);
+                ProfiloFrame f = new ProfiloFrame();
+                f.setDefaultCloseOperation(ProfiloFrame.DO_NOTHING_ON_CLOSE);
+                f.setVisible(true);
                 try {
                     synchronized(this) {
                     wait();

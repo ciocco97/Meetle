@@ -50,6 +50,10 @@ public class Utente implements Serializable {
         else
             notifiche.add(0, daAggiungere);
     }
+    
+    public boolean haNotificheNonLette() {
+        return notifiche.stream().anyMatch(n -> !n.isVisualizzata());
+    }
 
 //    public void setNickname(String nickname) {
 //        this.nomignoloPercheNicknameEraTroppoMainStream = nickname;

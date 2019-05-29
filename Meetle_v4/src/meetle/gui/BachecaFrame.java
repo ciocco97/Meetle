@@ -10,7 +10,8 @@ public class BachecaFrame extends javax.swing.JFrame {
 
     public BachecaFrame() {
         initComponents();        
-        jBtnAreaPrivata.setText(Meetle.getIstanza().getUtenteLoggatoID());
+//        jBtnAreaPrivata.setText(Meetle.getIstanza().getUtenteLoggatoID() + "");
+        jLabelUserID.setText(Meetle.getIstanza().getUtenteLoggatoID());
         jScrollPaneBacheca.getVerticalScrollBar().setUnitIncrement(20);
         inizializza();
     }
@@ -40,20 +41,34 @@ public class BachecaFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButtonAggiungiEvento = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanelHeader = new javax.swing.JPanel();
         jLabelTitolo = new javax.swing.JLabel();
         jComboBoxCategorie = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButtonAggiungiEvento = new javax.swing.JButton();
         jBtnAreaPrivata = new javax.swing.JButton();
+        jLabelUserID = new javax.swing.JLabel();
         jScrollPaneBacheca = new javax.swing.JScrollPane();
         jPanelBacheca = new javax.swing.JPanel();
+
+        jButtonAggiungiEvento.setText("Aggiungi Evento");
+        jButtonAggiungiEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAggiungiEventoActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("temporaneo()");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Meetle");
         setMinimumSize(new java.awt.Dimension(800, 600));
         setName("BachecaFrame"); // NOI18N
-        setPreferredSize(getMinimumSize());
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -74,26 +89,16 @@ public class BachecaFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("temporaneo()");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButtonAggiungiEvento.setText("Aggiungi Evento");
-        jButtonAggiungiEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAggiungiEventoActionPerformed(evt);
-            }
-        });
-
-        jBtnAreaPrivata.setText("userID");
+        jBtnAreaPrivata.setText("Area Personale");
         jBtnAreaPrivata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnAreaPrivataActionPerformed(evt);
             }
         });
+
+        jLabelUserID.setFont(new java.awt.Font("Century Gothic", 0, 36)); // NOI18N
+        jLabelUserID.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelUserID.setText("userID");
 
         javax.swing.GroupLayout jPanelHeaderLayout = new javax.swing.GroupLayout(jPanelHeader);
         jPanelHeader.setLayout(jPanelHeaderLayout);
@@ -104,14 +109,11 @@ public class BachecaFrame extends javax.swing.JFrame {
                 .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelHeaderLayout.createSequentialGroup()
                         .addComponent(jLabelTitolo)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 509, Short.MAX_VALUE)
+                        .addComponent(jLabelUserID))
                     .addGroup(jPanelHeaderLayout.createSequentialGroup()
                         .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAggiungiEvento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBtnAreaPrivata)))
                 .addContainerGap())
         );
@@ -119,12 +121,12 @@ public class BachecaFrame extends javax.swing.JFrame {
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelTitolo)
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelTitolo)
+                    .addComponent(jLabelUserID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAggiungiEvento)
-                    .addComponent(jButton1)
                     .addComponent(jBtnAreaPrivata))
                 .addContainerGap())
         );
@@ -183,6 +185,7 @@ public class BachecaFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAggiungiEvento;
     private javax.swing.JComboBox<String> jComboBoxCategorie;
     private javax.swing.JLabel jLabelTitolo;
+    private javax.swing.JLabel jLabelUserID;
     private javax.swing.JPanel jPanelBacheca;
     private javax.swing.JPanel jPanelHeader;
     private javax.swing.JScrollPane jScrollPaneBacheca;

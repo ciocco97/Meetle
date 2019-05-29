@@ -2,8 +2,10 @@ package meetle.gui;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import meetle.Meetle;
 import meetle.eventi.Evento;
+import meetle.eventi.PartitaDiCalcio;
 import meetle.utenti.Notifica;
 
 public class AreaPersonaleFrame extends javax.swing.JFrame {
@@ -17,7 +19,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         
         initComponents();
         jButton1.setVisible(false);
-        jLabelTitolo.setText(Meetle.getIstanza().getUtenteLoggatoID());
+        jLabelUserID.setText(Meetle.getIstanza().getUtenteLoggatoID());
         jScrollPane.getVerticalScrollBar().setUnitIncrement(20);
         
         inizializza();
@@ -55,6 +57,9 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     }
     
     public void aggiorna() {
+        jButtonAggiungi.setVisible(selettore.getSelectedIndex()==1);
+        jButtonNotificheNonLette.setVisible(Meetle.getIstanza().getUtenti().getUtenteDaID(uID).haNotificheNonLette());
+        
         Component componenti[] = jPanelMadre.getComponents();
 //        System.out.println("Agggiorna -> comp.lenght: " + comp.length);
         for (Component componente : componenti) {
@@ -73,7 +78,10 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         jPanelHeader = new javax.swing.JPanel();
         jLabelTitolo = new javax.swing.JLabel();
         selettore = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        jButtonProfilo = new javax.swing.JButton();
+        jLabelUserID = new javax.swing.JLabel();
+        jButtonAggiungi = new javax.swing.JButton();
+        jButtonNotificheNonLette = new javax.swing.JButton();
         jScrollPane = new javax.swing.JScrollPane();
         jPanelMadre = new javax.swing.JPanel();
 
@@ -94,7 +102,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
 
         jLabelTitolo.setFont(new java.awt.Font("Century Gothic", 0, 48)); // NOI18N
         jLabelTitolo.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTitolo.setText("AreaPersonale");
+        jLabelTitolo.setText("Area Personale");
 
         selettore.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Eventi a cui sei iscritto", "Eventi creati da te", "Le tue notifiche" }));
         selettore.addActionListener(new java.awt.event.ActionListener() {
@@ -103,12 +111,25 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Profilo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonProfilo.setText("Configura il Profilo");
+        jButtonProfilo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonProfiloActionPerformed(evt);
             }
         });
+
+        jLabelUserID.setFont(new java.awt.Font("Century Gothic", 0, 36)); // NOI18N
+        jLabelUserID.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelUserID.setText("userID");
+
+        jButtonAggiungi.setText("Aggiungi Evento");
+        jButtonAggiungi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAggiungiActionPerformed(evt);
+            }
+        });
+
+        jButtonNotificheNonLette.setText("Hai delle notifiche non lette!");
 
         javax.swing.GroupLayout jPanelHeaderLayout = new javax.swing.GroupLayout(jPanelHeader);
         jPanelHeader.setLayout(jPanelHeaderLayout);
@@ -119,22 +140,31 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelHeaderLayout.createSequentialGroup()
                         .addComponent(jLabelTitolo)
-                        .addGap(0, 430, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 310, Short.MAX_VALUE)
+                        .addComponent(jLabelUserID))
                     .addGroup(jPanelHeaderLayout.createSequentialGroup()
                         .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAggiungi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(jButtonNotificheNonLette)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonProfilo)))
                 .addContainerGap())
         );
         jPanelHeaderLayout.setVerticalGroup(
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelTitolo)
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelTitolo)
+                    .addComponent(jLabelUserID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonProfilo)
+                    .addComponent(jButtonAggiungi)
+                    .addComponent(jButtonNotificheNonLette))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -162,15 +192,34 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         Meetle.getIstanza().mostraBacheca();
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonProfiloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProfiloActionPerformed
         new ProfiloFrame().setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonProfiloActionPerformed
+
+    private void jButtonAggiungiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAggiungiActionPerformed
+        String risposta = (String) JOptionPane.showInputDialog(this, "m1", "m2", JOptionPane.QUESTION_MESSAGE, null, new Object[]{PartitaDiCalcio.NOME}, null);
+        if(risposta==null)
+            return;
+        Evento eventoTemp = null;
+        switch(risposta) {
+            case PartitaDiCalcio.NOME:
+                eventoTemp = new PartitaDiCalcio(Meetle.getIstanza().getUtenteLoggatoID());
+                break;
+            default:
+                throw new UnsupportedOperationException("Selezione non valida");
+        }
+        Meetle.getIstanza().getBacheca().add(eventoTemp);
+        new EventoFrame(eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
+    }//GEN-LAST:event_jButtonAggiungiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAggiungi;
+    private javax.swing.JButton jButtonNotificheNonLette;
+    private javax.swing.JButton jButtonProfilo;
     private javax.swing.JLabel jLabelTitolo;
+    private javax.swing.JLabel jLabelUserID;
     private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelMadre;
     private javax.swing.JScrollPane jScrollPane;
