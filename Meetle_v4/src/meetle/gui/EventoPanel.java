@@ -20,6 +20,7 @@ public class EventoPanel extends javax.swing.JPanel {
         jButton1.setVisible(false);
         jButton2.setVisible(false);
         jButton3.setVisible(false);
+        jButton4.setVisible(false);
         
         aggiorna();
     }
@@ -46,8 +47,6 @@ public class EventoPanel extends javax.swing.JPanel {
                 if (stE == Stato.APERTO){
                     if (!proprietario)
                         addIscrizione(evento);
-                    else if (evento.isRitirabile())
-                        addRitira(evento);
                     addVisualizza();
                 }
                 else elimina();
@@ -59,18 +58,20 @@ public class EventoPanel extends javax.swing.JPanel {
                         addIscrizione(evento);
                     else if (evento.isRitirabile())
                         addRitira(evento);
+                    else removeRitira();
                 if (stE == Stato.VALIDO || stE == Stato.NONVALIDO) //TO DO eliminato
                     elimina();
                 break;
             case POS_POSSEDUTI:
                 if (stE == Stato.APERTO || stE == Stato.CHIUSO || stE == Stato.FALLITO || stE == Stato.CONCLUSO || stE == Stato.RITIRATO) {
-                    if (evento.isRitirabile()) {
+                    if (evento.isRitirabile())
                         addRitira(evento);
-                    }
+                    else removeRitira();
+                    if(evento.isInvitoInviabile())
+                        addInvita(evento);
+                    else removeInvita();
                     addVisualizza();
                     removeModifica();
-                    if (stE == Stato.RITIRATO) //Se è ritirato elimina sovrascrive visualizza (solo in POSSEDUTI)
-                        addElimina();
                 }
                 else if (stE == Stato.VALIDO || stE == Stato.NONVALIDO){
                     addModifica();
@@ -151,6 +152,25 @@ public class EventoPanel extends javax.swing.JPanel {
                         evento.ritiraEvento();
                     });
     }
+    
+    private void removeRitira() {
+        jButton3.setVisible(false);
+        rimuoviListener(jButton3);
+    }
+    
+    private void addInvita(Evento evento) {
+        jButton4.setText("Invita");
+        jButton4.setVisible(true);
+        rimuoviListener(jButton4);
+        jButton4.addActionListener((ActionEvent e) -> { // pusante per invitare altri fruitori :)
+                        System.err.println("EventoPanel.addInvita() da implementare");
+                    });
+    }
+    
+    private void removeInvita() {
+        jButton4.setVisible(false);
+        rimuoviListener(jButton4);
+    }
 
     private void elimina() {
         removeAll();
@@ -196,6 +216,7 @@ public class EventoPanel extends javax.swing.JPanel {
         jLbNumPartecipanti = new javax.swing.JLabel();
         jLbInformazioni = new javax.swing.JLabel();
         jPanelBottoni = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -216,6 +237,9 @@ public class EventoPanel extends javax.swing.JPanel {
 
         jPanelBottoni.setBackground(getBackground());
         jPanelBottoni.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jButton4.setText("jButton4");
+        jPanelBottoni.add(jButton4);
 
         jButton3.setText("jButton3");
         jPanelBottoni.add(jButton3);
@@ -264,6 +288,7 @@ public class EventoPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLbInformazioni;
     private javax.swing.JLabel jLbNumPartecipanti;
     private javax.swing.JLabel jLbTitolo;

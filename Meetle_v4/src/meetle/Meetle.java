@@ -2,10 +2,10 @@ package meetle;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
+import meetle.eventi.Evento;
+import meetle.eventi.Stato;
 import meetle.gui.*;
 import meetle.io.MeetleIO;
 import meetle.utenti.*;
@@ -129,6 +129,37 @@ public class Meetle {
         } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getStackTrace()); }
             
         daSalvare=false;
+    }
+    
+    public ArrayList<String> utentiInvitabili(int eID) {
+        Evento ev = bacheca.getByID(eID);
+        ArrayList<String> ritorno = new ArrayList<>();
+        bacheca.stream().filter(e -> e.getCreatoreID().equals(utenteLoggatoID))
+                .filter(e -> e.getIndiceStatoCorrente() == Stato.CONCLUSO)
+                .filter(e -> e.getCategoria().equals(ev.getCategoria()))
+                .forEach(e -> {
+                    e.getIscrittiIDs().stream().forEach(iID -> {
+                        if(!ritorno.contains(iID))
+                            ritorno.add(iID);
+                    });
+                });
+        return ritorno;
+    }
+    
+    /**
+     * Funzione che notifica tutti gli utenti che sono interessati alla categoria
+     * di eID: viene spedito loro messaggio
+     * Unico utente che non viene notificato è il creatore dell'evento, nonché
+     * colui che sta usando il programma
+     * @param eID
+     * @param messaggio 
+     */
+    public void notificaIlMondoTondo(int eID, String messaggio) {
+        String categoria = bacheca.getByID(eID).getCategoria();
+        for(Utente u: utenti.getUtentiPerPreferenza(categoria)) {
+            if(u.getID().equals(utenteLoggatoID))
+                mandaNotifica(eID, bacheca.getByID(eID).getTitolo(), u.getID(), messaggio);
+        }
     }
     
     public void mandaNotifica(int eID, String titolo, String uID, String messaggio) { utenti.getUtenteDaID(uID).aggiungiNotifica(eID, titolo, messaggio); }

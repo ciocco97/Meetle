@@ -27,6 +27,15 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
 //        add(u);
 //        return u;
         return null;
-    }    
+    }
+    
+    public ArrayList<Utente> getUtentiPerPreferenza(String categoria) {
+        ArrayList<Utente> ritorno = new ArrayList<>();
+        for(Utente u: this) {
+            if(u.getCategoriePreferite().contains(categoria))
+                ritorno.add(u);
+        }
+        return ritorno;
+    }
     
 }

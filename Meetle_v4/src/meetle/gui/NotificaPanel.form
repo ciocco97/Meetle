@@ -26,6 +26,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jLabelTitolo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonAccettaInvito" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButtonVaiEvento" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -53,6 +55,7 @@
                   <Component id="jButtonElimina" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonSegnaLetto" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonVaiEvento" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonAccettaInvito" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -123,6 +126,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonVaiEventoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonAccettaInvito">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Accetta invito"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAccettaInvitoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

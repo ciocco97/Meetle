@@ -30,6 +30,19 @@ public class NotificaPanel extends javax.swing.JPanel {
             jButtonSegnaLetto.setText("visualizzata");
             jButtonSegnaLetto.setEnabled(false);
         } else { jButtonSegnaLetto.setText("Segna come già letto"); }
+        String IDUtenteLoggato = Meetle.getIstanza().getUtenteLoggatoID();
+        if(notifica.isInvito()) {
+            jButtonAccettaInvito.setVisible(true);
+            if (!Meetle.getIstanza().getBacheca().getByID(IDEvento).isUtenteIscritto(IDUtenteLoggato))
+                jButtonAccettaInvito.setEnabled(true);
+            else {
+                jButtonAccettaInvito.setEnabled(false);
+                if(Meetle.getIstanza().getBacheca().getByID(IDEvento).isIscrivibile())
+                    jButtonAccettaInvito.setText("Sei già iscritto all'evento");
+                else
+                    jButtonAccettaInvito.setText("Invito non più disponibile");
+            }
+        } else jButtonAccettaInvito.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,6 +55,7 @@ public class NotificaPanel extends javax.swing.JPanel {
         jButtonElimina = new javax.swing.JButton();
         jButtonSegnaLetto = new javax.swing.JButton();
         jButtonVaiEvento = new javax.swing.JButton();
+        jButtonAccettaInvito = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 150, 155));
 
@@ -79,6 +93,13 @@ public class NotificaPanel extends javax.swing.JPanel {
             }
         });
 
+        jButtonAccettaInvito.setText("Accetta invito");
+        jButtonAccettaInvito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAccettaInvitoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,6 +109,8 @@ public class NotificaPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelTitolo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAccettaInvito)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonVaiEvento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -109,7 +132,8 @@ public class NotificaPanel extends javax.swing.JPanel {
                     .addComponent(jLabelTitolo)
                     .addComponent(jButtonElimina)
                     .addComponent(jButtonSegnaLetto)
-                    .addComponent(jButtonVaiEvento))
+                    .addComponent(jButtonVaiEvento)
+                    .addComponent(jButtonAccettaInvito))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTestoNotifica)
@@ -138,8 +162,15 @@ public class NotificaPanel extends javax.swing.JPanel {
         Meetle.getIstanza().setDaSalvare();
     }//GEN-LAST:event_jButtonEliminaActionPerformed
 
+    private void jButtonAccettaInvitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAccettaInvitoActionPerformed
+        Meetle.getIstanza().getBacheca().getByID(IDEvento).switchIscrizione(Meetle.getIstanza().getUtenteLoggatoID());
+        jButtonAccettaInvito.setEnabled(false);
+        jButtonAccettaInvito.setText("Invito accettato");
+    }//GEN-LAST:event_jButtonAccettaInvitoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAccettaInvito;
     private javax.swing.JButton jButtonElimina;
     private javax.swing.JButton jButtonSegnaLetto;
     private javax.swing.JButton jButtonVaiEvento;

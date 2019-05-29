@@ -10,7 +10,7 @@ public class PartitaDiCalcio extends Evento {
     public static final int I_GENERE = 14, I_FASCIA_ETA = 15;
 
     public PartitaDiCalcio(String creatoreID) {
-        super(creatoreID);
+        super(creatoreID, NOME);
         
         this.nome = NOME;
         this.descrizione = DESCRIZIONE;
