@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import meetle.eventi.Bacheca;
+import meetle.eventi.Evento;
+import meetle.eventi.Stato;
 import meetle.gui.*;
 import meetle.io.MeetleIO;
 import meetle.utenti.*;
@@ -129,6 +131,21 @@ public class Meetle {
         daSalvare=false;
     }
     
+    public ArrayList<String> utentiInvitabili(int eID) {
+        Evento ev = bacheca.getByID(eID);
+        ArrayList<String> ritorno = new ArrayList<>();
+        bacheca.stream().filter(e -> e.getCreatoreID().equals(utenteLoggatoID))
+                .filter(e -> e.getIndiceStatoCorrente() == Stato.CONCLUSO)
+                .filter(e -> e.getCategoria().equals(ev.getCategoria()))
+                .forEach(e -> {
+                    e.getIscrittiIDs().stream().forEach(iID -> {
+                        if(!ritorno.contains(iID))
+                            ritorno.add(iID);
+                    });
+                });
+        return ritorno;
+    }
+    
     /**
      * Funzione che notifica tutti gli utenti che sono interessati alla categoria
      * di eID: viene spedito loro messaggio
@@ -139,15 +156,9 @@ public class Meetle {
      */
     public void notificaIlMondoTondo(int eID, String messaggio) {
         String categoria = bacheca.getByID(eID).getCategoria();
-        for(Utente u: utenti) {
-            // Prendo solo gli utenti che hanno tra le categorie preferite la categoria
-            // di evento e non quello che è loggato al momento
-            boolean interessato = u.getCategoriePreferite().contains(categoria);
-            boolean loggato = u.getID().equals(utenteLoggatoID);
-            if(interessato && !loggato) {
+        for(Utente u: utenti.getUtentiPerPreferenza(categoria)) {
+            if(u.getID().equals(utenteLoggatoID))
                 mandaNotifica(eID, bacheca.getByID(eID).getTitolo(), u.getID(), messaggio);
-            }
-                
         }
     }
     

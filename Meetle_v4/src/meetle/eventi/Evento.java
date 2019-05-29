@@ -266,5 +266,6 @@ public abstract class Evento implements Serializable {
 //    public void setDurata(String valore){campi[I_DURATA].setValoreDaString(valore);}
 //    public void setCompresoQuota(String valore){campi[I_COMPRESO_QUOTA].setValoreDaString(valore);}
 //    public void setDataConclusiva(String valore){campi[I_DATA_CONCLUSIVA].setValoreDaString(valore);}
+    public ArrayList<String> getIscrittiIDs() { return iscrittiIDs; }
     
 }

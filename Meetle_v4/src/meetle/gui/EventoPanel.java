@@ -47,8 +47,6 @@ public class EventoPanel extends javax.swing.JPanel {
                 if (stE == Stato.APERTO){
                     if (!proprietario)
                         addIscrizione(evento);
-                    else if (evento.isRitirabile())
-                        addRitira(evento);
                     addVisualizza();
                 }
                 else elimina();
