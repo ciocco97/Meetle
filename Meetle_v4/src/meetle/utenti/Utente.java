@@ -11,7 +11,7 @@ public class Utente implements Serializable {
     private final String ID;
     private ArrayList<Notifica> notifiche;
 
-    private String nomignoloPercheNicknameEraTroppoMainStream;
+//    private String nomignoloPercheNicknameEraTroppoMainStream;
     private Range fasciaEta;
     private ArrayList<String> categoriePreferite;
     
@@ -42,9 +42,9 @@ public class Utente implements Serializable {
         System.err.println("Nessuna notifica letta");
     }
 
-    public void setNickname(String nickname) {
-        this.nomignoloPercheNicknameEraTroppoMainStream = nickname;
-    }
+//    public void setNickname(String nickname) {
+//        this.nomignoloPercheNicknameEraTroppoMainStream = nickname;
+//    }
 
     public void setFasciaEta(int min, int max) {
         this.fasciaEta = new Range(min, max);
@@ -62,7 +62,7 @@ public class Utente implements Serializable {
 
     public String getID() { return ID; }     
     public ArrayList getNotifiche() { return notifiche; }
-    public String getNomignoloPercheNicknameEraTroppoMainStream() { return nomignoloPercheNicknameEraTroppoMainStream; }
+//    public String getNomignoloPercheNicknameEraTroppoMainStream() { return nomignoloPercheNicknameEraTroppoMainStream; }
     public int[] getFasciaEtaVals() { return fasciaEta==null? null : new int[]{fasciaEta.min, fasciaEta.max}; }    
     public ArrayList<String> getCategoriePreferite() { return categoriePreferite; }
     

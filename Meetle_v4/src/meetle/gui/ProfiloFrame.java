@@ -17,7 +17,6 @@ public class ProfiloFrame extends javax.swing.JFrame {
         
         Utente u = Meetle.getIstanza().getUtenti().getUtenteDaID(uID);        
         jLabelUserID.setText(uID);
-        jTextFieldNick.setText(u.getNomignoloPercheNicknameEraTroppoMainStream()==null? "" : u.getNomignoloPercheNicknameEraTroppoMainStream());
         int[] fascia = u.getFasciaEtaVals();
         if (fascia != null) {
             jTextFieldFasciaMin.setText(""+fascia[0]);
@@ -52,13 +51,11 @@ public class ProfiloFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabelUserID = new javax.swing.JLabel();
-        jLabelNickname = new javax.swing.JLabel();
         jLabelFasciaEta = new javax.swing.JLabel();
         jLabelCategorie = new javax.swing.JLabel();
         jCheckBoxTutti = new javax.swing.JCheckBox();
         jCheckBoxPartite = new javax.swing.JCheckBox();
         jButton3 = new javax.swing.JButton();
-        jTextFieldNick = new javax.swing.JTextField();
         jTextFieldFasciaMin = new javax.swing.JTextField();
         jTextFieldFasciaMax = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -77,10 +74,6 @@ public class ProfiloFrame extends javax.swing.JFrame {
         jLabelUserID.setForeground(jPanel1.getForeground());
         jLabelUserID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelUserID.setText("userID");
-
-        jLabelNickname.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jLabelNickname.setForeground(jPanel1.getForeground());
-        jLabelNickname.setText("Il tuo NOMIGNOLO*:");
 
         jLabelFasciaEta.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLabelFasciaEta.setForeground(jPanel1.getForeground());
@@ -112,10 +105,6 @@ public class ProfiloFrame extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldNick.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        jTextFieldNick.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTextFieldNick.setPreferredSize(new java.awt.Dimension(100, 20));
-
         jTextFieldFasciaMin.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jTextFieldFasciaMin.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTextFieldFasciaMin.setPreferredSize(new java.awt.Dimension(30, 20));
@@ -137,10 +126,6 @@ public class ProfiloFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelUserID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelNickname)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                        .addComponent(jTextFieldNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelCategorie)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -148,18 +133,18 @@ public class ProfiloFrame extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBoxPartite)
                                     .addComponent(jCheckBoxTutti))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 103, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelFasciaEta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextFieldFasciaMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldFasciaMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jTextFieldFasciaMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldFasciaMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -167,10 +152,6 @@ public class ProfiloFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelUserID)
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelNickname)
-                    .addComponent(jTextFieldNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelFasciaEta)
@@ -183,7 +164,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
                 .addComponent(jCheckBoxTutti)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxPartite)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addContainerGap())
         );
@@ -195,11 +176,6 @@ public class ProfiloFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(jTextFieldNick.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Il NOMIGNOLO non può essere vuoto!");
-            return;
-        }
-        getUtente().setNickname(jTextFieldNick.getText());
         
         if(!jTextFieldFasciaMin.getText().equals("") || !jTextFieldFasciaMax.getText().equals(""))
             try {
@@ -247,11 +223,9 @@ public class ProfiloFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCategorie;
     private javax.swing.JLabel jLabelFasciaEta;
-    private javax.swing.JLabel jLabelNickname;
     private javax.swing.JLabel jLabelUserID;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextFieldFasciaMax;
     private javax.swing.JTextField jTextFieldFasciaMin;
-    private javax.swing.JTextField jTextFieldNick;
     // End of variables declaration//GEN-END:variables
 }

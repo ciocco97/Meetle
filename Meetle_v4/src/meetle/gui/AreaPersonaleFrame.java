@@ -17,7 +17,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         
         initComponents();
         jButton1.setVisible(false);
-        jLabelTitolo.setText(Meetle.getIstanza().getUtenti().getUtenteDaID(uID).getNomignoloPercheNicknameEraTroppoMainStream());
+        jLabelTitolo.setText(Meetle.getIstanza().getUtenteLoggatoID());
         jScrollPane.getVerticalScrollBar().setUnitIncrement(20);
         
         inizializza();
