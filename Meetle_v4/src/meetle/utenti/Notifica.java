@@ -9,9 +9,8 @@ public class Notifica implements Serializable {
     private final String titolo, messaggio;
     private final LocalDateTime dataora;
     private boolean visualizzata;
-    private boolean invito;
 
-    public Notifica(int eID, String titolo, String messaggio, LocalDateTime dataora) {
+    private Notifica(int eID, String titolo, String messaggio, LocalDateTime dataora) {
         this.messaggio = messaggio;
         this.titolo = titolo;
         this.dataora = dataora;
@@ -25,16 +24,15 @@ public class Notifica implements Serializable {
     }
     
     public void setVisualizzata() { this.visualizzata = true; }
-    public void setInvito() { this.invito = true; }
 
-    public boolean equals(Notifica notifica) { return notifica.getID() == ID; }
+    public boolean equals(Notifica notifica) { return notifica.ID == ID; }
     
+    public int getID() { return ID; }
+    public int getEventoID() { return eventoID; } 
     public String getTitolo() { return titolo; }
     public String getMessaggio() { return messaggio; }
     public LocalDateTime getDataora() { return dataora; }
     public boolean isVisualizzata() { return visualizzata; }
-    public boolean isInvito() { return invito; }
-    public int getEventoID() { return eventoID; } 
-    public int getID() { return ID; }
+    public boolean isInvito() { return this instanceof Invito; }
     
 }

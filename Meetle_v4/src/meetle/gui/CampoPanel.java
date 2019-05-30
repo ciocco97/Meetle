@@ -1,15 +1,9 @@
 package meetle.gui;
 
-import com.toedter.calendar.JDateChooser;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import meetle.eventi.campi.Campo;
 import meetle.eventi.campi.CampoData;

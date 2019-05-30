@@ -2,14 +2,11 @@ package meetle;
 
 import java.io.*;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import meetle.eventi.Bacheca;
-import meetle.eventi.Evento;
-import meetle.eventi.Stato;
-import meetle.gui.*;
-import meetle.io.MeetleIO;
+import meetle.eventi.*;
 import meetle.utenti.*;
+import meetle.io.MeetleIO;
+import meetle.gui.*;
 
 public class Meetle {
     
@@ -21,6 +18,8 @@ public class Meetle {
     private String utenteLoggatoID;    
     private boolean daSalvare = true; // booleana che dice se ci sono correntemente dei dati non salvati su file
     
+    private Thread aggiornatore;
+    
     private BachecaFrame bachecaFrame;
     private AreaPersonaleFrame areaPersonaleFrame;  
     
@@ -30,6 +29,9 @@ public class Meetle {
         return istanza;
     }
     
+    /**
+     * costruisce gli oggetti principali di meetle (bacheca, utenti, ecc.)
+     */
     private Meetle() {
         
         try {
@@ -52,15 +54,7 @@ public class Meetle {
             bacheca = new Bacheca();
         }  
         
-    }  
-    
-    public void start() {
-        loginUtente();
-        bachecaFrame = new BachecaFrame();
-        areaPersonaleFrame = new AreaPersonaleFrame();
-        java.awt.EventQueue.invokeLater(() -> bachecaFrame.setVisible(true));
-        
-        new Thread(() -> {
+        aggiornatore = new Thread(() -> {
             synchronized(this) {
                 while(true) {
                     bacheca.aggiornaStati();
@@ -68,34 +62,42 @@ public class Meetle {
 //                        salva();
                     bachecaFrame.aggiorna();
                     areaPersonaleFrame.aggiorna();
-                    try {
-                        wait(500);
-                    } catch (InterruptedException ex) { }
+                    try {  wait(500); } catch (InterruptedException ex) { }
                 }
             }
-        }).start();
+        });
+        
+    }  
+    
+    /**
+     * lancia effettivamente il programma (con login, finestre della GUI, threads, ecc.)
+     */
+    public void start() {
+        loginUtente();
+        bachecaFrame = new BachecaFrame();
+        areaPersonaleFrame = new AreaPersonaleFrame();
+        java.awt.EventQueue.invokeLater(() -> bachecaFrame.setVisible(true));
+        aggiornatore.start();
     }
     
+    /**
+     * chiede di eseguire il login via input (se non viene eseguito chiude tutto)
+     * e se l'utente è nuovo apre la finestra di configurazione del profilo
+     */
     public void loginUtente (){ 
         String accessoID = JOptionPane.showInputDialog("Insersci il tuo nome utente");
         if (accessoID == null)
             System.exit(0);
-        else {
-            if (utenti.getUtenteDaID(accessoID) == null) {
-                utenti.add(new Utente(accessoID));
-                utenteLoggatoID = utenti.getUtenteDaID(accessoID).getID();
-                ProfiloFrame f = new ProfiloFrame();
-                f.setDefaultCloseOperation(ProfiloFrame.DO_NOTHING_ON_CLOSE);
-                f.setVisible(true);
-                try {
-                    synchronized(this) {
-                    wait();
-                    }
-                } catch (InterruptedException ex) {
-                }
-            }
-            utenteLoggatoID = utenti.getUtenteDaID(accessoID).getID();
+        
+        utenteLoggatoID = accessoID;
+        if (utenti.getUtenteDaID(accessoID) == null) {
+            utenti.add(new Utente(accessoID));
+            ProfiloFrame f = new ProfiloFrame();
+            f.setDefaultCloseOperation(ProfiloFrame.DO_NOTHING_ON_CLOSE);
+            f.setVisible(true);
+            try { synchronized(this) { wait(); } } catch (InterruptedException ex) { }
         }
+        
         try {
             // salva subito gli utenti
             io.salvaUtenti();
@@ -116,8 +118,11 @@ public class Meetle {
         
     }
     
-    public void setDaSalvare() { daSalvare=true; }
+//    public void setDaSalvare() { daSalvare=true; }
     
+    /**
+     * salva sia la bacheca che gli utenti su file
+     */
     public void salva() {
         try {
             System.out.print("Salvataggio utenti su file... ");
@@ -129,11 +134,16 @@ public class Meetle {
             System.out.print("Salvataggio eventi su file... ");
             io.salvaEventi();
             System.out.println("OK!");
-        } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getStackTrace()); }
+        } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getMessage()); }
             
         daSalvare=false;
     }
     
+    /**
+     * cerca tutti gli utenti che sono hanno già partecipato ad un evento 
+     * della stessa categoria e con lo stesso utente creatore
+     * @return un arraylist di stringhe, gli userID degli utenti trovati
+     */
     public ArrayList<String> utentiInvitabili(int eID) {
         Evento ev = bacheca.getByID(eID);
         ArrayList<String> ritorno = new ArrayList<>();
@@ -168,16 +178,15 @@ public class Meetle {
     public void mandaNotifica(int eID, String titolo, String uID, String messaggio) { utenti.getUtenteDaID(uID).aggiungiNotifica(eID, titolo, messaggio); }
     public void rimuoviNotifica(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).rimuoviNotifica(IDnotifica); }
     public void setNotificaLetta(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).segnaNotificaLetta(IDnotifica); }
-    public void mandaInvito(int eID, String uID) { System.out.println(":"+uID+":");utenti.getUtenteDaID(uID).aggiungiInvito(eID); }
+    public void mandaInvito(int eID, String uID) { utenti.getUtenteDaID(uID).aggiungiInvito(eID); }
     
     // Getters & Setters
-    public Bacheca getBacheca() { setDaSalvare(); return bacheca; }    
+    public Bacheca getBacheca() {  return bacheca; }    
     public Utenti getUtenti() { return utenti; }
     public String getUtenteLoggatoID() { return utenteLoggatoID; }
     public ArrayList<Notifica> getNotifiche() { return utenti.getUtenteDaID(utenteLoggatoID).getNotifiche(); }    
         
     public static void main(String[] args) throws IOException {
-        
         Meetle meetle = Meetle.getIstanza();
         meetle.start();       
     }

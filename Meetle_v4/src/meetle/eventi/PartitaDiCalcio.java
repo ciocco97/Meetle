@@ -22,15 +22,15 @@ public class PartitaDiCalcio extends Evento {
 //        setFacoltativi();
     }
     
-    // METODO DA CANCELLARE PRIMA O POI
-    private void setFacoltativi(){        
-        // i prossimi sono solo per comodità per non stare a inserirli ogni volta
-        campi[I_DATA].setFacoltativo();
-        campi[I_TERMINE_ISCRIZIONE].setFacoltativo();
-        campiExtra[I_GENERE-NUM_CAMPI_FISSI].setFacoltativo();
-        campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI].setFacoltativo();
-        
-    }
+//    // METODO DA CANCELLARE PRIMA O POI
+//    private void setFacoltativi(){        
+//        // i prossimi sono solo per comodità per non stare a inserirli ogni volta
+//        campi[I_DATA].setFacoltativo();
+//        campi[I_TERMINE_ISCRIZIONE].setFacoltativo();
+//        campiExtra[I_GENERE-NUM_CAMPI_FISSI].setFacoltativo();
+//        campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI].setFacoltativo();
+//        
+//    }
     
     
 }

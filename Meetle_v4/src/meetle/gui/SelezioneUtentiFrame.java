@@ -30,7 +30,6 @@ public class SelezioneUtentiFrame extends javax.swing.JFrame {
             cb.setForeground(Color.white);
             cb.setFont(jPanelUtentiInvitabili.getFont());
             jPanelUtentiInvitabili.add(cb);
-            System.out.println(s);
         }
         
         pack();
@@ -86,6 +85,7 @@ public class SelezioneUtentiFrame extends javax.swing.JFrame {
             if(cb.isSelected())
                 Meetle.getIstanza().mandaInvito(eID, cb.getText());
         }
+        dispose();
     }//GEN-LAST:event_jButtonInvitaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

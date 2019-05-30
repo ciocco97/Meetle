@@ -2,6 +2,7 @@ package meetle.utenti;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Utenti extends ArrayList<Utente> implements Serializable {
     
@@ -30,12 +31,12 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
     }
     
     public ArrayList<Utente> getUtentiPerPreferenza(String categoria) {
-        ArrayList<Utente> ritorno = new ArrayList<>();
-        for(Utente u: this) {
-            if(u.getCategoriePreferite().contains(categoria))
-                ritorno.add(u);
-        }
-        return ritorno;
+//        ArrayList<Utente> ritorno = new ArrayList<>();
+//        for(Utente u: this) {
+//            if(u.getCategoriePreferite().contains(categoria))
+//                ritorno.add(u);
+//        }
+        return (ArrayList) stream().filter(u -> u.getCategoriePreferite().contains(categoria)).collect(Collectors.toList());
     }
     
 }

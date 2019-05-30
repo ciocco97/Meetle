@@ -3,17 +3,15 @@ package meetle.utenti;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import meetle.eventi.campi.CampoRange.Range;
 
 
 public class Utente implements Serializable {
     private final String ID;
-    private ArrayList<Notifica> notifiche;
-
+    private final ArrayList<Notifica> notifiche;
 //    private String nomignoloPercheNicknameEraTroppoMainStream;
     private Range fasciaEta;
-    private ArrayList<String> categoriePreferite;
+    private ArrayList<String> categoriePreferite; 
     
     public Utente(String ID) {
         this.ID = ID;
@@ -21,7 +19,7 @@ public class Utente implements Serializable {
     }
     
     public void aggiungiNotifica(int eID, String titolo, String messaggio){
-        Notifica daAggiungere = new Notifica(eID, titolo, messaggio, LocalDateTime.now());
+        Notifica daAggiungere = new Notifica(eID, titolo, messaggio);
         if (notifiche.contains(daAggiungere)) // se c'è già vuol dire che c'è un duplicato di ID
             aggiungiNotifica(eID, titolo, messaggio);
         else
@@ -32,19 +30,18 @@ public class Utente implements Serializable {
         for(int i = 0; i < notifiche.size(); i++)
             if(notifiche.get(i).getID() == nID)
                 { notifiche.remove(i); return; }
-        System.err.println("Nessuna notifica rimossa");
+        System.err.println("Nnotifica NON rimossa");
     }
     
     public void segnaNotificaLetta(int nID) {
         for(int i = 0; i < notifiche.size(); i++)
             if(notifiche.get(i).getID() == nID)
                 { notifiche.get(i).setVisualizzata(); return; }
-        System.err.println("Nessuna notifica letta");
+        System.err.println("Notifica NON letta");
     }
     
     public void aggiungiInvito(int eID) {
-        Notifica daAggiungere = new Notifica(eID, "Nuovo Invito!", "Sei stato invitato a questo evento!");
-        daAggiungere.setInvito();
+        Invito daAggiungere = new Invito(eID, "Nuovo Invito!", "Sei stato invitato a questo evento!");
         if (notifiche.contains(daAggiungere)) // se c'è già vuol dire che c'è un duplicato di ID
             aggiungiInvito(eID);
         else
@@ -55,17 +52,8 @@ public class Utente implements Serializable {
         return notifiche.stream().anyMatch(n -> !n.isVisualizzata());
     }
 
-//    public void setNickname(String nickname) {
-//        this.nomignoloPercheNicknameEraTroppoMainStream = nickname;
-//    }
-
-    public void setFasciaEta(int min, int max) {
-        this.fasciaEta = new Range(min, max);
-    }
-
-    public void setCategoriePreferite(ArrayList<String> categoriePreferite) {
-        this.categoriePreferite = categoriePreferite;
-    }
+    public void setFasciaEta(int min, int max) { this.fasciaEta = new Range(min, max); }
+    public void setCategoriePreferite(ArrayList<String> categoriePreferite) { this.categoriePreferite = categoriePreferite; }
     
     @Override
     public String toString() { return ID; }   

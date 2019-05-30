@@ -28,8 +28,7 @@ public abstract class Evento implements Serializable {
             N_ORA_CONCLUSIVA = "Ora conclusiva", N_NOTE = "Note", N_TOLLERANZA_PARTECIPANTI = "Tolleranza partecipanti",
             N_DATA_RITIRO_ISCRIZIONE = "Data ritiro iscrizione";
     
-    protected String categoria;
-    protected String nome, descrizione;    
+    protected String nome, descrizione, categoria;    
     protected final int ID; // identificatore univoco 
     protected Campo[] campi, campiExtra;  
     protected Stato statoCorrente;
@@ -64,6 +63,9 @@ public abstract class Evento implements Serializable {
         ID = hashCode()+(new Random()).nextInt();
     }  
     
+    /**
+     * imposta i campi che devono essere facoltativi come tali
+     */
     private void setFacoltativi() {
         campi[I_TITOLO].setFacoltativo();
         campi[I_DURATA].setFacoltativo();
@@ -73,20 +75,21 @@ public abstract class Evento implements Serializable {
         campi[I_NOTE].setFacoltativo();        
     }  
     
+    /**
+     * imposta il valore di un campo
+     * @param indice l'indice del campo da impostare
+     * @param valore il valore da usare
+     */
     public void setValoreDaString(int indice, String valore){
         if(indice < NUM_CAMPI_FISSI)
             campi[indice].setValoreDaString(valore);
         else
             campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);
-    }
-    
-//    public void setTuttiValori(String[] valori) {
-//        for (int i = 0; i<campi.length; i++)
-//            campi[i].setValoreDaString(valori[i]);
-//    }    
+    } 
     
     /**
      * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
+     * inoltre invia le notifiche agli utenti
      * @param indiceStato indice del nuovo stato
      */    
     private void nuovoStato(int indiceStato) {
@@ -114,6 +117,9 @@ public abstract class Evento implements Serializable {
             case Stato.RITIRATO:
                 messaggio = "Evento ritirato :'(";
                 break;
+            case Stato.CONCLUSO:
+                messaggio = "Evento concluso! hope you enjoyed =D";
+                break;
             default:
                 messaggio = "Questo messaggio se lo vedi significa che c'è qualquadra che non cosa XD LOL !!!111!!11!1";
         }
@@ -132,7 +138,8 @@ public abstract class Evento implements Serializable {
     }
     
     /**
-     * fa cambiare lo stato dell'evento 
+     * fa cambiare automaticamente lo stato dell'evento in base alle 
+     * regole imposte tra le date, il numero di iscritti, ecc.
      */
     public void aggiornaStato() {
         switch(getIndiceStatoCorrente()) {
@@ -226,6 +233,10 @@ public abstract class Evento implements Serializable {
         return uID.equals(creatoreID) || iscrittiIDs.contains(uID); 
     }
     
+    /**
+     * iscrive un utente se non iscritto, altrimenti lo disiscrive 
+     * @param uID id dell'utente da (dis)iscrivere
+     */
     public void switchIscrizione(String uID){
         if (isUtenteIscritto(uID))
             iscrittiIDs.remove(uID); 

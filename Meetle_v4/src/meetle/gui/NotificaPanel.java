@@ -50,22 +50,18 @@ public class NotificaPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabelTitolo = new javax.swing.JLabel();
-        jLabelTestoNotifica = new javax.swing.JLabel();
         jLabelOrario = new javax.swing.JLabel();
         jButtonElimina = new javax.swing.JButton();
         jButtonSegnaLetto = new javax.swing.JButton();
         jButtonVaiEvento = new javax.swing.JButton();
         jButtonAccettaInvito = new javax.swing.JButton();
+        jLabelTestoNotifica = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 150, 155));
 
         jLabelTitolo.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         jLabelTitolo.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTitolo.setText("jLabel1");
-
-        jLabelTestoNotifica.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jLabelTestoNotifica.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTestoNotifica.setText("Testo notifica");
+        jLabelTitolo.setText("titolo evento");
 
         jLabelOrario.setBackground(new java.awt.Color(255, 255, 255));
         jLabelOrario.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
@@ -86,7 +82,7 @@ public class NotificaPanel extends javax.swing.JPanel {
             }
         });
 
-        jButtonVaiEvento.setText("Vai a evento");
+        jButtonVaiEvento.setText("Vedi evento");
         jButtonVaiEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonVaiEventoActionPerformed(evt);
@@ -99,6 +95,11 @@ public class NotificaPanel extends javax.swing.JPanel {
                 jButtonAccettaInvitoActionPerformed(evt);
             }
         });
+
+        jLabelTestoNotifica.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
+        jLabelTestoNotifica.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTestoNotifica.setText("Testo notifica");
+        jLabelTestoNotifica.setPreferredSize(new java.awt.Dimension(400, 22));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -118,7 +119,7 @@ public class NotificaPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonElimina))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelTestoNotifica)
+                        .addComponent(jLabelTestoNotifica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabelOrario)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -134,10 +135,10 @@ public class NotificaPanel extends javax.swing.JPanel {
                     .addComponent(jButtonSegnaLetto)
                     .addComponent(jButtonVaiEvento)
                     .addComponent(jButtonAccettaInvito))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTestoNotifica)
-                    .addComponent(jLabelOrario))
+                    .addComponent(jLabelOrario)
+                    .addComponent(jLabelTestoNotifica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -152,14 +153,12 @@ public class NotificaPanel extends javax.swing.JPanel {
         jLabelTitolo.setForeground(Color.GRAY);
         jButtonSegnaLetto.setText("visualizzata");
         jButtonSegnaLetto.setEnabled(false);
-        Meetle.getIstanza().setDaSalvare();
     }//GEN-LAST:event_jButtonSegnaLettoActionPerformed
 
     private void jButtonEliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminaActionPerformed
         Meetle.getIstanza().rimuoviNotifica(Meetle.getIstanza().getUtenteLoggatoID(), IDNotifica);
         removeAll();
         setVisible(false);
-        Meetle.getIstanza().setDaSalvare();
     }//GEN-LAST:event_jButtonEliminaActionPerformed
 
     private void jButtonAccettaInvitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAccettaInvitoActionPerformed

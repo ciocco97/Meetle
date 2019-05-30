@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 import meetle.Meetle;
 import meetle.eventi.Evento;
 import meetle.eventi.PartitaDiCalcio;
-import meetle.utenti.Notifica;
 
 public class AreaPersonaleFrame extends javax.swing.JFrame {
 
@@ -26,7 +25,10 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         aggiorna();
     }
 
-    public void inizializza() {
+    /**
+     * rimuove tutti i componenti nel pannello principale e lo riempie nuovamente con nuovi componenti
+     */
+    public final void inizializza() {
         jPanelMadre.removeAll();
         jPanelMadre.repaint();
         jPanelMadre.validate();
@@ -34,39 +36,35 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         switch (selettore.getSelectedIndex()) {
             case ISCRIZIONI: {
                 ArrayList<Evento> l = Meetle.getIstanza().getBacheca().getEventiByIscrittoID(uID);
-                for (Evento e : l) 
-                    jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.POS_ISCRIZIONI));
-                
+                l.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.POS_ISCRIZIONI)); });
                 break;
             }
             case CREAZIONI: {
                 ArrayList<Evento> l = Meetle.getIstanza().getBacheca().getEventiByCreatoreID(uID);
-                for (Evento e : l) 
-                    jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.POS_POSSEDUTI));
+                l.forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.POS_POSSEDUTI)); });
                 
 //                    Meetle.getIstanza().getBacheca().getEventiByCreatoreID(uID).stream()
 //                            .forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_MODIFICA)); });
                 break;
             }
             case NOTIFICHE:
-                for (Notifica n : Meetle.getIstanza().getNotifiche()) {
-                    jPanelMadre.add(new NotificaPanel(n));
-                }
+                Meetle.getIstanza().getNotifiche().forEach((n) -> { jPanelMadre.add(new NotificaPanel(n)); });
                 break;
         }
     }
     
-    public void aggiorna() {
+    /**
+     * aggiorna il contenuto dei pannelli presenti nel pannello principale
+     */
+    public final void aggiorna() {
         jButtonAggiungi.setVisible(selettore.getSelectedIndex()==1);
         jButtonNotificheNonLette.setVisible(Meetle.getIstanza().getUtenti().getUtenteDaID(uID).haNotificheNonLette());
         
         Component componenti[] = jPanelMadre.getComponents();
 //        System.out.println("Agggiorna -> comp.lenght: " + comp.length);
-        for (Component componente : componenti) {
-            try {
-                ((EventoPanel) componente).aggiorna();
-            } catch (Exception e) {}
-        }
+        for (Component componente : componenti) 
+            try { ((EventoPanel) componente).aggiorna(); } catch (Exception e) {}
+        
         jPanelMadre.validate();
     }
 
@@ -130,6 +128,11 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         });
 
         jButtonNotificheNonLette.setText("Hai delle notifiche non lette!");
+        jButtonNotificheNonLette.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNotificheNonLetteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelHeaderLayout = new javax.swing.GroupLayout(jPanelHeader);
         jPanelHeader.setLayout(jPanelHeaderLayout);
@@ -197,7 +200,8 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonProfiloActionPerformed
 
     private void jButtonAggiungiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAggiungiActionPerformed
-        String risposta = (String) JOptionPane.showInputDialog(this, "m1", "m2", JOptionPane.QUESTION_MESSAGE, null, new Object[]{PartitaDiCalcio.NOME}, null);
+        String risposta = (String) JOptionPane.showInputDialog(this, "Seleziona la categoria di cui vuoi creare l'evento", 
+                "Selezione Categoria", JOptionPane.QUESTION_MESSAGE, null, new Object[]{PartitaDiCalcio.NOME, "temporaneo"}, null);
         if(risposta==null)
             return;
         Evento eventoTemp = null;
@@ -205,12 +209,19 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             case PartitaDiCalcio.NOME:
                 eventoTemp = new PartitaDiCalcio(Meetle.getIstanza().getUtenteLoggatoID());
                 break;
+            case "temporaneo":
+                Meetle.getIstanza().getBacheca().metodoTemporaneo(Meetle.getIstanza().getUtenteLoggatoID());
+                return;
             default:
                 throw new UnsupportedOperationException("Selezione non valida");
         }
         Meetle.getIstanza().getBacheca().add(eventoTemp);
         new EventoFrame(eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
     }//GEN-LAST:event_jButtonAggiungiActionPerformed
+
+    private void jButtonNotificheNonLetteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNotificheNonLetteActionPerformed
+        selettore.setSelectedIndex(2);
+    }//GEN-LAST:event_jButtonNotificheNonLetteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

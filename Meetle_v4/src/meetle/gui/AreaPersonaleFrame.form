@@ -162,6 +162,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Hai delle notifiche non lette!"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNotificheNonLetteActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

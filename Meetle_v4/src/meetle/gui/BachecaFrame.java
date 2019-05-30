@@ -15,7 +15,11 @@ public class BachecaFrame extends javax.swing.JFrame {
         jScrollPaneBacheca.getVerticalScrollBar().setUnitIncrement(20);
         inizializza();
     }
-    public void inizializza() {
+    
+    /**
+     * rimuove tutti i contenuti del pannello principale e lo riempie con nuovi pannelli
+     */
+    public final void inizializza() {
         jPanelBacheca.removeAll();
         jPanelBacheca.repaint();
         jPanelBacheca.validate();
@@ -23,18 +27,22 @@ public class BachecaFrame extends javax.swing.JFrame {
         Meetle.getIstanza().getBacheca().stream()
                 .filter((e) -> {
                     switch(jComboBoxCategorie.getSelectedIndex()) {
+                        case 0: return true;
                         case 1: return e instanceof PartitaDiCalcio;
-                        default: return true;
+                        default: throw new UnsupportedOperationException("selezione da implementare");
                     }})
                 .forEach((e) -> jPanelBacheca.add(new EventoPanel(e.getID(), EventoPanel.POS_BACHECA)));
         pack();
     }
     
+    /**
+     * aggiorna i contenuti dei pannelli degli eventi
+     */
     public void aggiorna() {
         Component contenuti[] = jPanelBacheca.getComponents();
-        for (Component componente : contenuti) {
+        for (Component componente : contenuti) 
             ((EventoPanel) componente).aggiorna();
-        }
+        
     }
     
     @SuppressWarnings("unchecked")
