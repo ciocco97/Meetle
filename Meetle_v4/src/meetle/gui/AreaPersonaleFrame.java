@@ -200,8 +200,9 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonProfiloActionPerformed
 
     private void jButtonAggiungiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAggiungiActionPerformed
+        String[] opzioni = {PartitaDiCalcio.NOME, "temporaneo"};
         String risposta = (String) JOptionPane.showInputDialog(this, "Seleziona la categoria di cui vuoi creare l'evento", 
-                "Selezione Categoria", JOptionPane.QUESTION_MESSAGE, null, new Object[]{PartitaDiCalcio.NOME, "temporaneo"}, null);
+                "Selezione Categoria", JOptionPane.QUESTION_MESSAGE, null, opzioni, null);
         if(risposta==null)
             return;
         Evento eventoTemp = null;
