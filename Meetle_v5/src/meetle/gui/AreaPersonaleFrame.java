@@ -214,9 +214,9 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             case GoKarts.NOME:
                 eventoTemp = new GoKarts(Meetle.getIstanza().getUtenteLoggatoID());
                 break;
-            case "temporaneo":
-                Meetle.getIstanza().getBacheca().metodoTemporaneo(Meetle.getIstanza().getUtenteLoggatoID());
-                return;
+//            case "temporaneo":
+//                Meetle.getIstanza().getBacheca().metodoTemporaneo(Meetle.getIstanza().getUtenteLoggatoID());
+//                return;
             default:
                 throw new UnsupportedOperationException("Selezione non valida");
         }

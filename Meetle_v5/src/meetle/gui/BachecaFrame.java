@@ -52,7 +52,6 @@ public class BachecaFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jButtonAggiungiEvento = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jPanelHeader = new javax.swing.JPanel();
         jLabelTitolo = new javax.swing.JLabel();
         jComboBoxCategorie = new javax.swing.JComboBox<>();
@@ -65,13 +64,6 @@ public class BachecaFrame extends javax.swing.JFrame {
         jButtonAggiungiEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAggiungiEventoActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("temporaneo()");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -181,17 +173,12 @@ public class BachecaFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonAggiungiEventoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Meetle.getIstanza().getBacheca().metodoTemporaneo(Meetle.getIstanza().getUtenteLoggatoID());
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Meetle.getIstanza().salva();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAggiungiEvento;
     private javax.swing.JComboBox<String> jComboBoxCategorie;
     private javax.swing.JLabel jLabelTitolo;

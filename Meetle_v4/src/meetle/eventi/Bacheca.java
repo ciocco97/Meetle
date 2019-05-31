@@ -28,7 +28,7 @@ public class Bacheca extends ArrayList<Evento> implements Serializable {
             Evento.I_TOLLERANZA_PARTECIPANTI, Evento.I_DATA_RITIRO_ISCRIZIONE,
             PartitaDiCalcio.I_GENERE, PartitaDiCalcio.I_FASCIA_ETA };
         String[] valori = new String[]{"Partita bella #"+(new Random().nextInt(100)), "3", "2019-05-30",
-            "a casa", "2019-06-1", "08:45", "20", "2", "2019-05-29", "femminile fighettine", "8-15"};
+            "a casa", "2019-06-1", "08:45", "20", "2", "2019-05-29", "femminile", "8-15"};
         for(int i=0; i < indici.length; i++)
             e.setValoreDaString(indici[i], valori[i]);   
         add(e);
