@@ -22,7 +22,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jLabelTitolo" min="-2" max="-2" attributes="0"/>
@@ -35,14 +35,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonElimina" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabelTestoNotifica" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jLabelTestoNotifica" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabelOrario" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -50,17 +49,19 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabelTitolo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonElimina" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonSegnaLetto" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonVaiEvento" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonAccettaInvito" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jButtonElimina" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonSegnaLetto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonVaiEvento" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonAccettaInvito" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jLabelTitolo" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabelOrario" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabelTestoNotifica" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabelOrario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>

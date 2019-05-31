@@ -89,7 +89,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         setTitle("Area Utente");
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(getMinimumSize());
-        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);

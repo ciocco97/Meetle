@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 import meetle.Meetle;
 import meetle.eventi.campi.*;
@@ -30,11 +32,12 @@ public abstract class Evento implements Serializable {
     
     protected String nome, descrizione, categoria;    
     protected final int ID; // identificatore univoco 
-    protected Campo[] campi, campiExtra;  
+    protected Campo[] campi, campiExtra, campiSpesa;  
     protected Stato statoCorrente;
     protected ArrayList<Stato> statiPassati;  
     protected final String creatoreID;
     protected ArrayList<String> iscrittiIDs;
+    protected HashMap<String, String> speseUtenti;
     
     public Evento(String creatoreID, String categoria) {                
         campi = new Campo[NUM_CAMPI_FISSI];
@@ -60,6 +63,7 @@ public abstract class Evento implements Serializable {
         this.creatoreID = creatoreID;
         this.categoria = categoria;
         iscrittiIDs = new ArrayList<>();
+        speseUtenti = new HashMap();
         ID = hashCode()+(new Random()).nextInt();
     }  
     
@@ -112,7 +116,7 @@ public abstract class Evento implements Serializable {
                 messaggio = "Hai aperto l'evento :|";
                 bandieruccia = true; // Bisogna inviare la notifica a tutti quelli che sono interessati
                 String nomeUtente = Meetle.getIstanza().getUtenteLoggatoID();   
-                messaggio2 = nomeUtente + " ha appena aperto in bacheca un evento maggico *_*";
+                messaggio2 = nomeUtente + " ha appena aperto in bacheca un evento che potrebbe interessarti *_*";
                 break;
             case Stato.RITIRATO:
                 messaggio = "Evento ritirato :'(";
@@ -123,12 +127,17 @@ public abstract class Evento implements Serializable {
             default:
                 messaggio = "Questo messaggio se lo vedi significa che c'è qualquadra che non cosa XD LOL !!!111!!11!1";
         }
-        
         statiPassati.add(statoCorrente);
         statoCorrente = new Stato(indiceStato);
         if(indiceStato == Stato.VALIDO || indiceStato == Stato.NONVALIDO) return; // così non invia le notifiche
-        
-        iscrittiIDs.forEach(uID -> Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), uID, messaggio));        
+        iscrittiIDs.forEach((uID) -> {
+            String messaggioFinale = messaggio;
+            if (indiceStato == Stato.CHIUSO){
+                int importo = calcolaImporto(uID);
+                messaggioFinale = messaggio + "\n -- Importo totale dovuto: " + importo + "€"; 
+            }
+            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(),uID, messaggioFinale);
+        });
         Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
         
         if(bandieruccia) {
@@ -237,11 +246,26 @@ public abstract class Evento implements Serializable {
      * iscrive un utente se non iscritto, altrimenti lo disiscrive 
      * @param uID id dell'utente da (dis)iscrivere
      */
-    public void switchIscrizione(String uID){
-        if (isUtenteIscritto(uID))
-            iscrittiIDs.remove(uID); 
-        else
-            iscrittiIDs.add(uID);
+    public void switchIscrizione(String uID, String spesa){
+        if (isUtenteIscritto(uID)){
+            iscrittiIDs.remove(uID);
+            speseUtenti.remove(uID);
+        }
+        else{
+            if (spesa != null){
+                iscrittiIDs.add(uID);
+                    this.speseUtenti.put(uID, spesa);
+            }
+            
+        }
+    }
+    private int calcolaImporto(String uID)
+    {
+        int importo =(int) campi[I_QUOTA_INDIVIDUALE].getValore();
+        String spese = speseUtenti.get(uID);
+        for (int i = 0; i<spese.length(); i++)
+            importo += spese.charAt(i) == 't' ? (int) campiSpesa[i].getValore() : 0;
+        return importo;
     }
 
     @Override
@@ -264,7 +288,8 @@ public abstract class Evento implements Serializable {
     public LocalDate getData() { return (LocalDate) campi[I_DATA].getValore(); }
     public LocalDate getDataConlusiva() { return (LocalDate) campi[I_DATA_CONCLUSIVA].getValore(); }
     public LocalDate getDataRitiroIscrizione() { return (LocalDate) campi[I_DATA_RITIRO_ISCRIZIONE].getValore(); }
-    public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(campi, campiExtra); }
+    public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(ArrayUtils.addAll(campi, campiExtra), campiSpesa);}
+    public Campo[] getCampiSpesa(){ return campiSpesa; }
     public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
     public boolean isRitirabile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }
     public boolean isInvitoInviabile() { return LocalDate.now().compareTo((LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }

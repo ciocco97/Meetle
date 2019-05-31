@@ -119,26 +119,26 @@ public class NotificaPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonElimina))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelTestoNotifica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabelOrario)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabelTestoNotifica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelOrario)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonElimina)
+                        .addComponent(jButtonSegnaLetto)
+                        .addComponent(jButtonVaiEvento)
+                        .addComponent(jButtonAccettaInvito))
+                    .addComponent(jLabelTitolo, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTitolo)
-                    .addComponent(jButtonElimina)
-                    .addComponent(jButtonSegnaLetto)
-                    .addComponent(jButtonVaiEvento)
-                    .addComponent(jButtonAccettaInvito))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelOrario)
-                    .addComponent(jLabelTestoNotifica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelTestoNotifica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelOrario))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -162,7 +162,7 @@ public class NotificaPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonEliminaActionPerformed
 
     private void jButtonAccettaInvitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAccettaInvitoActionPerformed
-        Meetle.getIstanza().getBacheca().getByID(IDEvento).switchIscrizione(Meetle.getIstanza().getUtenteLoggatoID());
+        java.awt.EventQueue.invokeLater(() -> new IscrizioneFrame(IDEvento).setVisible(true));
         jButtonAccettaInvito.setEnabled(false);
         jButtonAccettaInvito.setText("Invito accettato");
     }//GEN-LAST:event_jButtonAccettaInvitoActionPerformed

@@ -78,7 +78,7 @@ public class BachecaFrame extends javax.swing.JFrame {
             }
         });
 
-        jPanelHeader.setBackground(new java.awt.Color(0, 115, 150));
+        jPanelHeader.setBackground(new java.awt.Color(0, 110, 155));
 
         jLabelTitolo.setFont(new java.awt.Font("Century Gothic", 0, 48)); // NOI18N
         jLabelTitolo.setForeground(new java.awt.Color(255, 255, 255));

@@ -120,7 +120,11 @@ public class EventoPanel extends javax.swing.JPanel {
         jButton2.setVisible(true);
         rimuoviListener(jButton2);
         jButton2.addActionListener((ActionEvent e) -> {
-                    evento.switchIscrizione(Meetle.getIstanza().getUtenteLoggatoID());
+                    if (evento.isUtenteIscritto(Meetle.getIstanza().getUtenteLoggatoID())){
+                        evento.switchIscrizione(Meetle.getIstanza().getUtenteLoggatoID(), null);
+                    }
+                    else
+                        java.awt.EventQueue.invokeLater(() -> new IscrizioneFrame(eID).setVisible(true));
                     aggiorna();
                 });
     }
