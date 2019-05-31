@@ -7,10 +7,10 @@ import meetle.eventi.campi.CampoString;
 public class GoKarts extends Evento {
 
     public static final String NOME = "Go Karts", DESCRIZIONE = "un giro in compagnia sui kart :)";
-    public static final String N_MOTORIZZAZIONE = "Motorizzazione", N_POTENZA = "Potenza", N_FASCIA_ETA = "Fascia d'età"; 
+    public static final String N_MOTORIZZAZIONE = "Motorizzazione", N_POTENZA = "Potenza", N_COSTO_CASCO = "Costo del Casco"; 
     
     public static final int NUM_CAMPI_EXTRA = 3;
-    public static final int I_MOTORIZZAZIONE = 14, I_POTENZA = 15, I_FASCIA_ETA = 16;
+    public static final int I_MOTORIZZAZIONE = 14, I_POTENZA = 15, I_COSTO_CASCO = 16;
     
     public GoKarts(String creatoreID) {
         super(creatoreID, NOME);
@@ -21,7 +21,7 @@ public class GoKarts extends Evento {
         campiExtra = new Campo[NUM_CAMPI_EXTRA];
         campiExtra[I_MOTORIZZAZIONE-NUM_CAMPI_FISSI] = new CampoString(N_MOTORIZZAZIONE, "");
         campiExtra[I_POTENZA-NUM_CAMPI_FISSI] = new CampoInt(N_POTENZA, "");
-        campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI] = new CampoInt(N_FASCIA_ETA, "");
+        campiExtra[I_COSTO_CASCO-NUM_CAMPI_FISSI] = new CampoInt(N_COSTO_CASCO, "");
         
     }
     

@@ -4,6 +4,7 @@ import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import meetle.Meetle;
+import meetle.eventi.GoKarts;
 import meetle.eventi.PartitaDiCalcio;
 import meetle.utenti.Utente;
 
@@ -59,7 +60,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
         jTextFieldFasciaMin = new javax.swing.JTextField();
         jTextFieldFasciaMax = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jCheckBoxNuova = new javax.swing.JCheckBox();
+        jCheckBoxGoKarts = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configura il tuo Profilo");
@@ -123,10 +124,10 @@ public class ProfiloFrame extends javax.swing.JFrame {
         jLabel1.setForeground(jPanel1.getForeground());
         jLabel1.setText("-");
 
-        jCheckBoxNuova.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jCheckBoxNuova.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBoxNuova.setText("Go Karts");
-        jCheckBoxNuova.setOpaque(false);
+        jCheckBoxGoKarts.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jCheckBoxGoKarts.setForeground(new java.awt.Color(255, 255, 255));
+        jCheckBoxGoKarts.setText("Go Karts");
+        jCheckBoxGoKarts.setOpaque(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,7 +155,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBoxPartite)
                                     .addComponent(jCheckBoxTutti)
-                                    .addComponent(jCheckBoxNuova)))
+                                    .addComponent(jCheckBoxGoKarts)))
                             .addComponent(jLabelCategorie))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -177,7 +178,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxPartite)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxNuova)
+                .addComponent(jCheckBoxGoKarts)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonSalva)
                 .addContainerGap())
@@ -205,8 +206,8 @@ public class ProfiloFrame extends javax.swing.JFrame {
         ArrayList<String> categoriePreferite = new ArrayList<>();
         if(jCheckBoxPartite.isSelected()) 
             categoriePreferite.add(PartitaDiCalcio.NOME);
-        if(jCheckBoxNuova.isSelected())
-            categoriePreferite.add(PartitaDiCalcio.DESCRIZIONE);
+        if(jCheckBoxGoKarts.isSelected())
+            categoriePreferite.add(GoKarts.NOME);
         getUtente().setCategoriePreferite(categoriePreferite);
         
         synchronized(Meetle.getIstanza()) {
@@ -218,7 +219,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
 
     private void jCheckBoxTuttiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxTuttiItemStateChanged
         jCheckBoxPartite.setSelected(jCheckBoxTutti.isSelected());
-        jCheckBoxNuova.setSelected(jCheckBoxTutti.isSelected());
+        jCheckBoxGoKarts.setSelected(jCheckBoxTutti.isSelected());
     }//GEN-LAST:event_jCheckBoxTuttiItemStateChanged
 
 //    private void setNickname() {
@@ -235,7 +236,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSalva;
-    private javax.swing.JCheckBox jCheckBoxNuova;
+    private javax.swing.JCheckBox jCheckBoxGoKarts;
     private javax.swing.JCheckBox jCheckBoxPartite;
     private javax.swing.JCheckBox jCheckBoxTutti;
     private javax.swing.JLabel jLabel1;

@@ -222,6 +222,8 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         }
         Meetle.getIstanza().getBacheca().add(eventoTemp);
         new EventoFrame(eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
+        inizializza();
+        aggiorna();
     }//GEN-LAST:event_jButtonAggiungiActionPerformed
 
     private void jButtonNotificheNonLetteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNotificheNonLetteActionPerformed

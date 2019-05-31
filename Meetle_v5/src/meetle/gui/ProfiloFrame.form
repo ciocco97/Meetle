@@ -64,7 +64,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jCheckBoxPartite" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBoxTutti" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBoxNuova" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jCheckBoxGoKarts" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Component id="jLabelCategorie" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -95,7 +95,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jCheckBoxPartite" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jCheckBoxNuova" min="-2" max="-2" attributes="0"/>
+                  <Component id="jCheckBoxGoKarts" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jButtonSalva" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -221,7 +221,7 @@
             <Property name="text" type="java.lang.String" value="-"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBoxNuova">
+        <Component class="javax.swing.JCheckBox" name="jCheckBoxGoKarts">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Bahnschrift" size="16" style="0"/>
