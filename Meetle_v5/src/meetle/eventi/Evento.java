@@ -71,7 +71,14 @@ public abstract class Evento implements Serializable {
      * imposta i campi che devono essere facoltativi come tali
      */
     private void setFacoltativi() {
-        campi[I_TITOLO].setFacoltativo();
+        //campi[I_TITOLO].setFacoltativo();
+        /*
+        Riteniamo il titolo un parametro obbligatorio in quanto fondamentale
+        poichè è il parametro principale per il riconoscimento immediato di un 
+        evento, il che rende l'usabilità dell'applicazione molto migliorata. 
+        Un evento senza titolo sarebbe molto difficile da distinguere da un 
+        altro simile ad esso.
+        */
         campi[I_DURATA].setFacoltativo();
         campi[I_COMPRESO_QUOTA].setFacoltativo();
         campi[I_DATA_CONCLUSIVA].setFacoltativo();
@@ -218,6 +225,17 @@ public abstract class Evento implements Serializable {
         }
     }
     
+    
+    public String getMancante(){ //restituisce il nome del prossimo campo obbligatorio non inserito, in modo che l'utente possa saperlo
+        for(Campo c: this.getTuttiCampi())
+        {
+            if (!c.isFacoltativo())
+                if (c.getValore() == null){
+                    return c.getNome();
+                }
+        }
+        return null;
+    }
 //    public void chiudiEvento()
 //    {
 //        nuovoStato(Stato.CHIUSO);

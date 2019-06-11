@@ -21,7 +21,6 @@ public class EventoPanel extends javax.swing.JPanel {
         jButton2.setVisible(false);
         jButton3.setVisible(false);
         jButton4.setVisible(false);
-        
         aggiorna();
     }
     
@@ -189,6 +188,13 @@ public class EventoPanel extends javax.swing.JPanel {
     
     private void aggiornaLabels(){
         Evento evento = Meetle.getIstanza().getBacheca().getByID(eID);
+        String mancante = evento.getMancante();
+        if (mancante!=null){
+            jLbTitolo.setText("Evento incompleto");
+            jLbInformazioni.setText("Prossimo campo mancante: " + mancante);
+            jLbNumPartecipanti.setText("");
+            return;
+        }
         jLbTitolo.setText((String)evento.getTuttiCampi()[Evento.I_TITOLO].getValore());        
         jLbNumPartecipanti.setText("("+evento.getNumIscritti() +"/"+ evento.getTuttiCampi()[Evento.I_NUM_PARTECIPANTI].getValore()+")");
         String info = "" + evento.getTuttiCampi()[Evento.I_LUOGO].getValore();

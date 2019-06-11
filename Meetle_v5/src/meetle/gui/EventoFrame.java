@@ -60,6 +60,7 @@ public class EventoFrame extends javax.swing.JFrame {
                 return false;
             }
         Meetle.getIstanza().getBacheca().getByID(eventoID).aggiornaStato();
+        Meetle.getIstanza().mostraAreaPersonale();
         dispose();
         return true;
     }
