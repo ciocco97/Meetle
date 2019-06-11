@@ -93,7 +93,7 @@ public class CampoPanel extends javax.swing.JPanel {
         jDateChooser = new com.toedter.calendar.JDateChooser();
         nomeLabel = new javax.swing.JLabel();
 
-        valoreField.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        valoreField.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         valoreField.setForeground(new java.awt.Color(30, 98, 255));
         valoreField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         valoreField.setText("valore");
@@ -109,7 +109,7 @@ public class CampoPanel extends javax.swing.JPanel {
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         setLayout(new java.awt.GridLayout(1, 0));
 
-        nomeLabel.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        nomeLabel.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         nomeLabel.setForeground(new java.awt.Color(255, 255, 255));
         nomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nomeLabel.setText("nome");
