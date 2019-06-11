@@ -188,7 +188,7 @@ public class EventoPanel extends javax.swing.JPanel {
     
     private void aggiornaLabels(){
         Evento evento = Meetle.getIstanza().getBacheca().getByID(eID);
-        String mancante = evento.getMancante();
+        String mancante = evento.getProssimoCampoObbligatorioMancante();
         if (mancante!=null){
             jLbTitolo.setText("Evento incompleto");
             jLbInformazioni.setText("Prossimo campo mancante: " + mancante);

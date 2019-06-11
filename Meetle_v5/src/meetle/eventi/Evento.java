@@ -47,7 +47,7 @@ public abstract class Evento implements Serializable {
         campi[I_LUOGO] = new CampoString(N_LUOGO, "Luogo dove si terrà l'evento");
         campi[I_DATA] = new CampoData(N_DATA, "Data di inizio dell'evento");
         campi[I_ORA] = new CampoOra(N_ORA, "Ora di inizio dell'evento (formato hh:mm)");
-        campi[I_DURATA] = new CampoDurata(N_DURATA, "Durata stimata dell'evento");
+        campi[I_DURATA] = new CampoDurata(N_DURATA, "Durata stimata dell'evento (formato gg:hh:mm)");
         campi[I_QUOTA_INDIVIDUALE] = new CampoInt(N_QUOTA_INDIVIDUALE,  "Quota di denaro richiesta per partecipare");
         campi[I_COMPRESO_QUOTA] = new CampoInt(N_COMPRESO_QUOTA,  "Quota di denaro già compresa (?)");
         campi[I_DATA_CONCLUSIVA] = new CampoData(N_DATA_CONCLUSIVA,  "Data di fine dell'evento");
@@ -154,7 +154,7 @@ public abstract class Evento implements Serializable {
     }
     
     private boolean checkValidita() {
-        if (this.getMancante()!=null) // se un evento non ha tutti i campi obbligatori non ha senso aggiornare lo stato
+        if (this.getProssimoCampoObbligatorioMancante()!=null) 
             return false;
         if( (getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
                 (getTermineIscrizione().compareTo(getData()) > 0) ||
@@ -219,14 +219,10 @@ public abstract class Evento implements Serializable {
     }
     
     
-    public String getMancante(){ //restituisce il nome del prossimo campo obbligatorio non inserito, in modo che l'utente possa saperlo
+    public String getProssimoCampoObbligatorioMancante(){ //restituisce il nome del prossimo campo obbligatorio non inserito, in modo che l'utente possa saperlo
         for(Campo c: this.getTuttiCampi())
-        {
-            if (!c.isFacoltativo())
-                if (c.getValore() == null){
+            if (!c.isFacoltativo() && c.getValore() == null)
                     return c.getNome();
-                }
-        }
         return null;
     }
 //    public void chiudiEvento()
@@ -270,8 +266,7 @@ public abstract class Evento implements Serializable {
             
         }
     }
-    private int calcolaImporto(String uID)
-    {
+    private int calcolaImporto(String uID) {
         int importo =(int) campi[I_QUOTA_INDIVIDUALE].getValore();
         String spese = speseUtenti.get(uID);
         for (int i = 0; i<spese.length(); i++)
