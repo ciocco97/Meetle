@@ -158,10 +158,10 @@ public abstract class Evento implements Serializable {
      * regole imposte tra le date, il numero di iscritti, ecc.
      */
     public void aggiornaStato() {
-        if (this.getMancante()!=null) // se un evento non ha tutti i campi obbligatori non ha senso aggiornare lo stato
-            return;
         switch(getIndiceStatoCorrente()) {
             case Stato.NONVALIDO:
+                if (this.getMancante()!=null) // se un evento non ha tutti i campi obbligatori non ha senso aggiornare lo stato
+                    return;
                 // questo controlla che le date siano nell'ordine giusto
                 if(((getDataRitiroIscrizione() != null && getTermineIscrizione()!= null) && getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
                         (getData() != null && getTermineIscrizione().compareTo(getData()) > 0) ||

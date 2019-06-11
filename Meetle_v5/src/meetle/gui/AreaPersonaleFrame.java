@@ -52,6 +52,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 Meetle.getIstanza().getNotifiche().forEach((n) -> { jPanelMadre.add(new NotificaPanel(n)); });
                 break;
         }
+        
     }
     
     /**
