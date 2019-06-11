@@ -70,6 +70,8 @@ public class IscrizioneFrame extends javax.swing.JFrame {
         jSpesePanel.setBackground(new java.awt.Color(0, 150, 155));
         jSpesePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jSpesePanel.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jSpesePanel.setMaximumSize(new java.awt.Dimension(400, 60));
+        jSpesePanel.setMinimumSize(new java.awt.Dimension(400, 60));
         jSpesePanel.setPreferredSize(new java.awt.Dimension(400, 60));
         jSpesePanel.setLayout(new javax.swing.BoxLayout(jSpesePanel, javax.swing.BoxLayout.Y_AXIS));
         getContentPane().add(jSpesePanel, java.awt.BorderLayout.CENTER);
