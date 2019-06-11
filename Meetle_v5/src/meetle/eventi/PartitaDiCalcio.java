@@ -19,7 +19,7 @@ public class PartitaDiCalcio extends Evento {
         campiExtra = new Campo[NUM_CAMPI_EXTRA];
         campiSpesa = new Campo[NUM_CAMPI_SPESA];
         campiExtra[I_GENERE-NUM_CAMPI_FISSI] = new CampoString(N_GENERE, "Genere dei giocatori");
-        campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI] = new CampoRange(N_FASCIA_ETA, "Eta minima e massima per partecipare");
+        campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI] = new CampoRange(N_FASCIA_ETA, "Eta minima e massima per partecipare (formato min-max)");
         campiSpesa[I_SPESA_CAMPO-NUM_CAMPI_FISSI-NUM_CAMPI_EXTRA] = new CampoInt(N_SPESA_CAMPO, "Spesa per l'affitto del campo da calcio");
         
 //        setFacoltativi();

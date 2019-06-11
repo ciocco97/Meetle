@@ -24,6 +24,8 @@ public class CampoPanel extends javax.swing.JPanel {
         if(!campo.isFacoltativo()) 
             nomeLabel.setText(nomeLabel.getText()+"*");
         
+        nomeLabel.setToolTipText(campo.getDescrizione());
+        
         if(campo instanceof CampoData)
             modo = M_DATA;
         else 
@@ -84,7 +86,10 @@ public class CampoPanel extends javax.swing.JPanel {
         }
         return true;
     }
-
+    
+    public String getNomeCampo() {
+        return campo.getNome();
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

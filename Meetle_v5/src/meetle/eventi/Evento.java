@@ -42,18 +42,18 @@ public abstract class Evento implements Serializable {
     public Evento(String creatoreID, String categoria) {                
         campi = new Campo[NUM_CAMPI_FISSI];
         campi[I_TITOLO] = new CampoString(N_TITOLO, "Titolo dell'evento");
-        campi[I_NUM_PARTECIPANTI] = new CampoInt(N_NUMERO_PARTECIPANTI, "Numero massimo di partecipanti all'evento");
+        campi[I_NUM_PARTECIPANTI] = new CampoInt(N_NUMERO_PARTECIPANTI, "Numero massimo di partecipanti all'evento (almeno 2)");
         campi[I_TERMINE_ISCRIZIONE] = new CampoData(N_TERMINE_ISCR, "Data di scadenza per l'iscrizione");
         campi[I_LUOGO] = new CampoString(N_LUOGO, "Luogo dove si terrà l'evento");
         campi[I_DATA] = new CampoData(N_DATA, "Data di inizio dell'evento");
-        campi[I_ORA] = new CampoOra(N_ORA, "Ora di inizio dell'evento");
+        campi[I_ORA] = new CampoOra(N_ORA, "Ora di inizio dell'evento (formato hh:mm)");
         campi[I_DURATA] = new CampoDurata(N_DURATA, "Durata stimata dell'evento");
         campi[I_QUOTA_INDIVIDUALE] = new CampoInt(N_QUOTA_INDIVIDUALE,  "Quota di denaro richiesta per partecipare");
         campi[I_COMPRESO_QUOTA] = new CampoInt(N_COMPRESO_QUOTA,  "Quota di denaro già compresa (?)");
         campi[I_DATA_CONCLUSIVA] = new CampoData(N_DATA_CONCLUSIVA,  "Data di fine dell'evento");
         campi[I_ORA_CONCLUSIVA] = new CampoOra(N_ORA_CONCLUSIVA, "Ora di fine dell'evento");
         campi[I_NOTE] = new CampoString(N_NOTE, "Note aggiuntive");
-        campi[I_TOLLERANZA_PARTECIPANTI] = new CampoInt(N_TOLLERANZA_PARTECIPANTI, "Numero di partecipanti accettabili in più rispetto a num partecipanti");
+        campi[I_TOLLERANZA_PARTECIPANTI] = new CampoInt(N_TOLLERANZA_PARTECIPANTI, "Numero di partecipanti accettabili in più rispetto a num partecipanti (non negativo)");
         campi[I_DATA_RITIRO_ISCRIZIONE] = new CampoData(N_DATA_RITIRO_ISCRIZIONE, "Data entro cui ci si può disiscrivere da un evento");
                         
         setFacoltativi();
@@ -153,6 +153,18 @@ public abstract class Evento implements Serializable {
         
     }
     
+    private boolean checkValidita() {
+        if (this.getMancante()!=null) // se un evento non ha tutti i campi obbligatori non ha senso aggiornare lo stato
+            return false;
+        if( (getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
+                (getTermineIscrizione().compareTo(getData()) > 0) ||
+                (getDataConlusiva()!=null && getData().compareTo(getDataConlusiva()) > 0) )
+            return false;
+        if(getNumPartecipanti() < 2 || getTolleranzaPartecipanti() < 0)
+            return false;
+        return true;
+    }
+    
     /**
      * fa cambiare automaticamente lo stato dell'evento in base alle 
      * regole imposte tra le date, il numero di iscritti, ecc.
@@ -160,27 +172,12 @@ public abstract class Evento implements Serializable {
     public void aggiornaStato() {
         switch(getIndiceStatoCorrente()) {
             case Stato.NONVALIDO:
-                if (this.getMancante()!=null) // se un evento non ha tutti i campi obbligatori non ha senso aggiornare lo stato
-                    return;
-                // questo controlla che le date siano nell'ordine giusto
-                if(((getDataRitiroIscrizione() != null && getTermineIscrizione()!= null) && getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
-                        (getData() != null && getTermineIscrizione().compareTo(getData()) > 0) ||
-                        (getDataConlusiva() != null && getData().compareTo(getDataConlusiva()) > 0) )
-                    nuovoStato(Stato.VALIDO); 
+                if (checkValidita())
+                    nuovoStato(Stato.VALIDO);                
                 break;
             case Stato.VALIDO:
-                // questo controlla che le date siano nell'ordine giusto
-                if(((getDataRitiroIscrizione() != null && getTermineIscrizione()!= null) && getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
-                        (getData() != null && getTermineIscrizione().compareTo(getData()) > 0) ||
-                        (getDataConlusiva() != null && getData().compareTo(getDataConlusiva()) > 0) ) {
+                if(!checkValidita())
                     nuovoStato(Stato.NONVALIDO);
-                    break;
-                }                
-                for(Campo c: getTuttiCampi())
-                    if(!c.isFacoltativo() && c.getValore()==null) {
-                        nuovoStato(Stato.NONVALIDO);
-                        break;
-                    }
                 break;
             case Stato.APERTO:
                 int numMinPartecipanti = (Integer)campi[I_NUM_PARTECIPANTI].getValore(), 
@@ -298,6 +295,7 @@ public abstract class Evento implements Serializable {
     public String getNome() { return nome; }
     public String getTitolo() { return (String) campi[I_TITOLO].getValore(); }
     public int getNumPartecipanti() { return (int) campi[I_NUM_PARTECIPANTI].getValore(); }
+    public int getTolleranzaPartecipanti() { return (int) campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
     public LocalDate getTermineIscrizione() { return (LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore(); }
     public LocalDate getData() { return (LocalDate) campi[I_DATA].getValore(); }
     public LocalDate getDataConlusiva() { return (LocalDate) campi[I_DATA_CONCLUSIVA].getValore(); }
@@ -310,7 +308,7 @@ public abstract class Evento implements Serializable {
     public boolean isIscrivibile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0; }
     public String getCreatoreID() { return creatoreID; }
     public int getNumIscritti() { return 1+iscrittiIDs.size(); }
-    public int getNumIscrittiMax() { return (Integer)campi[I_NUM_PARTECIPANTI].getValore() + (Integer)campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
+    public int getNumIscrittiMax() { return getNumPartecipanti() + getTolleranzaPartecipanti(); }
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }
 //    public void setDurata(String valore){campi[I_DURATA].setValoreDaString(valore);}
 //    public void setCompresoQuota(String valore){campi[I_COMPRESO_QUOTA].setValoreDaString(valore);}

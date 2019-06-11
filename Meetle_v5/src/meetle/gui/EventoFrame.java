@@ -56,7 +56,7 @@ public class EventoFrame extends javax.swing.JFrame {
     public boolean salvaEventoEChiudi() {
         for(Component c: jPanelCampi.getComponents())
             if(!((CampoPanel)c).salvaValore()) {
-                JOptionPane.showMessageDialog(this, "Errore compilazione campo");
+                JOptionPane.showMessageDialog(this, "Errore compilazione campo "+((CampoPanel)c).getNomeCampo());
                 return false;
             }
         Meetle.getIstanza().getBacheca().getByID(eventoID).aggiornaStato();

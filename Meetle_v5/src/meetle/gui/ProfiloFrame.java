@@ -200,7 +200,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
             try {
                 int min = Integer.parseInt(jTextFieldFasciaMin.getText());
                 int max = Integer.parseInt(jTextFieldFasciaMax.getText());
-                if (min > max) throw new IllegalArgumentException();
+                if (min<1 || max<1 || min > max) throw new IllegalArgumentException();
                 getUtente().setFasciaEta(min, max);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Errore nell'inserimento fascia d'età");
