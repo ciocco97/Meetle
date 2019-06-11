@@ -103,7 +103,7 @@ public class CampoPanel extends javax.swing.JPanel {
         jDateChooser.setForeground(new java.awt.Color(30, 98, 255));
         jDateChooser.setToolTipText("");
         jDateChooser.setDateFormatString("yyyy-MM-dd");
-        jDateChooser.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        jDateChooser.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
 
         setBackground(new java.awt.Color(0, 150, 155));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));

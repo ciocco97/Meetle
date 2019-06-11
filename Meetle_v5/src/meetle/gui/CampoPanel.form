@@ -30,7 +30,7 @@
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Bahnschrift" size="24" style="0"/>
+          <Font name="Bahnschrift" size="18" style="0"/>
         </Property>
       </Properties>
     </Component>
