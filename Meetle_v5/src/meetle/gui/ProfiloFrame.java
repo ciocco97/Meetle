@@ -23,8 +23,12 @@ public class ProfiloFrame extends javax.swing.JFrame {
             jTextFieldFasciaMin.setText(""+fascia[0]);
             jTextFieldFasciaMax.setText(""+fascia[1]);
         }
-        if(u.getCategoriePreferite()!=null && u.getCategoriePreferite().contains(PartitaDiCalcio.NOME))
+        if(u.getCategoriePreferite()!=null) {
+            if(u.getCategoriePreferite().contains(PartitaDiCalcio.NOME))
                 jCheckBoxPartite.setSelected(true);
+            if (u.getCategoriePreferite().contains(GoKarts.NOME))
+                jCheckBoxGoKarts.setSelected(true);
+        }
 
         pack();
         

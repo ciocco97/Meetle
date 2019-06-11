@@ -53,7 +53,6 @@ public class IscrizioneFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Selezione spese incluse");
         setMinimumSize(new java.awt.Dimension(400, 60));
-        setPreferredSize(new java.awt.Dimension(400, 60));
         setSize(new java.awt.Dimension(400, 60));
 
         jTitoloLabel.setBackground(new java.awt.Color(0, 110, 155));
