@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class Utenti extends ArrayList<Utente> implements Serializable {
+public class Utenti implements Serializable {
     
-    public Utenti() { super(); }
+    private ArrayList<Utente> utenti;
+    
+    public Utenti() { 
+        utenti = new ArrayList<>();
+    }
     
     public Utenti(ArrayList<Utente> utenti) {
-        super(utenti);
+        this.utenti = new ArrayList<>(utenti);
 //        getUtenteDaID("user#"+(System.nanoTime()/100%10));
     }
     
@@ -20,7 +24,7 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
      * @return utente con quell'ID
      */
     public Utente getUtenteDaID(String ID) {
-        for(Utente u: this) //System.out.println(u);
+        for(Utente u: utenti) //System.out.println(u);
             if(u.getID().equals(ID))
                 return u; 
 //        System.out.println("Utente \""+ID+"\" non presente, creazione nuovo...");
@@ -36,7 +40,7 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
 //            if(u.getCategoriePreferite().contains(categoria))
 //                ritorno.add(u);
 //        }
-        return (ArrayList) stream().filter(u -> u.getCategoriePreferite().contains(categoria)).collect(Collectors.toList());
+        return (ArrayList) utenti.stream().filter(u -> u.getCategoriePreferite().contains(categoria)).collect(Collectors.toList());
     }
     
 }
