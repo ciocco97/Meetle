@@ -5,7 +5,8 @@ public class Dizionario {
     public static final int TITOLO_NOME = 0, NUM_PARTECIPANTI_NOME = 1, TERMINE_ISCRIZIONE_NOME = 2, 
             LUOGO_NOME = 3, DATA_NOME = 4, ORA_NOME = 5, DURATA_NOME = 6, QUOTA_INDIVIDUALE_NOME = 7, 
             COMPRESO_QUOTA_NOME = 8, DATA_CONCLUSIVA_NOME = 9, ORA_CONCLUSIVA_NOME = 10, NOTE_NOME = 11,
-            TOLLERANZA_PARTECIPANTI_NOME = 12, DATA_RITIRO_ISCRIZIONE_NOME = 13, NO_DESCRIZIONE = 14, 
+            TOLLERANZA_PARTECIPANTI_NOME = 12, DATA_RITIRO_ISCRIZIONE_NOME = 13, 
+            NO_DESCRIZIONE = 14, 
             TITOLO_DESC = 15, NUM_PARTECIPANTI_DESC = 16, TERMINE_ISCRIZIONE_DESC = 17, 
             LUOGO_DESC = 18, DATA_DESC = 19, ORA_DESC = 20, DURATA_DESC = 21, QUOTA_INDIVIDUALE_DESC = 22, 
             COMPRESO_QUOTA_DESC = 23, DATA_CONCLUSIVA_DESC = 24, ORA_CONCLUSIVA_DESC = 25, NOTE_DESC = 26,
@@ -31,7 +32,14 @@ public class Dizionario {
             "Quota di denaro richiesta per partecipare", "Quota di denaro già compresa (?)", 
             "Data di fine dell'evento", "Ora di fine dell'evento", "Note aggiuntive", 
             "Numero di partecipanti accettabili in più rispetto a num partecipanti (non negativo)", 
-            "Data entro cui ci si può disiscrivere da un evento"
+            "Data entro cui ci si può disiscrivere da un evento", 
+        // Notifiche
+            "Messaggio che se viene visualizzato è laffine", "Evento ufficialmente chiuso :)", 
+            "Evento ufficialmente fallito :(", "Hai aperto l'evento :|", 
+            " ha appena aperto in bacheca un evento che potrebbe interessarti *_*", 
+            "Evento ritirato :'(", "Evento concluso! hope you enjoyed =D", 
+            "Questo messaggio se lo vedi significa che c'è qualquadra che non cosa XD LOL !!!111!!11!1", 
+            "\n -- Importo totale dovuto: ", "€"
     };
     
 }
