@@ -21,7 +21,7 @@ public class Dizionario {
             "Compreso quota", "Data conclusiva", 
             "Ora conclusiva", "Note", "Tolleranza partecipanti",
             "Data ritiro iscrizione",
-        // Bho
+        //
             "Nessuna descrizione presente",
         // Descrizioni
             "Titolo dell'evento", 
