@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class Utenti extends ArrayList<Utente> implements Serializable {
+public class Utenti implements Serializable {
     
-    public Utenti() { super(); }
+    private ArrayList<Utente> utentiList;
+    
+    public Utenti() { 
+        utentiList = new ArrayList<>();
+    }
     
     public Utenti(ArrayList<Utente> utenti) {
-        super(utenti);
+        utentiList = new ArrayList<>(utenti);
 //        getUtenteDaID("user#"+(System.nanoTime()/100%10));
     }
     
@@ -20,12 +24,12 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
      * @return utente con quell'ID
      */
     public Utente getUtenteDaID(String ID) {
-        for(Utente u: this) //System.out.println(u);
+        for(Utente u: utentiList) //System.out.println(u);
             if(u.getID().equals(ID))
                 return u; 
 //        System.out.println("Utente \""+ID+"\" non presente, creazione nuovo...");
 //        Utente u = new Utente(ID);
-//        add(u);
+//        aggiungiUtente(u);
 //        return u;
         return null;
     }
@@ -34,9 +38,14 @@ public class Utenti extends ArrayList<Utente> implements Serializable {
 //        ArrayList<Utente> ritorno = new ArrayList<>();
 //        for(Utente u: this) {
 //            if(u.getCategoriePreferite().contains(categoria))
-//                ritorno.add(u);
+//                ritorno.aggiungiUtente(u);
 //        }
-        return (ArrayList) stream().filter(u -> u.getCategoriePreferite().contains(categoria)).collect(Collectors.toList());
+        return (ArrayList) utentiList.stream().filter(u -> u.getCategoriePreferite().contains(categoria)).collect(Collectors.toList());
     }
     
+    public boolean aggiungiUtente(Utente u) {
+        if(utentiList.contains(u))
+            return false;
+        return utentiList.add(u);
+    }
 }

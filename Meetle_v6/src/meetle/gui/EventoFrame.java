@@ -50,7 +50,7 @@ public class EventoFrame extends javax.swing.JFrame {
 //            JLabel label = new JLabel();
 //            if (!array[i].toString().equals("")){
 //            CampoPanel campoPanel = new CampoPanel(campi[i].getNome(), ""+campi[i].getValore(), true);
-//            jCampiPanel.add(campoPanel);
+//            jCampiPanel.aggiungiEvento(campoPanel);
 //            }
 //        }
         

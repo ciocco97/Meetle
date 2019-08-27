@@ -28,7 +28,7 @@ public class BachecaFrame extends javax.swing.JFrame {
         jPanelBacheca.repaint();
         jPanelBacheca.validate();
         
-        this.meetle.getBacheca().stream()
+        this.meetle.getBacheca().getEventi().stream()
                 .filter((e) -> {
                     switch(jComboBoxCategorie.getSelectedIndex()) {
                         case 0: return true;
@@ -167,7 +167,7 @@ public class BachecaFrame extends javax.swing.JFrame {
                 break;
             case 1:
                 Evento eventoTemp = new PartitaDiCalcio(this.meetle, this.meetle.getUtenteLoggatoID());
-                this.meetle.getBacheca().add(eventoTemp);
+                this.meetle.getBacheca().aggiungiEvento(eventoTemp);
                 new EventoFrame(this.meetle, eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
                 break;
             default:

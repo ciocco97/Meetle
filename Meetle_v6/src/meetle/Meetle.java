@@ -84,7 +84,7 @@ public class Meetle {
         
         utenteLoggatoID = accessoID;
         if (utenti.getUtenteDaID(accessoID) == null) {
-            utenti.add(new Utente(accessoID));
+            utenti.aggiungiUtente(new Utente(accessoID));
             ProfiloFrame f = new ProfiloFrame(this);
             f.setDefaultCloseOperation(ProfiloFrame.DO_NOTHING_ON_CLOSE);
             f.setVisible(true);
@@ -138,18 +138,7 @@ public class Meetle {
      * @return un arraylist di stringhe, gli userID degli utenti trovati
      */
     public ArrayList<String> utentiInvitabili(int eID) {
-        Evento ev = bacheca.getByID(eID);
-        ArrayList<String> ritorno = new ArrayList<>();
-        bacheca.stream().filter(e -> e.getCreatoreID().equals(utenteLoggatoID))
-                .filter(e -> e.getIndiceStatoCorrente() == Stato.CONCLUSO)
-                .filter(e -> e.getCategoria().equals(ev.getCategoria()))
-                .forEach(e -> {
-                    e.getIscrittiIDs().stream().forEach(iID -> {
-                        if(!ritorno.contains(iID))
-                            ritorno.add(iID);
-                    });
-                });
-        return ritorno;
+        return bacheca.utentiInvitabili(eID);
     }
     
     /**

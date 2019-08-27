@@ -48,7 +48,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 l.forEach((e) -> { jPanelMadre.add(new EventoPanel(this.meetle, e.getID(), EventoPanel.POS_POSSEDUTI)); });
                 
 //                    this.meetle.getBacheca().getEventiByCreatoreID(uID).stream()
-//                            .forEach((e) -> { jPanelMadre.add(new EventoPanel(e.getID(), EventoPanel.MODE_MODIFICA)); });
+//                            .forEach((e) -> { jPanelMadre.aggiungiEvento(new EventoPanel(e.getID(), EventoPanel.MODE_MODIFICA)); });
                 break;
             }
             case NOTIFICHE:
@@ -223,7 +223,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
             default:
                 throw new UnsupportedOperationException("Selezione non valida");
         }
-        this.meetle.getBacheca().add(eventoTemp);
+        this.meetle.getBacheca().aggiungiEvento(eventoTemp);
         new EventoFrame(this.meetle, eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
         inizializza();
         aggiorna();

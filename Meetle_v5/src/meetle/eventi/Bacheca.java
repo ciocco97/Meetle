@@ -5,21 +5,19 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class Bacheca implements Serializable {
+public class Bacheca extends ArrayList<Evento> implements Serializable {
     public final static String SEPARATORE_EVENTI = "\n";
-    
-    private ArrayList<Evento> bacheca;
     
 //    private transient Meetle meetle;    
 //    private ArrayList<Evento> eventi;    
 
     public Bacheca() {
-        bacheca = new ArrayList<>();
+        super();
     }
 
     public Bacheca(ArrayList<Evento> eventi) {
 //        this.eventi = eventi;
-        bacheca = new ArrayList<>(eventi);
+        super(eventi);
     }
     
 //    // aggiungiamo una partita di calcio a caso
@@ -37,20 +35,20 @@ public class Bacheca implements Serializable {
 //    }
     
     public Evento getByID(int eID) {
-        for(Evento ev: bacheca)
+        for(Evento ev: this)
             if(ev.getID() == eID)
                 return ev;
         return null;
     }
     
     public ArrayList<Evento> getEventiByCreatoreID(String uID) {
-        return (ArrayList) bacheca.stream()
+        return (ArrayList) stream()
                 .filter((ev) -> (ev.creatoreID.equals(uID)))
                 .collect(Collectors.toList());
     }
     
     public ArrayList<Evento> getEventiByIscrittoID(String uID) {
-        return (ArrayList) bacheca.stream().filter((ev) -> ev.isUtenteIscritto(uID))
+        return (ArrayList) stream().filter((ev) -> ev.isUtenteIscritto(uID))
                 .collect(Collectors.toList());
     }
 
@@ -59,27 +57,28 @@ public class Bacheca implements Serializable {
      * @param e evento da aggiungere
      * @return false se c'è già, true se viene aggiunto
      */
+    @Override
     public boolean add(Evento e) {
-        if (!bacheca.stream().noneMatch((t) -> (t.ID == e.ID))) {
+        if (!this.stream().noneMatch((t) -> (t.ID == e.ID))) {
             System.err.println("Evento NON iserito! ID replicato");
             return false;        
         }
         System.out.println("Aggiunto evento a bacheca:\n"+e);
-        return bacheca.add(e); 
+        return super.add(e); 
     }        
     
     public synchronized void rimuoviByID(int eID) {
-        if(!bacheca.remove(getByID(eID)))
+        if(!remove(getByID(eID)))
             System.err.println("Nessun evento rimosso");
     }
     
     public void aggiornaStati() {
-        bacheca.stream().forEach(e -> e.aggiornaStato());
+        stream().forEach(e -> e.aggiornaStato());
     }
 
     @Override
     public String toString() {
-        return bacheca.stream()
+        return stream()
                 .map((e) -> e + "\n")
                 .reduce("", String::concat);
     }    
