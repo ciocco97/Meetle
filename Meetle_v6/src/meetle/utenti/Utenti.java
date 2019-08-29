@@ -14,7 +14,7 @@ public class Utenti implements Serializable {
     
     public Utenti(ArrayList<Utente> utenti) {
         utentiList = new ArrayList<>(utenti);
-//        getUtenteDaID("user#"+(System.nanoTime()/100%10));
+//        getByID("user#"+(System.nanoTime()/100%10));
     }
     
     /**
@@ -23,7 +23,7 @@ public class Utenti implements Serializable {
      * @param ID
      * @return utente con quell'ID
      */
-    public Utente getUtenteDaID(String ID) {
+    public Utente getByID(String ID) {
         for(Utente u: utentiList) //System.out.println(u);
             if(u.getID().equals(ID))
                 return u; 

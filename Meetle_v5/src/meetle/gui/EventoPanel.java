@@ -113,7 +113,7 @@ public class EventoPanel extends javax.swing.JPanel {
         }
         else {
             jButton2.setText("Iscriviti");
-            if(evento.getNumIscritti() == evento.getNumIscrittiMax())
+            if(evento.getNumIscrittiCorrente() == evento.getNumIscrittiMax())
                 jButton2.setEnabled(false);
         }
         jButton2.setVisible(true);
@@ -196,7 +196,7 @@ public class EventoPanel extends javax.swing.JPanel {
             return;
         }
         jLbTitolo.setText((String)evento.getTuttiCampi()[Evento.I_TITOLO].getValore());        
-        jLbNumPartecipanti.setText("("+evento.getNumIscritti() +"/"+ evento.getTuttiCampi()[Evento.I_NUM_PARTECIPANTI].getValore()+")");
+        jLbNumPartecipanti.setText("("+evento.getNumIscrittiCorrente() +"/"+ evento.getTuttiCampi()[Evento.I_NUM_PARTECIPANTI].getValore()+")");
         String info = "" + evento.getTuttiCampi()[Evento.I_LUOGO].getValore();
         info += ", il " + evento.getTuttiCampi()[Evento.I_DATA].getValore();
         info += " alle ore " + evento.getTuttiCampi()[Evento.I_ORA].getValore();

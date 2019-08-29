@@ -60,7 +60,7 @@ public class Bacheca implements Serializable {
      * @return false se c'è già, true se viene aggiunto
      */
     public boolean aggiungiEvento(Evento e) {
-        if (!eventiList.stream().noneMatch((t) -> (t.ID == e.ID))) {
+        if (eventiList.stream().anyMatch((t) -> (t.ID == e.ID))) {
 //            System.err.println("Evento NON iserito! ID replicato");
             return false;        
         }

@@ -208,10 +208,10 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         Evento eventoTemp = null;
         switch(risposta) {
             case PartitaDiCalcio.NOME:
-                eventoTemp = new PartitaDiCalcio(Meetle.getIstanza().getUtenteLoggatoID());
+                eventoTemp = new PartitaDiCalcio(Meetle.getIstanza(), Meetle.getIstanza().getUtenteLoggatoID());
                 break;
             case GoKarts.NOME:
-                eventoTemp = new GoKarts(Meetle.getIstanza().getUtenteLoggatoID());
+                eventoTemp = new GoKarts(Meetle.getIstanza(), Meetle.getIstanza().getUtenteLoggatoID());
                 break;
 //            case "temporaneo":
 //                Meetle.getIstanza().getBacheca().metodoTemporaneo(Meetle.getIstanza().getUtenteLoggatoID());

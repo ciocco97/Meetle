@@ -18,19 +18,21 @@ public class Utente implements Serializable {
         notifiche = new ArrayList<>();
     }
     
-    public void aggiungiNotifica(int eID, String titolo, String messaggio){
+    public boolean aggiungiNotifica(int eID, String titolo, String messaggio){
         Notifica daAggiungere = new Notifica(eID, titolo, messaggio);
         if (notifiche.contains(daAggiungere)) // se c'è già vuol dire che c'è un duplicato di ID
             aggiungiNotifica(eID, titolo, messaggio);
         else
             notifiche.add(0, daAggiungere);
+        return true;
     }
     
-    public void rimuoviNotifica(int nID) {
+    public boolean rimuoviNotifica(int nID) {
         for(int i = 0; i < notifiche.size(); i++)
             if(notifiche.get(i).getID() == nID)
-                { notifiche.remove(i); return; }
+                { notifiche.remove(i); return true; }
         System.err.println("Nnotifica NON rimossa");
+        return false;
     }
     
     public void segnaNotificaLetta(int nID) {
@@ -61,7 +63,7 @@ public class Utente implements Serializable {
     public boolean equals(Utente u) { return ID.equals((u).ID); } 
 
     public String getID() { return ID; }
-    public ArrayList getNotifiche() { return notifiche; }
+    public ArrayList<Notifica> getNotifiche() { return notifiche; }
 //    public String getNomignoloPercheNicknameEraTroppoMainStream() { return nomignoloPercheNicknameEraTroppoMainStream; }
     public int[] getFasciaEtaVals() { return fasciaEta==null? null : new int[]{fasciaEta.min, fasciaEta.max}; }    
     public ArrayList<String> getCategoriePreferite() { return categoriePreferite; }

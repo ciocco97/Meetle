@@ -1,6 +1,7 @@
 package meetle.gui;
 
 import java.awt.Component;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import meetle.Meetle;
@@ -21,7 +22,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         uID = this.meetle.getUtenteLoggatoID();
         
         initComponents();
-        jButton1.setVisible(false);
         jLabelUserID.setText(this.meetle.getUtenteLoggatoID());
         jScrollPane.getVerticalScrollBar().setUnitIncrement(20);
         
@@ -63,7 +63,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
      */
     public final void aggiorna() {
         jButtonAggiungi.setVisible(selettore.getSelectedIndex()==1);
-        jButtonNotificheNonLette.setVisible(this.meetle.getUtenti().getUtenteDaID(uID).haNotificheNonLette());
+        jButtonNotificheNonLette.setVisible(this.meetle.getUtenti().getByID(uID).haNotificheNonLette());
         
         Component componenti[] = jPanelMadre.getComponents();
 //        System.out.println("Agggiorna -> comp.lenght: " + comp.length);
@@ -76,7 +76,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         jPanelHeader = new javax.swing.JPanel();
         jLabelTitolo = new javax.swing.JLabel();
         selettore = new javax.swing.JComboBox<>();
@@ -87,8 +86,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         jScrollPane = new javax.swing.JScrollPane();
         jPanelMadre = new javax.swing.JPanel();
 
-        jButton1.setText("Torna a bacheca");
-
         setTitle("Area Utente");
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(getMinimumSize());
@@ -97,7 +94,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
         jPanelHeader.setBackground(new java.awt.Color(0, 115, 150));
         jPanelHeader.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -204,26 +200,39 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonProfiloActionPerformed
 
     private void jButtonAggiungiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAggiungiActionPerformed
-        String[] opzioni = {PartitaDiCalcio.NOME, GoKarts.NOME};
+        String[] opzioni = {PartitaDiCalcio.NOME, GoKarts.NOME, "temporaneo"};
         String risposta = (String) JOptionPane.showInputDialog(this, "Seleziona la categoria di cui vuoi creare l'evento", 
                 "Selezione Categoria", JOptionPane.QUESTION_MESSAGE, null, opzioni, null);
         if(risposta==null)
             return;
         Evento eventoTemp = null;
-        switch(risposta) {
-            case PartitaDiCalcio.NOME:
-                eventoTemp = new PartitaDiCalcio(this.meetle, this.meetle.getUtenteLoggatoID());
-                break;
-            case GoKarts.NOME:
-                eventoTemp = new GoKarts(this.meetle, this.meetle.getUtenteLoggatoID());
-                break;
-//            case "temporaneo":
-//                this.meetle.getBacheca().metodoTemporaneo(this.meetle.getUtenteLoggatoID());
-//                return;
-            default:
-                throw new UnsupportedOperationException("Selezione non valida");
-        }
-        this.meetle.getBacheca().aggiungiEvento(eventoTemp);
+        do {
+            switch(risposta) {
+                case PartitaDiCalcio.NOME:
+                    eventoTemp = new PartitaDiCalcio(this.meetle, this.meetle.getUtenteLoggatoID());
+                    break;
+                case GoKarts.NOME:
+                    eventoTemp = new GoKarts(this.meetle, this.meetle.getUtenteLoggatoID());
+                    break;
+                case "temporaneo":
+                    Evento e = new PartitaDiCalcio(this.meetle, this.meetle.getUtenteLoggatoID());
+                    e.setValoreDaString(Evento.I_TITOLO, "titolo");
+                    e.setValoreDaString(Evento.I_NUM_PARTECIPANTI, "2");
+                    e.setValoreDaString(Evento.I_DATA, "2019-09-01");
+                    e.setValoreDaString(Evento.I_TERMINE_ISCRIZIONE, "2019-09-01");
+                    e.setValoreDaString(Evento.I_DATA_RITIRO_ISCRIZIONE, "2019-09-01");
+                    e.setValoreDaString(Evento.I_ORA, "10:10");
+                    e.setValoreDaString(Evento.I_LUOGO, "luogo");
+                    e.setValoreDaString(Evento.I_QUOTA_INDIVIDUALE, "7");
+                    e.setValoreDaString(Evento.I_TOLLERANZA_PARTECIPANTI, "2");
+
+                    this.meetle.getBacheca().aggiungiEvento(e);
+                    return;
+                default:
+                    throw new UnsupportedOperationException("Selezione non valida");
+            }
+        } while(!meetle.getBacheca().aggiungiEvento(eventoTemp));
+        
         new EventoFrame(this.meetle, eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
         inizializza();
         aggiorna();
@@ -235,7 +244,6 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAggiungi;
     private javax.swing.JButton jButtonNotificheNonLette;
     private javax.swing.JButton jButtonProfilo;

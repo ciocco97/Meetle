@@ -19,13 +19,10 @@ public class ProfiloFrame extends javax.swing.JFrame {
         initComponents();
         uID = this.meetle.getUtenteLoggatoID();
         
-        Utente u = this.meetle.getUtenti().getUtenteDaID(uID);        
+        Utente u = getUtente();        
         jLabelUserID.setText(uID);
-        int[] fascia = u.getFasciaEtaVals();
-        if (fascia != null) {
-            jTextFieldFasciaMin.setText(""+fascia[0]);
-            jTextFieldFasciaMax.setText(""+fascia[1]);
-        }
+        jTextFieldEta.setText(""+(u.getEta()>0 ? u.getEta():""));
+        
         if(u.getCategoriePreferite()!=null) {
             if(u.getCategoriePreferite().contains(PartitaDiCalcio.NOME))
                 jCheckBoxPartite.setSelected(true);
@@ -38,11 +35,11 @@ public class ProfiloFrame extends javax.swing.JFrame {
     }
     
     private Utente getUtente() {
-        return this.meetle.getUtenti().getUtenteDaID(uID);
+        return this.meetle.getUtenti().getByID(uID);
     }
     
 //    private void aggiornaValori() {
-//        Utente u = this.meetle.getUtenti().getUtenteDaID(uID);
+//        Utente u = this.meetle.getUtenti().getByID(uID);
 //        
 //        jLabelUserID.setText(uID);
 //        if(u.getNomignoloPercheNicknameEraTroppoMainStream() == null)
@@ -64,9 +61,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
         jCheckBoxTutti = new javax.swing.JCheckBox();
         jCheckBoxPartite = new javax.swing.JCheckBox();
         jButtonSalva = new javax.swing.JButton();
-        jTextFieldFasciaMin = new javax.swing.JTextField();
-        jTextFieldFasciaMax = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jTextFieldEta = new javax.swing.JTextField();
         jCheckBoxGoKarts = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -87,7 +82,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
 
         jLabelFasciaEta.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLabelFasciaEta.setForeground(jPanel1.getForeground());
-        jLabelFasciaEta.setText("La tua fascia d'età: ");
+        jLabelFasciaEta.setText("La tua età:");
         jLabelFasciaEta.setToolTipText("");
 
         jLabelCategorie.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
@@ -117,19 +112,10 @@ public class ProfiloFrame extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldFasciaMin.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        jTextFieldFasciaMin.setToolTipText("Età minima");
-        jTextFieldFasciaMin.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTextFieldFasciaMin.setPreferredSize(new java.awt.Dimension(30, 20));
-
-        jTextFieldFasciaMax.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        jTextFieldFasciaMax.setToolTipText("Età massima");
-        jTextFieldFasciaMax.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTextFieldFasciaMax.setPreferredSize(new java.awt.Dimension(30, 20));
-
-        jLabel1.setFont(new java.awt.Font("Bahnschrift", 1, 18)); // NOI18N
-        jLabel1.setForeground(jPanel1.getForeground());
-        jLabel1.setText("-");
+        jTextFieldEta.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        jTextFieldEta.setToolTipText("Età massima");
+        jTextFieldEta.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jTextFieldEta.setPreferredSize(new java.awt.Dimension(30, 20));
 
         jCheckBoxGoKarts.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jCheckBoxGoKarts.setForeground(new java.awt.Color(255, 255, 255));
@@ -147,11 +133,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelFasciaEta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextFieldFasciaMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldFasciaMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldEta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonSalva))
@@ -164,7 +146,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
                                     .addComponent(jCheckBoxTutti)
                                     .addComponent(jCheckBoxGoKarts)))
                             .addComponent(jLabelCategorie))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 41, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -175,9 +157,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelFasciaEta)
-                    .addComponent(jTextFieldFasciaMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFasciaMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jTextFieldEta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabelCategorie)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -198,29 +178,27 @@ public class ProfiloFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvaActionPerformed
-        
-        if(!jTextFieldFasciaMin.getText().equals("") || !jTextFieldFasciaMax.getText().equals(""))
-            try {
-                int min = Integer.parseInt(jTextFieldFasciaMin.getText());
-                int max = Integer.parseInt(jTextFieldFasciaMax.getText());
-                if (min<1 || max<1 || min > max) throw new IllegalArgumentException();
-                getUtente().setFasciaEta(min, max);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Errore nell'inserimento fascia d'età");
-                return;
-            }
-        
+
+        if(!jTextFieldEta.getText().equals(""))
+        try {
+            int eta = Integer.parseInt(jTextFieldEta.getText());
+            getUtente().setEta(eta);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Errore nell'inserimento dell'età");
+            return;
+        }
+
         ArrayList<String> categoriePreferite = new ArrayList<>();
-        if(jCheckBoxPartite.isSelected()) 
+        if(jCheckBoxPartite.isSelected())
             categoriePreferite.add(PartitaDiCalcio.NOME);
         if(jCheckBoxGoKarts.isSelected())
             categoriePreferite.add(GoKarts.NOME);
         getUtente().setCategoriePreferite(categoriePreferite);
-        
+
         synchronized(this.meetle) {
             this.meetle.notify();
         }
-        
+
         dispose();
     }//GEN-LAST:event_jButtonSalvaActionPerformed
 
@@ -234,7 +212,7 @@ public class ProfiloFrame extends javax.swing.JFrame {
 //        while (tNick  == null || tNick.equals(""))
 //            tNick = JOptionPane.showInputDialog("Inserisci il tuo nickname (obbligatorio)");
 //        
-//        this.meetle.getUtenti().getUtenteDaID(uID).setNickname(tNick);
+//        this.meetle.getUtenti().getByID(uID).setNickname(tNick);
 //    }
 //    
 //    public static void main(String[] args) {
@@ -246,12 +224,10 @@ public class ProfiloFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxGoKarts;
     private javax.swing.JCheckBox jCheckBoxPartite;
     private javax.swing.JCheckBox jCheckBoxTutti;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCategorie;
     private javax.swing.JLabel jLabelFasciaEta;
     private javax.swing.JLabel jLabelUserID;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextFieldFasciaMax;
-    private javax.swing.JTextField jTextFieldFasciaMin;
+    private javax.swing.JTextField jTextFieldEta;
     // End of variables declaration//GEN-END:variables
 }

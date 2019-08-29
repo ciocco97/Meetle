@@ -2,10 +2,10 @@ package meetle.eventi;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
 import meetle.Meetle;
 import meetle.eventi.campi.*;
@@ -39,7 +39,9 @@ public abstract class Evento implements Serializable {
     protected ArrayList<String> iscrittiIDs;
     protected HashMap<String, String> speseUtenti;
     
-    public Evento(String creatoreID, String categoria) {                
+    private Meetle meetle;
+    
+    public Evento(Meetle meetle, String creatoreID, String categoria) {                
         campi = new Campo[NUM_CAMPI_FISSI];
         campi[I_TITOLO] = new CampoString(N_TITOLO, "Titolo dell'evento");
         campi[I_NUM_PARTECIPANTI] = new CampoInt(N_NUMERO_PARTECIPANTI, "Numero massimo di partecipanti all'evento (almeno 2)");
@@ -65,6 +67,8 @@ public abstract class Evento implements Serializable {
         iscrittiIDs = new ArrayList<>();
         speseUtenti = new HashMap();
         ID = hashCode()+(new Random()).nextInt();
+        
+        this.meetle = meetle;
     }  
     
     /**
@@ -91,11 +95,23 @@ public abstract class Evento implements Serializable {
      * @param indice l'indice del campo da impostare
      * @param valore il valore da usare
      */
-    public void setValoreDaString(int indice, String valore){
-        if(indice < NUM_CAMPI_FISSI)
-            campi[indice].setValoreDaString(valore);
-        else
-            campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);
+    public boolean setValoreDaString(int indice, String valore){
+        if (indice >= 0) {
+            if (indice < campi.length)
+                campi[indice].setValoreDaString(valore);
+            else if (indice - campi.length < campiExtra.length)
+                campiExtra[indice - campi.length].setValoreDaString(valore);
+            else if (indice - campi.length - campiExtra.length < campiSpesa.length) 
+                campiSpesa[indice - campi.length - campiExtra.length].setValoreDaString(valore);
+            else 
+                return false;
+        } else 
+            return false;
+        return true;
+//        if(indice < NUM_CAMPI_FISSI)
+//            campi[indice].setValoreDaString(valore);
+//        else
+//            campiExtra[indice-NUM_CAMPI_FISSI].setValoreDaString(valore);
     } 
     
     /**
@@ -122,7 +138,7 @@ public abstract class Evento implements Serializable {
             case Stato.APERTO:
                 messaggio = "Hai aperto l'evento :|";
                 bandieruccia = true; // Bisogna inviare la notifica a tutti quelli che sono interessati
-                String nomeUtente = Meetle.getIstanza().getUtenteLoggatoID();   
+                String nomeUtente = meetle==null? "null" : meetle.getUtenteLoggatoID();   
                 messaggio2 = nomeUtente + " ha appena aperto in bacheca un evento che potrebbe interessarti *_*";
                 break;
             case Stato.RITIRATO:
@@ -136,19 +152,19 @@ public abstract class Evento implements Serializable {
         }
         statiPassati.add(statoCorrente);
         statoCorrente = new Stato(indiceStato);
-        if(indiceStato == Stato.VALIDO || indiceStato == Stato.NONVALIDO) return; // così non invia le notifiche
+        if(indiceStato == Stato.VALIDO || indiceStato == Stato.NONVALIDO || meetle == null) return; // così non invia le notifiche
         iscrittiIDs.forEach((uID) -> {
             String messaggioFinale = messaggio;
             if (indiceStato == Stato.CHIUSO){
                 int importo = calcolaImporto(uID);
                 messaggioFinale = messaggio + "\n -- Importo totale dovuto: " + importo + "€"; 
             }
-            Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(),uID, messaggioFinale);
+            meetle.mandaNotifica(ID, campi[I_TITOLO].getValore().toString(),uID, messaggioFinale);
         });
-        Meetle.getIstanza().mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
+        meetle.mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
         
         if(bandieruccia) {
-            Meetle.getIstanza().notificaIlMondoTondo(ID, messaggio2);
+            meetle.notificaIlMondoTondo(ID, messaggio2);
         }
         
     }
@@ -184,12 +200,12 @@ public abstract class Evento implements Serializable {
                     numMaxPartecipanti = getNumIscrittiMax();
                 // Condizione 1 per passare da aperto a chiuso
                 if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0 &&
-                        getNumIscritti() >= numMinPartecipanti && getNumIscritti() <= numMaxPartecipanti)
+                        getNumIscrittiCorrente() >= numMinPartecipanti && getNumIscrittiCorrente() <= numMaxPartecipanti)
                     nuovoStato(Stato.CHIUSO);
                 // Condizione 2 per passare da aperto a chiuso
                 else if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 &&
                         LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) > 0 &&
-                        getNumIscritti() == numMaxPartecipanti)
+                        getNumIscrittiCorrente() == numMaxPartecipanti)
                     nuovoStato(Stato.CHIUSO);
                 else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
                     nuovoStato(Stato.FALLITO);
@@ -253,18 +269,21 @@ public abstract class Evento implements Serializable {
      * iscrive un utente se non iscritto, altrimenti lo disiscrive 
      * @param uID id dell'utente da (dis)iscrivere
      */
-    public void switchIscrizione(String uID, String spesa){
+    public boolean switchIscrizione(String uID, String spesa){
         if (isUtenteIscritto(uID)){
             iscrittiIDs.remove(uID);
             speseUtenti.remove(uID);
+            return true;
         }
         else{
             if (spesa != null){
                 iscrittiIDs.add(uID);
-                    this.speseUtenti.put(uID, spesa);
+                this.speseUtenti.put(uID, spesa);
+                return true;
             }
             
         }
+        return false;
     }
     private int calcolaImporto(String uID) {
         int importo =(int) campi[I_QUOTA_INDIVIDUALE].getValore();
@@ -293,6 +312,7 @@ public abstract class Evento implements Serializable {
     public int getTolleranzaPartecipanti() { return (int) campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
     public LocalDate getTermineIscrizione() { return (LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore(); }
     public LocalDate getData() { return (LocalDate) campi[I_DATA].getValore(); }
+    public LocalTime getOra() { return (LocalTime) campi[I_ORA].getValore(); }
     public LocalDate getDataConlusiva() { return (LocalDate) campi[I_DATA_CONCLUSIVA].getValore(); }
     public LocalDate getDataRitiroIscrizione() { return (LocalDate) campi[I_DATA_RITIRO_ISCRIZIONE].getValore(); }
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(ArrayUtils.addAll(campi, campiExtra), campiSpesa);}
@@ -302,7 +322,7 @@ public abstract class Evento implements Serializable {
     public boolean isInvitoInviabile() { return LocalDate.now().compareTo((LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }
     public boolean isIscrivibile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0; }
     public String getCreatoreID() { return creatoreID; }
-    public int getNumIscritti() { return 1+iscrittiIDs.size(); }
+    public int getNumIscrittiCorrente() { return 1+iscrittiIDs.size(); }
     public int getNumIscrittiMax() { return getNumPartecipanti() + getTolleranzaPartecipanti(); }
 //    public void setTitolo(String titolo) { campi[I_TITOLO].setValoreDaString(titolo); }
 //    public void setDurata(String valore){campi[I_DURATA].setValoreDaString(valore);}

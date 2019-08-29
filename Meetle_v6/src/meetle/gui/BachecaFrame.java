@@ -54,7 +54,6 @@ public class BachecaFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButtonAggiungiEvento = new javax.swing.JButton();
         jPanelHeader = new javax.swing.JPanel();
         jLabelTitolo = new javax.swing.JLabel();
         jComboBoxCategorie = new javax.swing.JComboBox<>();
@@ -62,13 +61,6 @@ public class BachecaFrame extends javax.swing.JFrame {
         jLabelUserID = new javax.swing.JLabel();
         jScrollPaneBacheca = new javax.swing.JScrollPane();
         jPanelBacheca = new javax.swing.JPanel();
-
-        jButtonAggiungiEvento.setText("Aggiungi Evento");
-        jButtonAggiungiEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAggiungiEventoActionPerformed(evt);
-            }
-        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Meetle");
@@ -160,29 +152,12 @@ public class BachecaFrame extends javax.swing.JFrame {
         aggiorna();
     }//GEN-LAST:event_jComboBoxCategorieActionPerformed
 
-    private void jButtonAggiungiEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAggiungiEventoActionPerformed
-        switch(jComboBoxCategorie.getSelectedIndex()) {
-            case 0:
-                JOptionPane.showMessageDialog(this, "Seleziona (dal combo box) la categoria di cui vuoi creare un evento");
-                break;
-            case 1:
-                Evento eventoTemp = new PartitaDiCalcio(this.meetle, this.meetle.getUtenteLoggatoID());
-                this.meetle.getBacheca().aggiungiEvento(eventoTemp);
-                new EventoFrame(this.meetle, eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
-                break;
-            default:
-                throw new UnsupportedOperationException("Creazione non supportata");
-        }        
-        
-    }//GEN-LAST:event_jButtonAggiungiEventoActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this.meetle.salva();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAreaPrivata;
-    private javax.swing.JButton jButtonAggiungiEvento;
     private javax.swing.JComboBox<String> jComboBoxCategorie;
     private javax.swing.JLabel jLabelTitolo;
     private javax.swing.JLabel jLabelUserID;

@@ -20,7 +20,7 @@ public class SelezioneUtentiFrame extends javax.swing.JFrame {
         
         getContentPane().setBackground(new Color(0,120,155));
         
-        List<String> utentiInvitabili = this.meetle.utentiInvitabili(eID);
+        List<String> utentiInvitabili = this.meetle.getBacheca().utentiInvitabili(eID);
         if(utentiInvitabili.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nessun utente da invitare");
             dispose();

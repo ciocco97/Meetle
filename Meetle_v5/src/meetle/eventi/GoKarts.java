@@ -1,5 +1,6 @@
 package meetle.eventi;
 
+import meetle.Meetle;
 import meetle.eventi.campi.Campo;
 import meetle.eventi.campi.CampoInt;
 import meetle.eventi.campi.CampoString;
@@ -14,8 +15,8 @@ public class GoKarts extends Evento {
     public static final int I_MOTORIZZAZIONE = 14, I_POTENZA = 15;
     public static final int I_SPESA_CASCO = 16, I_SPESA_TUTA = 17;
     
-    public GoKarts(String creatoreID) {
-        super(creatoreID, NOME);
+    public GoKarts(Meetle meetle, String creatoreID) {
+        super(meetle, creatoreID, NOME);
         
         this.nome = NOME;
         this.descrizione = DESCRIZIONE;

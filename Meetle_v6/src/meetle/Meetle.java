@@ -14,7 +14,6 @@ public class Meetle {
     private Utenti utenti;
     private MeetleIO io; 
     private String utenteLoggatoID;    
-    private boolean daSalvare = true; // booleana che dice se ci sono correntemente dei dati non salvati su file
     
     private Thread aggiornatore;
     
@@ -25,7 +24,7 @@ public class Meetle {
     /**
      * costruisce gli oggetti principali di meetle (bacheca, utenti, ecc.)
      */
-    private Meetle() {
+    public Meetle() {
         
         try {
             io = new MeetleIO(this);
@@ -33,7 +32,7 @@ public class Meetle {
         
         try {
             // prova a caricare utenti da file
-            utenti = new Utenti(io.caricaUtenti());
+            utenti = (Utenti) (io.caricaUtenti());
         } catch (IOException | ClassNotFoundException ex) { 
             System.err.println("ERRORE lettura utenti da file!!\n\t"+ex.getMessage());
             utenti = new Utenti();
@@ -41,7 +40,7 @@ public class Meetle {
 
         try {
             // prova a caricare eventi da file
-            bacheca = new Bacheca(io.caricaEventi());
+            bacheca = (Bacheca)(io.caricaEventi());
         } catch (IOException | ClassNotFoundException ex) { 
             System.err.println("ERRORE lettura eventi da file!! Creo bacheca di default...\n\t"+ex.getMessage());
             bacheca = new Bacheca();
@@ -83,7 +82,7 @@ public class Meetle {
             System.exit(0);
         
         utenteLoggatoID = accessoID;
-        if (utenti.getUtenteDaID(accessoID) == null) {
+        if (utenti.getByID(accessoID) == null) {
             utenti.aggiungiUtente(new Utente(accessoID));
             ProfiloFrame f = new ProfiloFrame(this);
             f.setDefaultCloseOperation(ProfiloFrame.DO_NOTHING_ON_CLOSE);
@@ -129,18 +128,13 @@ public class Meetle {
             System.out.println("OK!");
         } catch (IOException ex) { System.err.println("ERRORE salvataggio eventi!!\n\t"+ex.getMessage()); }
             
-        daSalvare=false;
     }
     
-    /**
-     * cerca tutti gli utenti che sono hanno già partecipato ad un evento 
-     * della stessa categoria e con lo stesso utente creatore
-     * @return un arraylist di stringhe, gli userID degli utenti trovati
-     */
-    public ArrayList<String> utentiInvitabili(int eID) {
-        return bacheca.utentiInvitabili(eID);
-    }
-    
+    public void mandaNotifica(int eID, String titolo, String uID, String messaggio) { utenti.getByID(uID).aggiungiNotifica(eID, titolo, messaggio); }
+    public void rimuoviNotifica(String uID, int IDnotifica) { utenti.getByID(uID).rimuoviNotifica(IDnotifica); }
+    public void setNotificaLetta(String uID, int IDnotifica) { utenti.getByID(uID).segnaNotificaLetta(IDnotifica); }
+    public void mandaInvito(int eID, String uID) { utenti.getByID(uID).aggiungiInvito(eID); }
+        
     /**
      * Funzione che notifica tutti gli utenti che sono interessati alla categoria
      * di eID: viene spedito loro messaggio
@@ -157,20 +151,15 @@ public class Meetle {
         }
     }
     
-    public void mandaNotifica(int eID, String titolo, String uID, String messaggio) { utenti.getUtenteDaID(uID).aggiungiNotifica(eID, titolo, messaggio); }
-    public void rimuoviNotifica(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).rimuoviNotifica(IDnotifica); }
-    public void setNotificaLetta(String uID, int IDnotifica) { utenti.getUtenteDaID(uID).segnaNotificaLetta(IDnotifica); }
-    public void mandaInvito(int eID, String uID) { utenti.getUtenteDaID(uID).aggiungiInvito(eID); }
-    
     // Getters & Setters
     public Bacheca getBacheca() {  return bacheca; }    
     public Utenti getUtenti() { return utenti; }
     public String getUtenteLoggatoID() { return utenteLoggatoID; }
-    public ArrayList<Notifica> getNotifiche() { return utenti.getUtenteDaID(utenteLoggatoID).getNotifiche(); }    
+    public ArrayList<Notifica> getNotifiche() { return utenti.getByID(utenteLoggatoID).getNotifiche(); }    
         
     public static void main(String[] args) throws IOException {
         Meetle meetle = new Meetle();
-        meetle.start();       
+        meetle.start();    
     }
     
 }

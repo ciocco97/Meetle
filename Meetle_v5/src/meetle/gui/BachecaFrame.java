@@ -163,7 +163,7 @@ public class BachecaFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Seleziona (dal combo box) la categoria di cui vuoi creare un evento");
                 break;
             case 1:
-                Evento eventoTemp = new PartitaDiCalcio(Meetle.getIstanza().getUtenteLoggatoID());
+                Evento eventoTemp = new PartitaDiCalcio(Meetle.getIstanza(), Meetle.getIstanza().getUtenteLoggatoID());
                 Meetle.getIstanza().getBacheca().add(eventoTemp);
                 new EventoFrame(eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
                 break;

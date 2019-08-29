@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 public class Notifica implements Serializable {
+    
     private final int ID, eventoID;
     private final String titolo, messaggio;
     private final LocalDateTime dataora;
@@ -16,7 +17,7 @@ public class Notifica implements Serializable {
         this.dataora = dataora;
         this.visualizzata = false;
         this.eventoID = eID;
-        ID = hashCode()+(new Random()).nextInt();
+        ID = hashCode() + (new Random()).nextInt();
     }
     
     public Notifica(int eID, String titolo, String messaggio) {
@@ -25,7 +26,12 @@ public class Notifica implements Serializable {
     
     public void setVisualizzata() { this.visualizzata = true; }
 
-    public boolean equals(Notifica notifica) { return notifica.ID == ID; }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Notifica)
+            return ID == ((Notifica) obj).ID;
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public int getID() { return ID; }
     public int getEventoID() { return eventoID; } 
