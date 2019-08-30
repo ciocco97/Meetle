@@ -16,7 +16,7 @@ public class StatoNonValido extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return 0;
+        return StatoEvento.NONVALIDO;
     }
     
 }

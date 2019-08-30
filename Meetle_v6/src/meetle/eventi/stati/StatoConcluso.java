@@ -14,7 +14,7 @@ public class StatoConcluso extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return 4;
+        return StatoEvento.CONCLUSO;
     }
     
 }

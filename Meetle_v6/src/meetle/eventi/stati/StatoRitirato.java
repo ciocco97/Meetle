@@ -14,7 +14,7 @@ public class StatoRitirato extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return 6;
+        return StatoEvento.RITIRATO;
     }
     
 }

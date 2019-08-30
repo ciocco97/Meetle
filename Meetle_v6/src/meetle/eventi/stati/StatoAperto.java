@@ -37,7 +37,7 @@ public class StatoAperto extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return 2;
+        return StatoEvento.APERTO;
     }
 
     

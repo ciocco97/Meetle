@@ -23,7 +23,7 @@ public class StatoValido extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return 1;
+        return StatoEvento.VALIDO;
     }
 
     

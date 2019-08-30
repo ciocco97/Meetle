@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 import meetle.eventi.Evento;
 
 public abstract class StatoEvento implements Serializable {
-    public static final int NONVALIDO = 0, VALIDO = 1, APERTO = 2, CHIUSO = 3, CONCLUSO = 4, FALLITO = 5, RITIRATO = 6;
+    public static final int NONVALIDO = 0, VALIDO = NONVALIDO+1, APERTO = VALIDO+1, 
+            CHIUSO = APERTO+1, CONCLUSO = CHIUSO+1, FALLITO = CONCLUSO+1, RITIRATO = FALLITO+1;
     
     protected final Evento evento;
     private final LocalDateTime dataora;

@@ -14,7 +14,7 @@ public class StatoFallito extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return 5;
+        return StatoEvento.FALLITO;
     }
     
 }
