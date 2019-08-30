@@ -25,7 +25,7 @@ public class Utenti implements Serializable {
      */
     public Utente getByID(String ID) {
         for(Utente u: utentiList) //System.out.println(u);
-            if(u.getID().equals(ID))
+            if(u.getUserID().equals(ID))
                 return u; 
 //        System.out.println("Utente \""+ID+"\" non presente, creazione nuovo...");
 //        Utente u = new Utente(ID);

@@ -1,7 +1,8 @@
 package meetle.eventi;
 
+import meetle.utenti.Osservatore;
 import meetle.eventi.stati.StatoNonValido;
-import meetle.eventi.stati.StatoEvento;
+import meetle.eventi.stati.Stato;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,9 +12,10 @@ import java.util.List;
 import java.util.Random;
 import meetle.Meetle;
 import meetle.eventi.campi.*;
+import meetle.utenti.Utente;
 import org.apache.commons.lang3.ArrayUtils;
 
-public abstract class Evento implements Serializable {   
+public abstract class Evento implements Serializable, Osservabile {   
     public static final String NO_DESCRIPTION = "Nessuna descrizione presente";
     public static final String SEPARATORE_CAMPI = "\n";
     
@@ -35,14 +37,15 @@ public abstract class Evento implements Serializable {
     protected String nome, descrizione, categoria;    
     protected final int ID; // identificatore univoco 
     protected Campo[] campi, campiExtra, campiSpesa;  
-    protected StatoEvento statoCorrente;
-    protected List<StatoEvento> statiPassati;
+    protected Stato statoCorrente;
+    protected List<Stato> statiPassati;
     protected final String creatoreID;
 //    protected ArrayList<String> iscrittiIDs; // non più necessario, facciamo tutto con l'hashmap
-    protected HashMap<String, String> speseUtenti;
-    private transient final Meetle meetle;
+    protected HashMap<String, String> iscritti;
+    protected List<Osservatore> osservatori;
+//    private transient final Meetle meetle;
     
-    public Evento(Meetle meetle, String creatoreID, String categoria) {                
+    public Evento(Utente tenteCreatore, String categoria) {                
         campi = new Campo[NUM_CAMPI_FISSI];
         campi[I_TITOLO] = new CampoString(N_TITOLO, "Titolo dell'evento");
         campi[I_NUM_PARTECIPANTI] = new CampoInt(N_NUMERO_PARTECIPANTI, "Numero massimo di partecipanti all'evento (almeno 2)");
@@ -65,12 +68,13 @@ public abstract class Evento implements Serializable {
 //        statiPassati = new ArrayList<>();
         statoCorrente = new StatoNonValido(this);
         statiPassati = new ArrayList<>();
-        this.creatoreID = creatoreID;
+        this.creatoreID = tenteCreatore==null?"null":tenteCreatore.getUserID();
         this.categoria = categoria;
 //        iscrittiIDs = new ArrayList<>();
-        speseUtenti = new HashMap();
-        ID = hashCode()+(new Random()).nextInt();
-        this.meetle = meetle;
+        iscritti = new HashMap();
+        osservatori = new ArrayList<>();
+        registra(tenteCreatore);
+        ID = /*hashCode()+*/(new Random()).nextInt();
     }  
     
     /**
@@ -96,6 +100,7 @@ public abstract class Evento implements Serializable {
      * imposta il valore di un campo
      * @param indice l'indice del campo da impostare
      * @param valore il valore da usare
+     * @return true se il valore viene impostato
      */
     public boolean setValoreDaString(int indice, String valore){
         if (indice >= 0) {
@@ -117,88 +122,18 @@ public abstract class Evento implements Serializable {
     } 
     
     /**
-     * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
-     * @param indiceStato indice del nuovo stato
-     */    
-//    private void nuovoStato(int indiceStato) {
-//        statiPassati.add(statoCorrente);
-//        statoCorrente = new StatoDeprecato(indiceStato);
-//        notificamento();
-//    }
-    
-    public void nuovoStato(StatoEvento nuovoStato) {
-        statiPassati.add(statoCorrente);
-        statoCorrente = nuovoStato;
-        notificamento();
-    }
-    
-    /**
-     * si occupa di inviare le opportune notifiche
-     * @param indiceStato 
-     */
-    private void notificamento() {
-        if(meetle==null)
-            return;        
-        int indiceStatoCorrente = getIndiceStatoCorrente();
-        String messaggio, messaggio2 = "Messaggio che se viene visualizzato è laffine";
-        boolean bandieruccia = false;
-        switch(indiceStatoCorrente) {
-            case StatoEvento.CHIUSO:
-                messaggio = "Evento ufficialmente chiuso :)";
-//                /**
-//                 * Bisogna aggiungere gli utenti iscritti a questo evento alla 
-//                 * lista degli utenti che hanno partecipato ad un evento di una data categoria
-//                 * proposto dall'utente propositore dell'evento corrente :)
-//                 */
-//                bandieruccia = true;
-                break;
-            case StatoEvento.FALLITO:
-                messaggio = "Evento ufficialmente fallito :(";
-                break;
-            case StatoEvento.APERTO:
-                messaggio = "Hai aperto l'evento :|";
-                bandieruccia = true; // Bisogna inviare la notifica a tutti quelli che sono interessati
-                String nomeUtente = this.meetle.getUtenteLoggatoID();   
-                messaggio2 = nomeUtente + " ha appena aperto in bacheca un evento che potrebbe interessarti *_*";
-                break;
-            case StatoEvento.RITIRATO:
-                messaggio = "Evento ritirato :'(";
-                break;
-            case StatoEvento.CONCLUSO:
-                messaggio = "Evento concluso! hope you enjoyed =D";
-                break;
-            default:
-                messaggio = "Questo messaggio se lo vedi significa che c'è qualquadra che non cosa XD LOL !!!111!!11!1";
-        }
-        if(indiceStatoCorrente == StatoEvento.VALIDO || indiceStatoCorrente == StatoEvento.NONVALIDO) return; // così non invia le notifiche
-        speseUtenti.keySet().forEach((uID) -> {
-            String messaggioFinale = messaggio;
-            if (indiceStatoCorrente == StatoEvento.CHIUSO){
-                int importo = calcolaImporto(uID);
-                messaggioFinale = messaggio + "\n -- Importo totale dovuto: " + importo + "€"; 
-            }
-            this.meetle.mandaNotifica(ID, campi[I_TITOLO].getValore().toString(),uID, messaggioFinale);
-        });
-        this.meetle.mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), getCreatoreID(), messaggio);
-        
-        if(bandieruccia) {
-            this.meetle.notificaIlMondoTondo(ID, messaggio2);
-        }        
-    }
-    
-    /**
      * controlla che tutti i campi obbligatori siano compilati e 
      * che tutti i campi compilati siano coerenti
      * @return true se l'evento è valido 
      */
     public boolean checkValidita() {
-        if (this.getProssimoCampoObbligatorioMancante()!=null) 
+        if (this.getNomeProxCampoObbligMancante()!=null) 
             return false;
         if( (getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
                 (getTermineIscrizione().compareTo(getData()) > 0) ||
                 (getDataConlusiva()!=null && getData().compareTo(getDataConlusiva()) > 0) )
             return false;
-        if(getNumIscrittiMin() < 2 || getTolleranzaPartecipanti() < 0)
+        if(getNumIscrittiMax() < 2 || getTolleranzaPartecipanti() < 0)
             return false;
         return true;
     }
@@ -209,110 +144,91 @@ public abstract class Evento implements Serializable {
      */
     public void aggiornaStato() {
         statoCorrente.aggiornaStato();
-//        switch(getIndiceStatoCorrente()) {
-//            case StatoDeprecato.NONVALIDO:
-//                if (checkValidita())
-//                    nuovoStato(StatoDeprecato.VALIDO);                
-//                break;
-//            case StatoDeprecato.VALIDO:
-//                if(!checkValidita())
-//                    nuovoStato(StatoDeprecato.NONVALIDO);
-//                break;
-//            case StatoDeprecato.APERTO:
-//                int numMinPartecipanti = (Integer)campi[I_NUM_PARTECIPANTI].getValore(), 
-//                    numMaxPartecipanti = getNumIscrittiMax();
-//                // Condizione 1 per passare da aperto a chiuso
-//                if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0 &&
-//                        getNumIscrittiCorrente() >= numMinPartecipanti && getNumIscrittiCorrente() <= numMaxPartecipanti)
-//                    nuovoStato(StatoDeprecato.CHIUSO);
-//                // Condizione 2 per passare da aperto a chiuso
-//                else if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 &&
-//                        LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) > 0 &&
-//                        getNumIscrittiCorrente() == numMaxPartecipanti)
-//                    nuovoStato(StatoDeprecato.CHIUSO);
-//                else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
-//                    nuovoStato(StatoDeprecato.FALLITO);
-//                break;
-//            case StatoDeprecato.CHIUSO:
-//                //if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0) // quando la data attuale supera la data di termine evento
-//                if (campi[I_DATA_CONCLUSIVA].getValore() != null) {
-//                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0)
-//                        nuovoStato(StatoDeprecato.CONCLUSO);
-//                } else
-//                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA].getValore()) > 0)
-//                        nuovoStato(StatoDeprecato.CONCLUSO);       
-//                break;
-//        }
     }
     
     public boolean apriEvento() {
-//        if(getIndiceStatoCorrente()==StatoDeprecato.VALIDO) 
-//            nuovoStato(StatoDeprecato.APERTO);
         return statoCorrente.apriEvento();
     }
     
     public boolean ritiraEvento() {
-//        if(getIndiceStatoCorrente()==StatoDeprecato.APERTO) {
-//            nuovoStato(StatoDeprecato.RITIRATO);
-//            // iscrittiIDs.clear();
-//        }
         return statoCorrente.ritiraEvento();
     }
     
-    
-    public String getProssimoCampoObbligatorioMancante(){ //restituisce il nome del prossimo campo obbligatorio non inserito, in modo che l'utente possa saperlo
-        for(Campo c: this.getTuttiCampi())
-            if (!c.isFacoltativo() && c.getValore() == null)
-                    return c.getNome();
-        return null;
-    }
-//    public void chiudiEvento()
-//    {
-//        nuovoStato(StatoDeprecato.CHIUSO);
-//        String messaggio = "Evento ufficialmente chiuso!";
-//        for (String utente:iscrittiIDs)
-//            this.meetle.mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
-//    }
-    
-//    public void fallisciEvento() {
-//        nuovoStato(StatoDeprecato.FALLITO);
-//        String messaggio = "Evento ufficialmente Fallito :(";
-//        for(String utente: iscrittiIDs)
-//            this.meetle.mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
-//    }
-    
     /**
-     * dice se l'utente con questo ID è iscritto
-     * @param uID
-     * @return 
-     */
-    public boolean isUtenteIscritto(String uID) { 
-        return uID.equals(creatoreID) || speseUtenti.containsKey(uID); 
+     * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
+     * @param nuovoStato nuovo stato
+     */        
+    public void nuovoStato(Stato nuovoStato) {
+        statiPassati.add(statoCorrente);
+        statoCorrente = nuovoStato;
+        notifica();
+//        if(getIndiceStatoCorrente() == Stato.APERTO)
+//            messaggio2 = nomeUtente + " ha appena aperto in bacheca un evento che potrebbe interessarti *_*";
+//            this.meetle.notificaIlMondoTondo(ID, messaggio2);
     }
-    
-    /**
-     * iscrive un utente se non iscritto, altrimenti lo disiscrive 
-     * @param uID id dell'utente da (dis)iscrivere
-     */
-    public boolean switchIscrizione(String uID, String spesa){
-        if (isUtenteIscritto(uID)){
-//            iscrittiIDs.remove(uID);
-            if(uID.equals(creatoreID))
-                return false;
-            speseUtenti.remove(uID);
-            return true;
-        } else if (spesa != null && getNumIscrittiCorrente() < getNumIscrittiMax()) {
-//            iscrittiIDs.add(uID);
-            speseUtenti.put(uID, spesa);
-            return true;
-        }               
+
+    @Override
+    public final boolean registra(Osservatore tore) {
+        if(!osservatori.contains(tore))
+            return osservatori.add(tore);
         return false;
     }
+
+    @Override
+    public final boolean deregistra(Osservatore tore) {
+        return osservatori.remove(tore);
+    }
+
+    @Override
+    public void notifica() {
+        osservatori.forEach(tore -> { if(tore!=null) tore.aggiorna(this); });
+    }
     
-    private int calcolaImporto(String uID) {
-        int importo =(int) campi[I_QUOTA_INDIVIDUALE].getValore();
-        String spese = speseUtenti.get(uID);
-        for (int i = 0; i<spese.length(); i++)
+//    /**
+//     * iscrive un utente se non iscritto, altrimenti lo disiscrive 
+//     * @param uID id dell'utente da (dis)iscrivere
+//     * @param spesa
+//     * @return 
+//     */
+//    public boolean switchIscrizione(String uID, String spesa){
+//        System.out.println("NO\n");
+//        if (isUtenteIscritto(uID)){
+////            iscrittiIDs.remove(uID);
+//            if(uID.equals(creatoreID))
+//                return false;
+//            iscritti.remove(uID);
+//            return true;
+//        } else if (spesa != null && getNumIscrittiCorrente() < getNumIscrittiMax()) {
+////            iscrittiIDs.add(uID);
+//            iscritti.put(uID, spesa);
+//            return true;
+//        }               
+//        return false;
+//    }
+    
+    public boolean iscrivi(Utente tente, String codificaSpese) {
+        if (getCreatoreID().equals(tente.getUserID()) || isUtenteIscritto(tente.getUserID()) || 
+                codificaSpese==null || !isIscrivibile()) 
+            return false; 
+        iscritti.put(tente.getUserID(), codificaSpese);
+        registra(tente);
+        return true;
+    }
+    
+    public boolean disiscrivi(Utente tente) {
+        if (getCreatoreID().equals(tente.getUserID()) || !isUtenteIscritto(tente.getUserID()) || !isRitirabile())
+            return false;
+        iscritti.remove(tente.getUserID());
+        deregistra(tente);
+        return true;
+    }
+    
+    public int calcolaImporto(String uID) {
+        int importo = (int) campi[I_QUOTA_INDIVIDUALE].getValore();
+        String spese = iscritti.get(uID);
+        if(creatoreID.equals(uID))
+            spese = "ttttttttttttttttt";
+        for (int i = 0; i<campiSpesa.length; i++)
             importo += spese.charAt(i) == 't' ? (int) campiSpesa[i].getValore() : 0;
         return importo;
     }
@@ -325,38 +241,44 @@ public abstract class Evento implements Serializable {
             return super.equals(obj); 
     }
     
+/*
+    @Override
+    public String toString() {
+        return nome +"\n"+ Arrays.stream(getTuttiCampi())
+                .filter(c -> !c.toString().equals(""))
+                .map(c -> "\t" + c + SEPARATORE_CAMPI)
+                .reduce("", String::concat);     
+    }   
+*/
     
+    // Getters e Setters    
 
-//    @Override
-//    public String toString() {
-//        return nome +"\n"+ Arrays.stream(getTuttiCampi())
-//                .filter(c -> !c.toString().equals(""))
-//                .map(c -> "\t" + c + SEPARATORE_CAMPI)
-//                .reduce("", String::concat);     
-//    }   
-    
-    // Getters e Setters
-    
-    public String getCategoria() {return categoria;}
     public int getID() { /*System.out.println("Evento.getID() -> ID: " + ID);*/ return ID; }
-    public String getNome() { return nome; }
     public String getTitolo() { return (String) campi[I_TITOLO].getValore(); }
-    public int getNumIscrittiMin() { return (int) campi[I_NUM_PARTECIPANTI].getValore(); }
-    public int getTolleranzaPartecipanti() { return (int) campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
-    public LocalDate getTermineIscrizione() { return (LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore(); }
-    public LocalDate getData() { return (LocalDate) campi[I_DATA].getValore(); }
-    public LocalTime getOra() { return (LocalTime) campi[I_ORA].getValore(); }
-    public LocalDate getDataConlusiva() { return (LocalDate) campi[I_DATA_CONCLUSIVA].getValore(); }
-    public LocalDate getDataRitiroIscrizione() { return (LocalDate) campi[I_DATA_RITIRO_ISCRIZIONE].getValore(); }
+    public String getCreatoreID() { return creatoreID; }
+    public String getCategoria() { return categoria; }
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(ArrayUtils.addAll(campi, campiExtra), campiSpesa);}
     public Campo[] getCampiSpesa(){ return campiSpesa; }
-    public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
-    public boolean isRitirabile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0 && getIndiceStatoCorrente()== StatoEvento.APERTO; }
-    public boolean isInvitoInviabile() { return LocalDate.now().compareTo((LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 && getIndiceStatoCorrente()== StatoEvento.APERTO; }
-    public boolean isIscrivibile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0; }
-    public String getCreatoreID() { return creatoreID; }
-    public int getNumIscrittiCorrente() { return 1+speseUtenti.size(); }
+    public String getNomeProxCampoObbligMancante(){ //restituisce il nome del prossimo campo obbligatorio non inserito, in modo che l'utente possa saperlo
+        for(Campo c: this.getTuttiCampi())
+            if (!c.isFacoltativo() && c.getValore() == null)
+                    return c.getNome();
+        return null;
+    }
+    public ArrayList<String> getIscrittiIDs() { return new ArrayList<>(iscritti.keySet()); }
+    public int getNumIscrittiMin() { return (int) campi[I_NUM_PARTECIPANTI].getValore(); }
+    public int getTolleranzaPartecipanti() { return (int) campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
     public int getNumIscrittiMax() { return getNumIscrittiMin() + getTolleranzaPartecipanti(); }
-    public ArrayList<String> getIscrittiIDs() { return new ArrayList<>(speseUtenti.keySet()); }
+    public int getNumIscrittiCorrente() { return 1+iscritti.size(); }
+    public boolean isUtenteIscritto(String uID) {  return /*uID.equals(creatoreID) ||*/ iscritti.containsKey(uID); }
+    public LocalDate getTermineIscrizione() { return (LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore(); }
+    public LocalDate getDataRitiroIscrizione() { return (LocalDate) campi[I_DATA_RITIRO_ISCRIZIONE].getValore(); }
+    public LocalDate getData() { return (LocalDate) campi[I_DATA].getValore(); }
+    public LocalDate getDataConlusiva() { return (LocalDate) campi[I_DATA_CONCLUSIVA].getValore(); }
+    public LocalTime getOra() { return (LocalTime) campi[I_ORA].getValore(); }
+    public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }   
+    public boolean isIscrivibile() { return getIndiceStatoCorrente() == Stato.APERTO && getNumIscrittiCorrente() < getNumIscrittiMax() && LocalDate.now().compareTo(getTermineIscrizione()) <= 0; }
+    public boolean isRitirabile() { return getIndiceStatoCorrente() == Stato.APERTO && LocalDate.now().compareTo(getDataRitiroIscrizione()) <= 0;}
+//    public boolean isInvitoInviabile() { return LocalDate.now().compareTo((LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 && getIndiceStatoCorrente()== Stato.APERTO; }
     
 }

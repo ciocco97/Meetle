@@ -2,10 +2,8 @@ package meetle.eventi.stati;
 
 import java.time.LocalDate;
 import meetle.eventi.Evento;
-import static meetle.eventi.Evento.I_DATA;
-import static meetle.eventi.Evento.I_DATA_CONCLUSIVA;
 
-public class StatoChiuso extends StatoEvento {
+public class StatoChiuso extends Stato {
 
     public StatoChiuso(Evento evento) {
         super(evento);
@@ -21,7 +19,7 @@ public class StatoChiuso extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return StatoEvento.CHIUSO;
+        return Stato.CHIUSO;
     }
     
 }

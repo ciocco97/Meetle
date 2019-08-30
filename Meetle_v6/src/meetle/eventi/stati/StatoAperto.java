@@ -2,11 +2,8 @@ package meetle.eventi.stati;
 
 import java.time.LocalDate;
 import meetle.eventi.Evento;
-import static meetle.eventi.Evento.I_DATA_RITIRO_ISCRIZIONE;
-import static meetle.eventi.Evento.I_NUM_PARTECIPANTI;
-import static meetle.eventi.Evento.I_TERMINE_ISCRIZIONE;
 
-public class StatoAperto extends StatoEvento {
+public class StatoAperto extends Stato {
 
     public StatoAperto(Evento evento) {
         super(evento);
@@ -37,7 +34,7 @@ public class StatoAperto extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return StatoEvento.APERTO;
+        return Stato.APERTO;
     }
 
     

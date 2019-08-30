@@ -2,7 +2,7 @@ package meetle.eventi.stati;
 
 import meetle.eventi.Evento;
 
-public class StatoNonValido extends StatoEvento {
+public class StatoNonValido extends Stato {
 
     public StatoNonValido(Evento evento) {
         super(evento);
@@ -16,7 +16,7 @@ public class StatoNonValido extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return StatoEvento.NONVALIDO;
+        return Stato.NONVALIDO;
     }
     
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package meetle.utenti;
 
 import java.util.ArrayList;
@@ -10,10 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Claudio
- */
 public class UtentiTest {
     
     Utenti utenti;
@@ -33,7 +24,7 @@ public class UtentiTest {
         
         Utente u1 = new Utente("u1");
         utenti.aggiungiUtente(u1);
-        assertEquals(u1, utenti.getByID(u1.getID()));
+        assertEquals(u1, utenti.getByID(u1.getUserID()));
         
     }
 

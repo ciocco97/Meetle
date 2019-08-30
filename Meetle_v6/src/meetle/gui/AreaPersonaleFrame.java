@@ -3,11 +3,13 @@ package meetle.gui;
 import java.awt.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import javax.swing.JOptionPane;
 import meetle.Meetle;
 import meetle.eventi.Evento;
 import meetle.eventi.GoKarts;
 import meetle.eventi.PartitaDiCalcio;
+import meetle.utenti.Utente;
 
 public class AreaPersonaleFrame extends javax.swing.JFrame {
 
@@ -143,13 +145,13 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelHeaderLayout.createSequentialGroup()
                         .addComponent(jLabelTitolo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 310, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelUserID))
                     .addGroup(jPanelHeaderLayout.createSequentialGroup()
                         .addComponent(selettore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonAggiungi)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
                         .addComponent(jButtonNotificheNonLette)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonProfilo)))
@@ -209,29 +211,30 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
         do {
             switch(risposta) {
                 case PartitaDiCalcio.NOME:
-                    eventoTemp = new PartitaDiCalcio(this.meetle, this.meetle.getUtenteLoggatoID());
+                    eventoTemp = new PartitaDiCalcio(this.meetle.getUtenteLoggato());
                     break;
                 case GoKarts.NOME:
-                    eventoTemp = new GoKarts(this.meetle, this.meetle.getUtenteLoggatoID());
+                    eventoTemp = new GoKarts(this.meetle.getUtenteLoggato());
                     break;
                 case "temporaneo":
-                    Evento e = new PartitaDiCalcio(this.meetle, this.meetle.getUtenteLoggatoID());
-                    e.setValoreDaString(Evento.I_TITOLO, "titolo");
-                    e.setValoreDaString(Evento.I_NUM_PARTECIPANTI, "2");
-                    e.setValoreDaString(Evento.I_DATA, "2019-09-01");
-                    e.setValoreDaString(Evento.I_TERMINE_ISCRIZIONE, "2019-09-01");
-                    e.setValoreDaString(Evento.I_DATA_RITIRO_ISCRIZIONE, "2019-09-01");
-                    e.setValoreDaString(Evento.I_ORA, "10:10");
-                    e.setValoreDaString(Evento.I_LUOGO, "luogo");
-                    e.setValoreDaString(Evento.I_QUOTA_INDIVIDUALE, "7");
-                    e.setValoreDaString(Evento.I_TOLLERANZA_PARTECIPANTI, "2");
-
-                    this.meetle.getBacheca().aggiungiEvento(e);
-                    return;
+                    eventoTemp = new PartitaDiCalcio(this.meetle.getUtenteLoggato());
+                    eventoTemp.setValoreDaString(Evento.I_TITOLO, "titolo");
+                    eventoTemp.setValoreDaString(Evento.I_NUM_PARTECIPANTI, "2");
+                    eventoTemp.setValoreDaString(Evento.I_DATA, "2019-09-01");
+                    eventoTemp.setValoreDaString(Evento.I_TERMINE_ISCRIZIONE, "2019-09-01");
+                    eventoTemp.setValoreDaString(Evento.I_DATA_RITIRO_ISCRIZIONE, "2019-09-01");
+                    eventoTemp.setValoreDaString(Evento.I_ORA, "10:10");
+                    eventoTemp.setValoreDaString(Evento.I_LUOGO, "luogo");
+                    eventoTemp.setValoreDaString(Evento.I_QUOTA_INDIVIDUALE, "7");
+                    eventoTemp.setValoreDaString(Evento.I_TOLLERANZA_PARTECIPANTI, "2");
+                    break;
                 default:
                     throw new UnsupportedOperationException("Selezione non valida");
             }
         } while(!meetle.getBacheca().aggiungiEvento(eventoTemp));
+        
+        for(Utente u: meetle.getUtenti().getUtentiPerPreferenza(eventoTemp.getCategoria())) 
+            eventoTemp.registra(u);
         
         new EventoFrame(this.meetle, eventoTemp.getID(), EventoFrame.CREA).setVisible(true);
         inizializza();

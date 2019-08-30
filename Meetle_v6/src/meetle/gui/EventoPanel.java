@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import meetle.Meetle;
 import meetle.eventi.Evento;
-import meetle.eventi.stati.StatoEvento;
+import meetle.eventi.stati.Stato;
 
 public class EventoPanel extends javax.swing.JPanel {
     public static final int POS_BACHECA = 0, POS_ISCRIZIONI = 1, POS_POSSEDUTI = 2;
@@ -34,11 +34,11 @@ public class EventoPanel extends javax.swing.JPanel {
             return;
         }
          switch(evento.getIndiceStatoCorrente()) {
-            case StatoEvento.APERTO: jLbTitolo.setForeground(Color.green); break;
-            case StatoEvento.CHIUSO: jLbTitolo.setForeground(Color.blue); break;
-            case StatoEvento.FALLITO: jLbTitolo.setForeground(Color.red); break;
-            case StatoEvento.VALIDO: jLbTitolo.setForeground(Color.white); break;
-            case StatoEvento.CONCLUSO: jLbTitolo.setForeground(Color.ORANGE); break;
+            case Stato.APERTO: jLbTitolo.setForeground(Color.green); break;
+            case Stato.CHIUSO: jLbTitolo.setForeground(Color.blue); break;
+            case Stato.FALLITO: jLbTitolo.setForeground(Color.red); break;
+            case Stato.VALIDO: jLbTitolo.setForeground(Color.white); break;
+            case Stato.CONCLUSO: jLbTitolo.setForeground(Color.ORANGE); break;
             default: jLbTitolo.setForeground(Color.BLACK);
         }
         boolean proprietario = evento.getCreatoreID().equals(this.meetle.getUtenteLoggatoID());
@@ -46,7 +46,7 @@ public class EventoPanel extends javax.swing.JPanel {
         int stE = evento.getIndiceStatoCorrente(); //stato evento
         switch(posizione) {
             case POS_BACHECA:
-                if (stE == StatoEvento.APERTO){
+                if (stE == Stato.APERTO){
                     if (!proprietario)
                         addIscrizione(evento);
                     addVisualizza();
@@ -55,30 +55,30 @@ public class EventoPanel extends javax.swing.JPanel {
                 break;
             case POS_ISCRIZIONI:
                 addVisualizza();
-                if (stE == StatoEvento.APERTO)
+                if (stE == Stato.APERTO)
                     if (!proprietario)
                         addIscrizione(evento);
                     else if (evento.isRitirabile())
                         addRitira(evento);
                     else removeRitira();
-                if (stE == StatoEvento.VALIDO || stE == StatoEvento.NONVALIDO) //TO DO eliminato
+                if (stE == Stato.VALIDO || stE == Stato.NONVALIDO) //TO DO eliminato
                     elimina();
                 break;
             case POS_POSSEDUTI:
-                if (stE == StatoEvento.APERTO || stE == StatoEvento.CHIUSO || stE == StatoEvento.FALLITO || stE == StatoEvento.CONCLUSO || stE == StatoEvento.RITIRATO) {
+                if (stE == Stato.APERTO || stE == Stato.CHIUSO || stE == Stato.FALLITO || stE == Stato.CONCLUSO || stE == Stato.RITIRATO) {
                     if (evento.isRitirabile())
                         addRitira(evento);
                     else removeRitira();
-                    if(evento.isInvitoInviabile())
+                    if(evento.isIscrivibile())
                         addInvita(evento);
                     else removeInvita();
                     addVisualizza();
                     removeModifica();
                 }
-                else if (stE == StatoEvento.VALIDO || stE == StatoEvento.NONVALIDO){
+                else if (stE == Stato.VALIDO || stE == Stato.NONVALIDO){
                     addModifica();
                     addElimina();
-                    if (stE == StatoEvento.VALIDO)
+                    if (stE == Stato.VALIDO)
                         addApri(evento);
                 }
                 break;
@@ -110,21 +110,31 @@ public class EventoPanel extends javax.swing.JPanel {
     }
     
     private void addIscrizione(Evento evento) {
-        if(evento.isUtenteIscritto(this.meetle.getUtenteLoggatoID())) {
+        if(evento.isUtenteIscritto(meetle.getUtenteLoggatoID()) || evento.getCreatoreID().equals(meetle.getUtenteLoggatoID()))
             jButton2.setText("Disiscriviti");
-            jButton2.setEnabled(evento.isIscrivibile());
-        }
         else {
             jButton2.setText("Iscriviti");
-            if(evento.getNumIscrittiCorrente() == evento.getNumIscrittiMax())
-                jButton2.setEnabled(false);
+            jButton2.setEnabled(evento.isIscrivibile());
         }
+        
+        if (evento.getCreatoreID().equals(meetle.getUtenteLoggatoID()))
+            jButton2.setEnabled(false);
+        
+//        if(evento.isUtenteIscritto(this.meetle.getUtenteLoggatoID())) {
+//            jButton2.setText("Disiscriviti");
+//            jButton2.setEnabled(evento.isIscrivibile());
+//        }
+//        else {
+//            jButton2.setText("Iscriviti");
+//            if(evento.getNumIscrittiCorrente() == evento.getNumIscrittiMax())
+//                jButton2.setEnabled(false);
+//        }
         jButton2.setVisible(true);
         rimuoviListener(jButton2);
         jButton2.addActionListener((ActionEvent e) -> {
-                    if (evento.isUtenteIscritto(this.meetle.getUtenteLoggatoID())){
-                        evento.switchIscrizione(this.meetle.getUtenteLoggatoID(), null);
-                    }
+                    if (evento.isUtenteIscritto(this.meetle.getUtenteLoggatoID())) 
+                        evento.disiscrivi(meetle.getUtenti().getByID(meetle.getUtenteLoggatoID()));
+//                        evento.switchIscrizione(this.meetle.getUtenteLoggatoID(), null);
                     else
                         java.awt.EventQueue.invokeLater(() -> new IscrizioneFrame(this.meetle, eID).setVisible(true));
                     aggiorna();
@@ -191,7 +201,7 @@ public class EventoPanel extends javax.swing.JPanel {
     
     private void aggiornaLabels(){
         Evento evento = this.meetle.getBacheca().getByID(eID);
-        String mancante = evento.getProssimoCampoObbligatorioMancante();
+        String mancante = evento.getNomeProxCampoObbligMancante();
         if (mancante!=null){
             jLbTitolo.setText("Evento incompleto");
             jLbInformazioni.setText("Prossimo campo mancante: " + mancante);
@@ -205,22 +215,17 @@ public class EventoPanel extends javax.swing.JPanel {
         info += " alle ore " + evento.getTuttiCampi()[Evento.I_ORA].getValore();
         info += " Stato: ";
         switch (evento.getIndiceStatoCorrente()) {
-            case StatoEvento.VALIDO: info+="Valido"; break;
-            case StatoEvento.NONVALIDO: info+="Non Valido"; break;
-            case StatoEvento.APERTO: info+="Aperto"; break;
-            case StatoEvento.CHIUSO: info+="Chiuso"; break;
-            case StatoEvento.CONCLUSO: info+="Concluso"; break;
-            case StatoEvento.FALLITO: info+="Fallito"; break;
-            case StatoEvento.RITIRATO: info+="Ritirato";break;
+            case Stato.VALIDO: info+="Valido"; break;
+            case Stato.NONVALIDO: info+="Non Valido"; break;
+            case Stato.APERTO: info+="Aperto"; break;
+            case Stato.CHIUSO: info+="Chiuso"; break;
+            case Stato.CONCLUSO: info+="Concluso"; break;
+            case Stato.FALLITO: info+="Fallito"; break;
+            case Stato.RITIRATO: info+="Ritirato";break;
         }
         jLbInformazioni.setText(info);
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

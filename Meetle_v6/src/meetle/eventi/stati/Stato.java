@@ -4,19 +4,19 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import meetle.eventi.Evento;
 
-public abstract class StatoEvento implements Serializable {
+public abstract class Stato implements Serializable {
     public static final int NONVALIDO = 0, VALIDO = NONVALIDO+1, APERTO = VALIDO+1, 
             CHIUSO = APERTO+1, CONCLUSO = CHIUSO+1, FALLITO = CONCLUSO+1, RITIRATO = FALLITO+1;
     
     protected final Evento evento;
     private final LocalDateTime dataora;
 
-    public StatoEvento(Evento evento) {
+    public Stato(Evento evento) {
         this.evento = evento;
         this.dataora = LocalDateTime.now();
     }
 
-    public StatoEvento(Evento evento, LocalDateTime dataora) {
+    public Stato(Evento evento, LocalDateTime dataora) {
         this.evento = evento;
         this.dataora = dataora;
     }

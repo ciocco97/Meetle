@@ -21,7 +21,7 @@ public class BachecaTest {
     public void testGetByID() {
         System.out.println("getByID");
         
-        Evento expResult = new PartitaDiCalcio(null, "creatore");
+        Evento expResult = new PartitaDiCalcio( null);
         Bacheca instance = new Bacheca();
         instance.aggiungiEvento(expResult);
         Evento result = instance.getByID(expResult.ID);
@@ -92,7 +92,7 @@ public class BachecaTest {
         System.out.println("aggiungiEvento");
         Bacheca instance = new Bacheca();
         for (int i = 0; i < 5e3; i++) {
-            Evento e = new PartitaDiCalcio(null, "uID");
+            Evento e = new PartitaDiCalcio( null);
             assertTrue(instance.aggiungiEvento(e));
             assertEquals(e, instance.getByID(e.ID));      
         }

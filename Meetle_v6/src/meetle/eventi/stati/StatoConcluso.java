@@ -2,7 +2,7 @@ package meetle.eventi.stati;
 
 import meetle.eventi.Evento;
 
-public class StatoConcluso extends StatoEvento {
+public class StatoConcluso extends Stato {
 
     public StatoConcluso(Evento evento) {
         super(evento);
@@ -14,7 +14,7 @@ public class StatoConcluso extends StatoEvento {
 
     @Override
     public int getIndiceStato() {
-        return StatoEvento.CONCLUSO;
+        return Stato.CONCLUSO;
     }
     
 }
