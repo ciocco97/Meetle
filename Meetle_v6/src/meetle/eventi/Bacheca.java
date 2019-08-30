@@ -3,6 +3,7 @@ package meetle.eventi;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import meetle.eventi.stati.StatoEvento;
 
 public class Bacheca implements Serializable {
 
@@ -87,7 +88,7 @@ public class Bacheca implements Serializable {
         ArrayList<String> ritorno = new ArrayList<>();
         Evento ev = getByID(eID);
         eventiList.stream().filter(e -> e.getCreatoreID().equals(ev.getCreatoreID()))
-                .filter(e -> e.getIndiceStatoCorrente() == Stato.CONCLUSO)
+                .filter(e -> e.getIndiceStatoCorrente() == StatoEvento.CONCLUSO)
                 .filter(e -> e.getCategoria().equals(ev.getCategoria()))
                 .forEach(e -> {
                     e.getIscrittiIDs().stream().forEach(iID -> {

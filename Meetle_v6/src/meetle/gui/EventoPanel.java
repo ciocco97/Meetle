@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import meetle.Meetle;
 import meetle.eventi.Evento;
-import meetle.eventi.Stato;
+import meetle.eventi.stati.StatoEvento;
 
 public class EventoPanel extends javax.swing.JPanel {
     public static final int POS_BACHECA = 0, POS_ISCRIZIONI = 1, POS_POSSEDUTI = 2;
@@ -34,11 +34,11 @@ public class EventoPanel extends javax.swing.JPanel {
             return;
         }
          switch(evento.getIndiceStatoCorrente()) {
-            case Stato.APERTO: jLbTitolo.setForeground(Color.green); break;
-            case Stato.CHIUSO: jLbTitolo.setForeground(Color.blue); break;
-            case Stato.FALLITO: jLbTitolo.setForeground(Color.red); break;
-            case Stato.VALIDO: jLbTitolo.setForeground(Color.white); break;
-            case Stato.CONCLUSO: jLbTitolo.setForeground(Color.ORANGE); break;
+            case StatoEvento.APERTO: jLbTitolo.setForeground(Color.green); break;
+            case StatoEvento.CHIUSO: jLbTitolo.setForeground(Color.blue); break;
+            case StatoEvento.FALLITO: jLbTitolo.setForeground(Color.red); break;
+            case StatoEvento.VALIDO: jLbTitolo.setForeground(Color.white); break;
+            case StatoEvento.CONCLUSO: jLbTitolo.setForeground(Color.ORANGE); break;
             default: jLbTitolo.setForeground(Color.BLACK);
         }
         boolean proprietario = evento.getCreatoreID().equals(this.meetle.getUtenteLoggatoID());
@@ -46,7 +46,7 @@ public class EventoPanel extends javax.swing.JPanel {
         int stE = evento.getIndiceStatoCorrente(); //stato evento
         switch(posizione) {
             case POS_BACHECA:
-                if (stE == Stato.APERTO){
+                if (stE == StatoEvento.APERTO){
                     if (!proprietario)
                         addIscrizione(evento);
                     addVisualizza();
@@ -55,17 +55,17 @@ public class EventoPanel extends javax.swing.JPanel {
                 break;
             case POS_ISCRIZIONI:
                 addVisualizza();
-                if (stE == Stato.APERTO)
+                if (stE == StatoEvento.APERTO)
                     if (!proprietario)
                         addIscrizione(evento);
                     else if (evento.isRitirabile())
                         addRitira(evento);
                     else removeRitira();
-                if (stE == Stato.VALIDO || stE == Stato.NONVALIDO) //TO DO eliminato
+                if (stE == StatoEvento.VALIDO || stE == StatoEvento.NONVALIDO) //TO DO eliminato
                     elimina();
                 break;
             case POS_POSSEDUTI:
-                if (stE == Stato.APERTO || stE == Stato.CHIUSO || stE == Stato.FALLITO || stE == Stato.CONCLUSO || stE == Stato.RITIRATO) {
+                if (stE == StatoEvento.APERTO || stE == StatoEvento.CHIUSO || stE == StatoEvento.FALLITO || stE == StatoEvento.CONCLUSO || stE == StatoEvento.RITIRATO) {
                     if (evento.isRitirabile())
                         addRitira(evento);
                     else removeRitira();
@@ -75,10 +75,10 @@ public class EventoPanel extends javax.swing.JPanel {
                     addVisualizza();
                     removeModifica();
                 }
-                else if (stE == Stato.VALIDO || stE == Stato.NONVALIDO){
+                else if (stE == StatoEvento.VALIDO || stE == StatoEvento.NONVALIDO){
                     addModifica();
                     addElimina();
-                    if (stE == Stato.VALIDO)
+                    if (stE == StatoEvento.VALIDO)
                         addApri(evento);
                 }
                 break;
@@ -205,13 +205,13 @@ public class EventoPanel extends javax.swing.JPanel {
         info += " alle ore " + evento.getTuttiCampi()[Evento.I_ORA].getValore();
         info += " Stato: ";
         switch (evento.getIndiceStatoCorrente()) {
-            case Stato.VALIDO: info+="Valido"; break;
-            case Stato.NONVALIDO: info+="Non Valido"; break;
-            case Stato.APERTO: info+="Aperto"; break;
-            case Stato.CHIUSO: info+="Chiuso"; break;
-            case Stato.CONCLUSO: info+="Concluso"; break;
-            case Stato.FALLITO: info+="Fallito"; break;
-            case Stato.RITIRATO: info+="Ritirato";break;
+            case StatoEvento.VALIDO: info+="Valido"; break;
+            case StatoEvento.NONVALIDO: info+="Non Valido"; break;
+            case StatoEvento.APERTO: info+="Aperto"; break;
+            case StatoEvento.CHIUSO: info+="Chiuso"; break;
+            case StatoEvento.CONCLUSO: info+="Concluso"; break;
+            case StatoEvento.FALLITO: info+="Fallito"; break;
+            case StatoEvento.RITIRATO: info+="Ritirato";break;
         }
         jLbInformazioni.setText(info);
     }

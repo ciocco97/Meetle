@@ -5,6 +5,7 @@
  */
 package meetle.eventi;
 
+import meetle.eventi.stati.StatoEvento;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -66,46 +67,46 @@ public class EventoTest {
 
     @Test
     public void testValidita() {
-        assertEquals(Stato.NONVALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.NONVALIDO, evento.getIndiceStatoCorrente());
         
         eventoValido();
-        assertEquals(Stato.VALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.VALIDO, evento.getIndiceStatoCorrente());
         
         evento.getTuttiCampi()[Evento.I_TITOLO].svuota();
         evento.aggiornaStato();        
-        assertEquals(Stato.NONVALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.NONVALIDO, evento.getIndiceStatoCorrente());
         
         evento.setValoreDaString(Evento.I_TITOLO, "titolo");
         evento.aggiornaStato();        
-        assertEquals(Stato.VALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.VALIDO, evento.getIndiceStatoCorrente());
         
         evento.setValoreDaString(Evento.I_DATA, "2020-10-07");
         evento.aggiornaStato();
-        assertEquals(Stato.NONVALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.NONVALIDO, evento.getIndiceStatoCorrente());
         
         evento.setValoreDaString(Evento.I_TERMINE_ISCRIZIONE, "2020-10-06");
         evento.aggiornaStato();
-        assertEquals(Stato.VALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.VALIDO, evento.getIndiceStatoCorrente());
         
         evento.setValoreDaString(Evento.I_DATA_RITIRO_ISCRIZIONE, "2020-10-07");
         evento.aggiornaStato();
-        assertEquals(Stato.NONVALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.NONVALIDO, evento.getIndiceStatoCorrente());
         
         evento.apriEvento();
-        assertNotEquals(Stato.APERTO, evento.getIndiceStatoCorrente());
+        assertNotEquals(StatoEvento.APERTO, evento.getIndiceStatoCorrente());
         
         evento.ritiraEvento();
-        assertNotEquals(Stato.RITIRATO, evento.getIndiceStatoCorrente());
+        assertNotEquals(StatoEvento.RITIRATO, evento.getIndiceStatoCorrente());
         
         evento.setValoreDaString(Evento.I_DATA_RITIRO_ISCRIZIONE, "2020-10-05");
         evento.aggiornaStato();
-        assertEquals(Stato.VALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.VALIDO, evento.getIndiceStatoCorrente());
         
         evento.apriEvento();
-        assertEquals(Stato.APERTO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.APERTO, evento.getIndiceStatoCorrente());
         
         evento.ritiraEvento();
-        assertEquals(Stato.RITIRATO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.RITIRATO, evento.getIndiceStatoCorrente());
         
     }
     
@@ -116,13 +117,13 @@ public class EventoTest {
         evento.aggiornaStato();
         
         evento.apriEvento();
-        assertEquals(Stato.NONVALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.NONVALIDO, evento.getIndiceStatoCorrente());
         
        
         evento.setValoreDaString(Evento.I_TITOLO, "titolo");
         evento.aggiornaStato();       
         evento.apriEvento();
-        assertEquals(Stato.APERTO, evento.getIndiceStatoCorrente()); 
+        assertEquals(StatoEvento.APERTO, evento.getIndiceStatoCorrente()); 
         
     }
     
@@ -131,11 +132,11 @@ public class EventoTest {
         eventoValido();
         
         evento.ritiraEvento();
-        assertEquals(Stato.VALIDO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.VALIDO, evento.getIndiceStatoCorrente());
         
         evento.apriEvento();
         evento.ritiraEvento();
-        assertEquals(Stato.RITIRATO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.RITIRATO, evento.getIndiceStatoCorrente());
         
     }
     
@@ -144,15 +145,15 @@ public class EventoTest {
         eventoValido();
         
         evento.apriEvento();        
-        assertEquals(Stato.APERTO, evento.getIndiceStatoCorrente());        
+        assertEquals(StatoEvento.APERTO, evento.getIndiceStatoCorrente());        
         evento.switchIscrizione("u1", "t");
         evento.switchIscrizione("u2", "t");
         evento.setValoreDaString(Evento.I_TERMINE_ISCRIZIONE, LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE));
         evento.aggiornaStato();        
-        assertEquals(Stato.CHIUSO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.CHIUSO, evento.getIndiceStatoCorrente());
         evento.setValoreDaString(Evento.I_DATA, LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE));
         evento.aggiornaStato();
-        assertEquals(Stato.CONCLUSO, evento.getIndiceStatoCorrente());        
+        assertEquals(StatoEvento.CONCLUSO, evento.getIndiceStatoCorrente());        
     
     }
     
@@ -162,9 +163,9 @@ public class EventoTest {
         
         evento.apriEvento();        
         evento.setValoreDaString(Evento.I_TERMINE_ISCRIZIONE, LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE));
-        assertEquals(Stato.APERTO, evento.getIndiceStatoCorrente());        
+        assertEquals(StatoEvento.APERTO, evento.getIndiceStatoCorrente());        
         evento.aggiornaStato();        
-        assertEquals(Stato.FALLITO, evento.getIndiceStatoCorrente());
+        assertEquals(StatoEvento.FALLITO, evento.getIndiceStatoCorrente());
     
     }
     

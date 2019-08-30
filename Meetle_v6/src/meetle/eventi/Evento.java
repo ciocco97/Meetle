@@ -1,10 +1,13 @@
 package meetle.eventi;
 
+import meetle.eventi.stati.StatoNonValido;
+import meetle.eventi.stati.StatoEvento;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import meetle.Meetle;
 import meetle.eventi.campi.*;
@@ -32,8 +35,8 @@ public abstract class Evento implements Serializable {
     protected String nome, descrizione, categoria;    
     protected final int ID; // identificatore univoco 
     protected Campo[] campi, campiExtra, campiSpesa;  
-    protected Stato statoCorrente;
-    protected ArrayList<Stato> statiPassati;  
+    protected StatoEvento statoCorrente;
+    protected List<StatoEvento> statiPassati;
     protected final String creatoreID;
 //    protected ArrayList<String> iscrittiIDs; // non più necessario, facciamo tutto con l'hashmap
     protected HashMap<String, String> speseUtenti;
@@ -58,7 +61,9 @@ public abstract class Evento implements Serializable {
                         
         setFacoltativi();
         
-        statoCorrente = new Stato();
+//        statoCorrente = new StatoDeprecato();
+//        statiPassati = new ArrayList<>();
+        statoCorrente = new StatoNonValido(this);
         statiPassati = new ArrayList<>();
         this.creatoreID = creatoreID;
         this.categoria = categoria;
@@ -115,9 +120,15 @@ public abstract class Evento implements Serializable {
      * salva lo stato corrente tra gli stati passati e lo sostituisce con uno nuovo
      * @param indiceStato indice del nuovo stato
      */    
-    private void nuovoStato(int indiceStato) {
+//    private void nuovoStato(int indiceStato) {
+//        statiPassati.add(statoCorrente);
+//        statoCorrente = new StatoDeprecato(indiceStato);
+//        notificamento();
+//    }
+    
+    public void nuovoStato(StatoEvento nuovoStato) {
         statiPassati.add(statoCorrente);
-        statoCorrente = new Stato(indiceStato);
+        statoCorrente = nuovoStato;
         notificamento();
     }
     
@@ -128,11 +139,11 @@ public abstract class Evento implements Serializable {
     private void notificamento() {
         if(meetle==null)
             return;        
-        int indiceStatoCorrente = statoCorrente.getIndiceStato();
+        int indiceStatoCorrente = getIndiceStatoCorrente();
         String messaggio, messaggio2 = "Messaggio che se viene visualizzato è laffine";
         boolean bandieruccia = false;
         switch(indiceStatoCorrente) {
-            case Stato.CHIUSO:
+            case StatoEvento.CHIUSO:
                 messaggio = "Evento ufficialmente chiuso :)";
 //                /**
 //                 * Bisogna aggiungere gli utenti iscritti a questo evento alla 
@@ -141,28 +152,28 @@ public abstract class Evento implements Serializable {
 //                 */
 //                bandieruccia = true;
                 break;
-            case Stato.FALLITO:
+            case StatoEvento.FALLITO:
                 messaggio = "Evento ufficialmente fallito :(";
                 break;
-            case Stato.APERTO:
+            case StatoEvento.APERTO:
                 messaggio = "Hai aperto l'evento :|";
                 bandieruccia = true; // Bisogna inviare la notifica a tutti quelli che sono interessati
                 String nomeUtente = this.meetle.getUtenteLoggatoID();   
                 messaggio2 = nomeUtente + " ha appena aperto in bacheca un evento che potrebbe interessarti *_*";
                 break;
-            case Stato.RITIRATO:
+            case StatoEvento.RITIRATO:
                 messaggio = "Evento ritirato :'(";
                 break;
-            case Stato.CONCLUSO:
+            case StatoEvento.CONCLUSO:
                 messaggio = "Evento concluso! hope you enjoyed =D";
                 break;
             default:
                 messaggio = "Questo messaggio se lo vedi significa che c'è qualquadra che non cosa XD LOL !!!111!!11!1";
         }
-        if(indiceStatoCorrente == Stato.VALIDO || indiceStatoCorrente == Stato.NONVALIDO) return; // così non invia le notifiche
+        if(indiceStatoCorrente == StatoEvento.VALIDO || indiceStatoCorrente == StatoEvento.NONVALIDO) return; // così non invia le notifiche
         speseUtenti.keySet().forEach((uID) -> {
             String messaggioFinale = messaggio;
-            if (indiceStatoCorrente == Stato.CHIUSO){
+            if (indiceStatoCorrente == StatoEvento.CHIUSO){
                 int importo = calcolaImporto(uID);
                 messaggioFinale = messaggio + "\n -- Importo totale dovuto: " + importo + "€"; 
             }
@@ -180,14 +191,14 @@ public abstract class Evento implements Serializable {
      * che tutti i campi compilati siano coerenti
      * @return true se l'evento è valido 
      */
-    private boolean checkValidita() {
+    public boolean checkValidita() {
         if (this.getProssimoCampoObbligatorioMancante()!=null) 
             return false;
         if( (getDataRitiroIscrizione().compareTo(getTermineIscrizione()) > 0) ||
                 (getTermineIscrizione().compareTo(getData()) > 0) ||
                 (getDataConlusiva()!=null && getData().compareTo(getDataConlusiva()) > 0) )
             return false;
-        if(getNumPartecipanti() < 2 || getTolleranzaPartecipanti() < 0)
+        if(getNumIscrittiMin() < 2 || getTolleranzaPartecipanti() < 0)
             return false;
         return true;
     }
@@ -197,52 +208,55 @@ public abstract class Evento implements Serializable {
      * regole imposte tra le date, il numero di iscritti, ecc.
      */
     public void aggiornaStato() {
-        switch(getIndiceStatoCorrente()) {
-            case Stato.NONVALIDO:
-                if (checkValidita())
-                    nuovoStato(Stato.VALIDO);                
-                break;
-            case Stato.VALIDO:
-                if(!checkValidita())
-                    nuovoStato(Stato.NONVALIDO);
-                break;
-            case Stato.APERTO:
-                int numMinPartecipanti = (Integer)campi[I_NUM_PARTECIPANTI].getValore(), 
-                    numMaxPartecipanti = getNumIscrittiMax();
-                // Condizione 1 per passare da aperto a chiuso
-                if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0 &&
-                        getNumIscrittiCorrente() >= numMinPartecipanti && getNumIscrittiCorrente() <= numMaxPartecipanti)
-                    nuovoStato(Stato.CHIUSO);
-                // Condizione 2 per passare da aperto a chiuso
-                else if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 &&
-                        LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) > 0 &&
-                        getNumIscrittiCorrente() == numMaxPartecipanti)
-                    nuovoStato(Stato.CHIUSO);
-                else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
-                    nuovoStato(Stato.FALLITO);
-                break;
-            case Stato.CHIUSO:
-                //if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0) // quando la data attuale supera la data di termine evento
-                if (campi[I_DATA_CONCLUSIVA].getValore() != null) {
-                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0)
-                        nuovoStato(Stato.CONCLUSO);
-                } else
-                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA].getValore()) > 0)
-                        nuovoStato(Stato.CONCLUSO);       
-                break;
-        }
+        statoCorrente.aggiornaStato();
+//        switch(getIndiceStatoCorrente()) {
+//            case StatoDeprecato.NONVALIDO:
+//                if (checkValidita())
+//                    nuovoStato(StatoDeprecato.VALIDO);                
+//                break;
+//            case StatoDeprecato.VALIDO:
+//                if(!checkValidita())
+//                    nuovoStato(StatoDeprecato.NONVALIDO);
+//                break;
+//            case StatoDeprecato.APERTO:
+//                int numMinPartecipanti = (Integer)campi[I_NUM_PARTECIPANTI].getValore(), 
+//                    numMaxPartecipanti = getNumIscrittiMax();
+//                // Condizione 1 per passare da aperto a chiuso
+//                if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0 &&
+//                        getNumIscrittiCorrente() >= numMinPartecipanti && getNumIscrittiCorrente() <= numMaxPartecipanti)
+//                    nuovoStato(StatoDeprecato.CHIUSO);
+//                // Condizione 2 per passare da aperto a chiuso
+//                else if(LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 &&
+//                        LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) > 0 &&
+//                        getNumIscrittiCorrente() == numMaxPartecipanti)
+//                    nuovoStato(StatoDeprecato.CHIUSO);
+//                else if (LocalDate.now().compareTo((LocalDate)campi[I_TERMINE_ISCRIZIONE].getValore()) > 0) // la data attuale supera la data termine iscrizione
+//                    nuovoStato(StatoDeprecato.FALLITO);
+//                break;
+//            case StatoDeprecato.CHIUSO:
+//                //if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0) // quando la data attuale supera la data di termine evento
+//                if (campi[I_DATA_CONCLUSIVA].getValore() != null) {
+//                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA_CONCLUSIVA].getValore()) > 0)
+//                        nuovoStato(StatoDeprecato.CONCLUSO);
+//                } else
+//                    if (LocalDate.now().compareTo((LocalDate)campi[I_DATA].getValore()) > 0)
+//                        nuovoStato(StatoDeprecato.CONCLUSO);       
+//                break;
+//        }
     }
     
-    public void apriEvento() {
-        if(getIndiceStatoCorrente()==Stato.VALIDO) 
-            nuovoStato(Stato.APERTO);
+    public boolean apriEvento() {
+//        if(getIndiceStatoCorrente()==StatoDeprecato.VALIDO) 
+//            nuovoStato(StatoDeprecato.APERTO);
+        return statoCorrente.apriEvento();
     }
     
-    public void ritiraEvento() {
-        if(getIndiceStatoCorrente()==Stato.APERTO) {
-            nuovoStato(Stato.RITIRATO);
-            // iscrittiIDs.clear();
-        }
+    public boolean ritiraEvento() {
+//        if(getIndiceStatoCorrente()==StatoDeprecato.APERTO) {
+//            nuovoStato(StatoDeprecato.RITIRATO);
+//            // iscrittiIDs.clear();
+//        }
+        return statoCorrente.ritiraEvento();
     }
     
     
@@ -254,14 +268,14 @@ public abstract class Evento implements Serializable {
     }
 //    public void chiudiEvento()
 //    {
-//        nuovoStato(Stato.CHIUSO);
+//        nuovoStato(StatoDeprecato.CHIUSO);
 //        String messaggio = "Evento ufficialmente chiuso!";
 //        for (String utente:iscrittiIDs)
 //            this.meetle.mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
 //    }
     
 //    public void fallisciEvento() {
-//        nuovoStato(Stato.FALLITO);
+//        nuovoStato(StatoDeprecato.FALLITO);
 //        String messaggio = "Evento ufficialmente Fallito :(";
 //        for(String utente: iscrittiIDs)
 //            this.meetle.mandaNotifica(ID, campi[I_TITOLO].getValore().toString(), utente, messaggio);
@@ -327,7 +341,7 @@ public abstract class Evento implements Serializable {
     public int getID() { /*System.out.println("Evento.getID() -> ID: " + ID);*/ return ID; }
     public String getNome() { return nome; }
     public String getTitolo() { return (String) campi[I_TITOLO].getValore(); }
-    public int getNumPartecipanti() { return (int) campi[I_NUM_PARTECIPANTI].getValore(); }
+    public int getNumIscrittiMin() { return (int) campi[I_NUM_PARTECIPANTI].getValore(); }
     public int getTolleranzaPartecipanti() { return (int) campi[I_TOLLERANZA_PARTECIPANTI].getValore(); }
     public LocalDate getTermineIscrizione() { return (LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore(); }
     public LocalDate getData() { return (LocalDate) campi[I_DATA].getValore(); }
@@ -337,12 +351,12 @@ public abstract class Evento implements Serializable {
     public Campo[] getTuttiCampi() { return (Campo[]) ArrayUtils.addAll(ArrayUtils.addAll(campi, campiExtra), campiSpesa);}
     public Campo[] getCampiSpesa(){ return campiSpesa; }
     public int getIndiceStatoCorrente() { return statoCorrente.getIndiceStato(); }    
-    public boolean isRitirabile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }
-    public boolean isInvitoInviabile() { return LocalDate.now().compareTo((LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 && statoCorrente.getIndiceStato() == Stato.APERTO; }
+    public boolean isRitirabile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0 && getIndiceStatoCorrente()== StatoEvento.APERTO; }
+    public boolean isInvitoInviabile() { return LocalDate.now().compareTo((LocalDate) campi[I_TERMINE_ISCRIZIONE].getValore()) <= 0 && getIndiceStatoCorrente()== StatoEvento.APERTO; }
     public boolean isIscrivibile() { return LocalDate.now().compareTo((LocalDate)campi[I_DATA_RITIRO_ISCRIZIONE].getValore()) <= 0; }
     public String getCreatoreID() { return creatoreID; }
     public int getNumIscrittiCorrente() { return 1+speseUtenti.size(); }
-    public int getNumIscrittiMax() { return getNumPartecipanti() + getTolleranzaPartecipanti(); }
+    public int getNumIscrittiMax() { return getNumIscrittiMin() + getTolleranzaPartecipanti(); }
     public ArrayList<String> getIscrittiIDs() { return new ArrayList<>(speseUtenti.keySet()); }
     
 }
