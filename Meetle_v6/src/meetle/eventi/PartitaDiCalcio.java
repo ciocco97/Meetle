@@ -2,11 +2,11 @@ package meetle.eventi;
 
 import meetle.Meetle;
 import meetle.eventi.campi.*;
+import meetle.gui.testo.Dizionario;
 import meetle.utenti.Utente;
 
 public class PartitaDiCalcio extends Evento {
-    public static final String NOME = "Partita di Calcio", DESCRIZIONE = "Sport perloppiù maschile o comunque sappiamo guidare ecco...";
-    public static final String N_GENERE = "Genere", N_FASCIA_ETA = "Fascia di eta", N_SPESA_CAMPO = "Spesa campo";
+    public static final String NOME = "Partita di Calcio";
     
     public static final int NUM_CAMPI_EXTRA = 2;
     public static final int NUM_CAMPI_SPESA = 1;
@@ -16,13 +16,13 @@ public class PartitaDiCalcio extends Evento {
         super(tenteCreatore, NOME);
         
         this.nome = NOME;
-        this.descrizione = DESCRIZIONE;
+        this.descrizione = Dizionario.get(Dizionario.DESC_PARTITA_CALCIO);
         
         campiExtra = new Campo[NUM_CAMPI_EXTRA];
         campiSpesa = new Campo[NUM_CAMPI_SPESA];
-        campiExtra[I_GENERE-NUM_CAMPI_FISSI] = new CampoString(N_GENERE, "Genere dei giocatori");
-        campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI] = new CampoRange(N_FASCIA_ETA, "Eta minima e massima per partecipare (formato min-max)");
-        campiSpesa[I_SPESA_CAMPO-NUM_CAMPI_FISSI-NUM_CAMPI_EXTRA] = new CampoInt(N_SPESA_CAMPO, "Spesa per l'affitto del campo da calcio");
+        campiExtra[I_GENERE-NUM_CAMPI_FISSI] = new CampoString(Dizionario.get(Dizionario.NOME_GENERE_GIOCATORI), Dizionario.get(Dizionario.DESC_GENERE_GIOCATORI));
+        campiExtra[I_FASCIA_ETA-NUM_CAMPI_FISSI] = new CampoRange(Dizionario.get(Dizionario.NOME_ETA_MIN_MAX), Dizionario.get(Dizionario.DESC_ETA_MIN_MAX));
+        campiSpesa[I_SPESA_CAMPO-NUM_CAMPI_FISSI-NUM_CAMPI_EXTRA] = new CampoInt(Dizionario.get(Dizionario.NOME_SPESA), Dizionario.get(Dizionario.DESC_SPESA));
         
 //        setFacoltativi();
     }

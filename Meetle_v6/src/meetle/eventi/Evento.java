@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 import meetle.Meetle;
 import meetle.eventi.campi.*;
+import meetle.gui.testo.Dizionario;
 import meetle.utenti.Utente;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -26,14 +27,6 @@ public abstract class Evento implements Serializable, Osservabile {
             I_COMPRESO_QUOTA = 8, I_DATA_CONCLUSIVA = 9, I_ORA_CONCLUSIVA = 10, I_NOTE = 11,
             I_TOLLERANZA_PARTECIPANTI = 12, I_DATA_RITIRO_ISCRIZIONE = 13;
     
-    // Nomi dei campi (usati anche in IO)
-    public static final String N_TITOLO = "Titolo", N_NUMERO_PARTECIPANTI = "N° Partecipanti", 
-            N_TERMINE_ISCR = "Termine Iscrizione", N_LUOGO = "Luogo", N_DATA = "Data", N_ORA = "Ora", 
-            N_DURATA = "Durata", N_QUOTA_INDIVIDUALE = "Quota individuale", 
-            N_COMPRESO_QUOTA = "Compreso quota", N_DATA_CONCLUSIVA = "Data conclusiva", 
-            N_ORA_CONCLUSIVA = "Ora conclusiva", N_NOTE = "Note", N_TOLLERANZA_PARTECIPANTI = "Tolleranza partecipanti",
-            N_DATA_RITIRO_ISCRIZIONE = "Data ritiro iscrizione";
-    
     protected String nome, descrizione, categoria;    
     protected final int ID; // identificatore univoco 
     protected Campo[] campi, campiExtra, campiSpesa;  
@@ -47,20 +40,20 @@ public abstract class Evento implements Serializable, Osservabile {
     
     public Evento(Utente tenteCreatore, String categoria) {                
         campi = new Campo[NUM_CAMPI_FISSI];
-        campi[I_TITOLO] = new CampoString(N_TITOLO, "Titolo dell'evento");
-        campi[I_NUM_PARTECIPANTI] = new CampoInt(N_NUMERO_PARTECIPANTI, "Numero massimo di partecipanti all'evento (almeno 2)");
-        campi[I_TERMINE_ISCRIZIONE] = new CampoData(N_TERMINE_ISCR, "Data di scadenza per l'iscrizione");
-        campi[I_LUOGO] = new CampoString(N_LUOGO, "Luogo dove si terrà l'evento");
-        campi[I_DATA] = new CampoData(N_DATA, "Data di inizio dell'evento");
-        campi[I_ORA] = new CampoOra(N_ORA, "Ora di inizio dell'evento (formato hh:mm)");
-        campi[I_DURATA] = new CampoDurata(N_DURATA, "Durata stimata dell'evento (formato gg:hh:mm)");
-        campi[I_QUOTA_INDIVIDUALE] = new CampoInt(N_QUOTA_INDIVIDUALE,  "Quota di denaro richiesta per partecipare");
-        campi[I_COMPRESO_QUOTA] = new CampoInt(N_COMPRESO_QUOTA,  "Quota di denaro già compresa (?)");
-        campi[I_DATA_CONCLUSIVA] = new CampoData(N_DATA_CONCLUSIVA,  "Data di fine dell'evento");
-        campi[I_ORA_CONCLUSIVA] = new CampoOra(N_ORA_CONCLUSIVA, "Ora di fine dell'evento");
-        campi[I_NOTE] = new CampoString(N_NOTE, "Note aggiuntive");
-        campi[I_TOLLERANZA_PARTECIPANTI] = new CampoInt(N_TOLLERANZA_PARTECIPANTI, "Numero di partecipanti accettabili in più rispetto a num partecipanti (non negativo)");
-        campi[I_DATA_RITIRO_ISCRIZIONE] = new CampoData(N_DATA_RITIRO_ISCRIZIONE, "Data entro cui ci si può disiscrivere da un evento");
+        campi[I_TITOLO] = new CampoString(Dizionario.get(Dizionario.NOME_TITOLO), Dizionario.get(Dizionario.DESC_TITOLO));
+        campi[I_NUM_PARTECIPANTI] = new CampoInt(Dizionario.get(Dizionario.NOME_NUM_PARTECIPANTI), Dizionario.get(Dizionario.DESC_NUM_PARTECIPANTI));
+        campi[I_TERMINE_ISCRIZIONE] = new CampoData(Dizionario.get(Dizionario.NOME_TERMINE_ISCRIZIONE), Dizionario.get(Dizionario.DESC_TERMINE_ISCRIZIONE));
+        campi[I_LUOGO] = new CampoString(Dizionario.get(Dizionario.NOME_LUOGO), Dizionario.get(Dizionario.DESC_LUOGO));
+        campi[I_DATA] = new CampoData(Dizionario.get(Dizionario.NOME_DATA), Dizionario.get(Dizionario.DESC_DATA));
+        campi[I_ORA] = new CampoOra(Dizionario.get(Dizionario.NOME_ORA), Dizionario.get(Dizionario.DESC_ORA));
+        campi[I_DURATA] = new CampoDurata(Dizionario.get(Dizionario.NOME_DURATA), Dizionario.get(Dizionario.NOME_DURATA));
+        campi[I_QUOTA_INDIVIDUALE] = new CampoInt(Dizionario.get(Dizionario.NOME_QUOTA_INDIVIDUALE),  Dizionario.get(Dizionario.DESC_QUOTA_INDIVIDUALE));
+        campi[I_COMPRESO_QUOTA] = new CampoInt(Dizionario.get(Dizionario.NOME_COMPRESO_QUOTA),  Dizionario.get(Dizionario.DESC_COMPRESO_QUOTA));
+        campi[I_DATA_CONCLUSIVA] = new CampoData(Dizionario.get(Dizionario.NOME_DATA_CONCLUSIVA),  Dizionario.get(Dizionario.DESC_DATA_CONCLUSIVA));
+        campi[I_ORA_CONCLUSIVA] = new CampoOra(Dizionario.get(Dizionario.NOME_ORA_CONCLUSIVA), Dizionario.get(Dizionario.DESC_ORA_CONCLUSIVA));
+        campi[I_NOTE] = new CampoString(Dizionario.get(Dizionario.NOME_NOTE), Dizionario.get(Dizionario.DESC_NOTE));
+        campi[I_TOLLERANZA_PARTECIPANTI] = new CampoInt(Dizionario.get(Dizionario.NOME_TOLLERANZA_PARTECIPANTI), Dizionario.get(Dizionario.DESC_TOLLERANZA_PARTECIPANTI));
+        campi[I_DATA_RITIRO_ISCRIZIONE] = new CampoData(Dizionario.get(Dizionario.NOME_DATA_RITIRO_ISCRIZIONE), Dizionario.get(Dizionario.DESC_DATA_RITIRO_ISCRIZIONE));
                         
         setFacoltativi();
         

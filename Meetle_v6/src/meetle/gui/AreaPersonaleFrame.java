@@ -9,6 +9,7 @@ import meetle.Meetle;
 import meetle.eventi.Evento;
 import meetle.eventi.GoKarts;
 import meetle.eventi.PartitaDiCalcio;
+import meetle.gui.testo.Dizionario;
 import meetle.utenti.Utente;
 
 public class AreaPersonaleFrame extends javax.swing.JFrame {

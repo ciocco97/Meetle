@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import meetle.eventi.Evento;
 import meetle.eventi.Osservabile;
 import meetle.eventi.stati.Stato;
+import meetle.gui.testo.Dizionario;
 
 public class Utente implements Serializable, Osservatore {
     private final String userID;
@@ -45,7 +46,8 @@ public class Utente implements Serializable, Osservatore {
     }
     
     public void aggiungiInvito(int eID) {
-        Invito daAggiungere = new Invito(eID, "Nuovo Invito!", "Sei stato invitato a questo evento!");
+        Invito daAggiungere = new Invito(eID, Dizionario.get(Dizionario.NOTIFICA_INVITO_TITOLO), 
+                Dizionario.get(Dizionario.NOTIFICA_INVITO_MESSAGGIO));
         if (notifiche.contains(daAggiungere)) // se c'è già vuol dire che c'è un duplicato di userID
             aggiungiInvito(eID);
         else
@@ -62,23 +64,24 @@ public class Utente implements Serializable, Osservatore {
             case Stato.VALIDO:
                 return;
             case Stato.APERTO:
-                mex = "L'evento è ora aperto alle iscrizioni";
+                mex = Dizionario.get(Dizionario.NOTIFICA_EVENTO_APERTO);
                 break;
             case Stato.CHIUSO:
-                mex = "Le iscrizioni sono chiuse: l'evento è confermato!\nIl tuo importo dovuto è di €";
+                mex = Dizionario.get(Dizionario.NOTIFICA_EVENTO_CHIUSO);
                 mex += evento.calcolaImporto(userID);
                 break;
             case Stato.CONCLUSO:
-                mex = "L'evento si è concluso";
+                mex = Dizionario.get(Dizionario.NOTIFICA_EVENTO_CONCLUSO);
                 break;
             case Stato.FALLITO:
-                mex = "L'evento è fallito, purtroppo :( Non ha raggiunto in tempo il minimo di partecipanti";
+                mex = Dizionario.get(Dizionario.NOTIFICA_EVENTO_FALLITO);
                 break;
             case Stato.RITIRATO:
-                mex = "L'evento è stato ritirato dal propositore";
+                mex = Dizionario.get(Dizionario.NOTIFICA_EVENTO_RITIRATO);
                 break;
         }
-        aggiungiNotifica(evento.getID(), "Aggiornamento Stato: "+evento.getTitolo(), mex);
+        aggiungiNotifica(evento.getID(), Dizionario.get(Dizionario.NOTIFICA_PREAMBOLO) + 
+                evento.getTitolo(), mex);
     }
 
     @Override
