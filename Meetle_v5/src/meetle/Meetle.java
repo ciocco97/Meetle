@@ -184,7 +184,6 @@ public class Meetle {
     public Bacheca getBacheca() {  return bacheca; }    
     public Utenti getUtenti() { return utenti; }
     public String getUtenteLoggatoID() { return utenteLoggatoID; }
-    public ArrayList<Notifica> getNotifiche() { return utenti.getUtenteDaID(utenteLoggatoID).getNotifiche(); }    
         
     public static void main(String[] args) throws IOException {
         Meetle meetle = Meetle.getIstanza();

@@ -49,7 +49,7 @@ public class AreaPersonaleFrame extends javax.swing.JFrame {
                 break;
             }
             case NOTIFICHE:
-                Meetle.getIstanza().getNotifiche().forEach((n) -> { jPanelMadre.add(new NotificaPanel(n)); });
+                Meetle.getIstanza().getUtenti().getUtenteDaID(uID).getNotifiche().forEach((n) -> { jPanelMadre.add(new NotificaPanel(n)); });
                 break;
         }
         
